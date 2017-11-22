@@ -1,13 +1,22 @@
-package munche;
-
+package lesson1;
 
 import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
+
+
+import java.io.File;
+import java.io.FileNotFoundException;
+
+import de.micromata.opengis.kml.v_2_2_0.AltitudeMode;
+import de.micromata.opengis.kml.v_2_2_0.Document;
+import de.micromata.opengis.kml.v_2_2_0.Kml;
+import de.micromata.opengis.kml.v_2_2_0.KmlFactory;
 
 
 /**
@@ -17,10 +26,11 @@ import java.util.LinkedList;
  */
 public class q3 implements Filter{
 
-	/**
-	 * This method read CSV file with wifi's points, filter it by data parameters and export to KML file.
+	/***
+	 * This method read CSV file with wifi points, filter it by data parameters and export to KML file.
 	 *  print succeed message if export succeed. "failed" otherwise.
-	 * @param csvpath path to the csv's file
+	 * 
+	 * @param csvpath path to the csv file
 	 * @param kmlpath name to the new KML file
 	 * @param filterBy  required parameter to filter by.
 	 * @param requiredData the required data specific.
@@ -33,12 +43,16 @@ public class q3 implements Filter{
 
 	}
 
+
+
+
+
 	/**
-	 * This method read from the csv's file and arranges the right wifi in the LinkedList
+	 * This method read from the csv file and arranges the right wifi in LinkedList
 	 * @param csvpath The path to the CSV file
 	 * @param filterBy required parameter to filter by.
 	 * @param requiredData the required data specific.
-	 * @return List with Wifi's points from the CSV file
+	 * @return List with Wifi points from the CSV file
 	 */
 	private static LinkedList<Wifi> csvtoList(String csvpath, String filterBy, String requiredData){
 		File file = new File(csvpath);   
@@ -94,15 +108,15 @@ public class q3 implements Filter{
 
 
 	/**
-	 * organized LinkedList of the wifi's points.
-	 * @param wifilist List of wifi's points
-	 * @return organized LinkedList of the wifi's points
+	 * organized LinkedList of the wifi points.
+	 * @param wifilist List of wifi points
+	 * @return organized LinkedList of the wifi points
 	 */
 	private static LinkedList<Wifi> org(LinkedList<Wifi> wifilist){
 
 		LinkedList<Wifi> updateList = new LinkedList<Wifi>();
 
-		while(wifilist.size()>0){   			//between wifis that have the same mac-remove the weakest
+		while(wifilist.size()>0){   			//remove the weak wifi with the same mac
 			Wifi max = wifilist.get(0);
 			wifilist.removeFirst();
 
@@ -129,43 +143,31 @@ public class q3 implements Filter{
 
 
 	/**
-	 * this method creates the kml's file 
-	 * @param newlist  list of all the wifis that need to be presented
-	 * @param path of the kml's file
+	 * this method creates the kml file 
+	 * @param newlist  list of all wifi that need to be presented
+	 * @param path of the kml file
 	 */
 	private static boolean kml(LinkedList<Wifi> updateList, String path) {
 
 		if((updateList==null)||(updateList.size()==0)) return false;
 
-		File file = new File(path);     
-		FileWriter writer;
+		Kml kml=KmlFactory.createKml();
+
+		Document doc = kml.createAndSetDocument().withName("wifi");
+
+		for(int i=0; i<updateList.size(); i++){
+			updateList.get(i).kmlGenerator(doc);
+		}
+
 
 		try {
-			writer = new FileWriter(file);
-
-			writer.append("<?xml version="+'"'+"1.0"+'"'+" encoding="+'"'+"UTF-8"+'"'+"?>"); //headlines
-			writer.append('\n');
-			writer.append("<kml xmlns="+'"'+"http://www.opengis.net/kml/2.2"+'"'+">");
-
-			writer.append('\n');
-
-			writer.append("<Document>");
-			writer.append('\n');
-
-
-			for(int i=0; i<updateList.size(); i++){
-				updateList.get(i).kmlGenerator(writer);
-			}
-
-			writer.append('\n');
-			writer.write("</Document></kml>");
-
-			writer.close();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			kml.marshal(new File(path));
+		} catch (FileNotFoundException e) {
+			System.out.println("Error creating file");
 			return false;
 		}
+
+
 		return true;
 	}
 
@@ -177,14 +179,14 @@ public class q3 implements Filter{
 	 * @param Object that tested 
 	 * @param data parameter for filter
 	 * @param required data
-	 * @return true if wifi compliance with conditions, false if isn't
+	 * @return true if wifi compliance with conditions, false if isnt
 	 */
 	@Override
 	public boolean fit(Object object, String data, String required) {
 
 		if(object instanceof Wifi)
 		{
-			
+
 			if(data.equals("ID")){
 				if(((Wifi) object).getID().equals(required)) return true;
 			}
