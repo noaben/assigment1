@@ -14,14 +14,14 @@ public class Main {
 		
 		String KMLpath = "kmlFile.kml";
 		
-    //  String filterBy = "Place";
-	//	String requiredData = "35.20453609,32.10444352";
+      //        String filterBy = "Place";
+      //	String requiredData = "35.20453609,32.10444352";
 		
 		String filterBy = "ID";
 		String requiredData = "ONEPLUS A3010_28_171012";
 		
-	//  String filterBy = "Time";
-	//	String requiredData = "2017-11-01 14:24";
+      //        String filterBy = "Time";
+      //	String requiredData = "2017-11-01 14:24";
 		
 		
 		q3.CSVtoKML(CSVpath, KMLpath, filterBy, requiredData);
