@@ -39,8 +39,8 @@ public class WifiTest {
 
 	@Test 
 	public void test3() {
-		Wifi w3 = new Wifi(TIME,ID,LAT,LON,ALT,SSID,"null",frequncy,signal);
-		assertFalse("the data of the wifi's point is incomplete. 'MAC' is null", Wifi.correct(w3.getTime(), w3.getID(), w3.getLAT(), w3.getLON(), w3.getALT(), w3.getSSID(), w3.getMAC(), w3.getFrequncy(), w3.getSignal()));
+		Wifi w3 = new Wifi(TIME,ID,LAT,LON,ALT,"",MAC,frequncy,signal);
+		assertFalse("missing data. 'SSID' has no value", Wifi.correct(w3.getTime(), w3.getID(), w3.getLAT(), w3.getLON(), w3.getALT(), w3.getSSID(), w3.getMAC(), w3.getFrequncy(), w3.getSignal()));
 	}
 	
 	@Test 
