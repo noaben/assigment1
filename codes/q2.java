@@ -169,7 +169,7 @@ public class q2 {
 				fr.close();
 			}
 			
-			catch(NumberFormatException e) {System.out.print("unexepted CSV content format, file "+"#"+listOfFiles[i].getName()+"\n" );}
+			catch(NullPointerException e) {System.out.print("unexepted CSV content format, file "+"#"+listOfFiles[i].getName()+"\n" );}
 			catch(IOException ex) {System.out.print("Error reading file \n" + ex);} 
 		}
 
