@@ -124,32 +124,28 @@ public class q3 implements Filter{
 
 
 	/**
-	 * @param Object that tested 
-	 * @param data parameter to filter
+	 * @param Wifi the object with the data
+	 * @param data filterd data
 	 * @param required data
 	 * @return true if wifi compliance with conditions, false if isn't
 	 */
 	@Override
-	public boolean fit(Object object, String data, String required) {
-
-		if(object instanceof Wifi)
-		{
-			
+	public boolean fit(Wifi wifi, String data, String req) {
+	
 			if(data.equals("ID")){
-				if(((Wifi) object).getID().equals(required)) return true;
+				if(wifi.getID().equals(req)) return true;
 			}
 			if(data.equals("Time")){
-				if(((Wifi) object).getTime().equals(required)) return true;
+				if(wifi.getTime().equals(req)) return true;
 			}
 			if(data.equals("Place")){
-				if(((Wifi) object).getCoordinates().equals(required))
+				if(wifi.getCoordinates().equals(req))
 					return true;
 			}
-		}
+		
 		return false;
 
 	}
-
 	
 	/**
 	 * if Wifi's have the same MAC- the one with the best signal will be kept in the linkedList 
