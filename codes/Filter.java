@@ -11,8 +11,8 @@ package matala001;
 	 
 	/**
 	 * 
-	 * @param object that need to be exam
-	 * @param data parameter of filtering
+	 * @param wifi the object with the data
+	 * @param data filtered data
 	 * @param req required data
 	 */
 	  boolean fit(Wifi wifi, String data, String req);
