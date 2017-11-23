@@ -106,7 +106,7 @@ public class q2Test {
 	    wifis.add(new Wifi("2017-11-01 14:32","ONEPLUS A3010_28_171012","32.10448447","35.20453355","651","Ariel_University","24:c9:a1:36:2f:38","1","-86"));
 	    wifis.add(new Wifi("2017-11-01 14:32","ONEPLUS A3010_28_171012","32.10448447","35.20453355","651","not_your_wifi","a0:ab:1b:63:40:be","2","-96"));
             
-	    assertEquals(wifis.size(),q2.list ("testFolder3").size());
+	    assertEquals(wifis.size(),q2.list("testFolder3").size());
 	    for (int i=0;i<wifis.size();i++)
 	    assertTrue(q2.list("testFolder3").get(i).equals(wifis.get(i)));
 	 
