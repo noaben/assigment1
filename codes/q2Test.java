@@ -112,9 +112,9 @@ public class q2Test {
 	    
             assertEquals(wifis.size(),q2.list("testFolder3").size());
         
-		for (int i=0;i<wifis.size();i++)
+	    for (int i=0;i<wifis.size();i++)
 		    assertTrue(q2.list("testFolder3").get(i).equals(wifis.get(i)));
-		    }
+		    
 	
 	 
           }
