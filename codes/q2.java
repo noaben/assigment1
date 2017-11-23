@@ -1,8 +1,5 @@
 package matala001;
 
-
-
-
 /**
  * The Class was created to organize several CSV files to one organized CSV file
  * 
