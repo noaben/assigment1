@@ -121,10 +121,12 @@ public class q2Test {
 	@Test 
 	public void test6(){ 
 	
-	q2.toCSV("testFolder3","actualCsv.csv");
+	    if (q2.toCSV("testFolder3","actualCsv.csv")==false)
+		    assertTrue(false);
+	    
 	    try {  
 	    	LinkedList<Wifi> exp = new LinkedList<Wifi>();
-	    	
+	    	         
 			FileReader frExpected = new FileReader("expectedCsv.csv");
 			BufferedReader brExpected = new BufferedReader(frExpected );
 
