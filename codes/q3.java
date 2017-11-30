@@ -138,8 +138,9 @@ public class q3 implements Filter{
 			if(data.equals("Time")){
 				if(wifi.getTime().equals(req)) return true;
 			}
+			
 			if(data.equals("Place")){
-				if(wifi.getCoordinates().equals(req))
+				if(Math.sqrt(Math.pow(Double.parseDouble(wifi.getLON())-Double.parseDouble(req.split(",")[0]),2)+Math.pow(Double.parseDouble(wifi.getLAT())-Double.parseDouble(req.split(",")[1]),2))<5)
 					return true;
 			}
 		
