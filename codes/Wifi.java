@@ -66,14 +66,10 @@ public class Wifi {
 	 */
 	
 	public static boolean correct(String time, String ID, String LAT, String LON, String ALT, String SSID, String MAC, String frequncy, String signal){
-		
-                if (ID.equals("")) return false;
-        
-                if (SSID.equals("")) return false;
         
                 if (MAC.equals("")) return false;
         
-                try{Integer.parseInt(ALT);}
+                try{Double.parseDouble(ALT);}
 		catch (NumberFormatException e){return false;}
         
 		try{Integer.parseInt(signal);}
