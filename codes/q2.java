@@ -1,5 +1,6 @@
 package matala001;
 
+
 /**
  * The Class was created to organize several CSV files to one organized CSV file
  * 
@@ -9,10 +10,12 @@ package matala001;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Vector;
 
 public class q2 {
 
@@ -47,7 +50,8 @@ public class q2 {
 		LinkedList <Wifi> wifis=fileToList(listOfFiles);
 		return wifis;
 	}
-
+	
+	
 	/**
 	 * 
 	 * @param folderPath path of the folder with the data of the application "wiGLE" 
@@ -174,6 +178,10 @@ public class q2 {
 
 	}
 	
+
+	
+    
+	
 	
 	/** check input
 	 * @param String of one wifi's data
@@ -239,7 +247,7 @@ public class q2 {
 				for(int i=0; i<line.size(); i++){    //bubble sort
 					for( int j=1; j<line.size(); j++){
 
-						if(Integer.parseInt(line.get(j).getSignal())>Integer.parseInt(line.get(j-1).getSignal())){
+						if(Integer.parseInt(line.get(j).getSignal())<Integer.parseInt(line.get(j-1).getSignal())){
 							Wifi tmp = line.get(j);
 							line.set(j, line.get(j-1));
 							line.set(j-1, tmp);
