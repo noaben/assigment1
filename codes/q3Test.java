@@ -15,72 +15,55 @@ import org.junit.Test;
 public class q3Test {
 	
 	/**
-	 * testing the filtered (by Place) linkedList that the function should retrieve. we compare between the objects in the linkedList that we expect to get,
-	 * and between the objects in the linkedList that the function retrieve
+	 * testing the filter (by place) function- by comparing the number of filtered points we are excepting to get.
 	 **/
 	
 	
 	@Test
 	public void test1() {
-		LinkedList<Wifi> wifis = new LinkedList<Wifi>();
-	    wifis.add(new Wifi("2017-11-01 14:32","ONEPLUS A3010_28_171012","32.10444352","35.20453609","650","IP-COM_051AB8","d8:38:0d:05:1a:b9","4","-81"));
-	    wifis.add(new Wifi("2017-11-01 14:32","ONEPLUS A3010_28_171012","32.10444352","35.20453609","650","Ariel_University","24:c9:a1:35:aa:08","11","-87"));
-	    assertEquals("both of the linkedList have the same size",wifis.size(),q3.list("actualCsv.csv", "Place", "35.20453609,32.10444352").size());
-	    for (int i=0;i<wifis.size();i++)
-		assertTrue("every Wifi's point in the excepted list is eqvivalent to the wifi's point in its place in the actual list"
-				   ,wifis.get(i).equals(q3.list("actualCsv.csv", "Place", "35.20453609,32.10444352").get(i)));	
+	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",20,q3.list("wifiTester.csv", "Place", "34.8160003,32.1628765").size());
+	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",2095,q3.list("wifiTester.csv", "Place", "34.8045678,32.16824833").size());
+	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",469,q3.list("wifiTester.csv", "Place", "34.8123452,32.1734854").size());
 	}
 	
 	/**
-	 * testing the filtered (by Time) linkedList that the function should retrieve. we compare between the objects in the linkedList that we expect to get,
-	 * and between the objects in the linkedList that the function retrieve
+	 * testing the filter (by time) function- by comparing the number of filtered points we are excepting to get.
 	 **/
 	
 	@Test
 	public void test2() {
-		LinkedList<Wifi> wifis = new LinkedList<Wifi>();
-	    wifis.add(new Wifi("2017-11-01 14:24","ONEPLUS A3010_28_171012","32.10432911","35.20458677","645","Rami Levy","42503_6701_4464097","0","-77"));
-	    wifis.add(new Wifi("2017-11-01 14:24","ONEPLUS A3010_28_171012","32.10432911","35.20458677","645","Ariel_University","24:c9:a1:33:3d:08","6","-90"));
-	    wifis.add(new Wifi("2017-11-01 14:24","ONEPLUS A3010_28_171012","32.1043617","35.20456408","640","Rami Levy","42503_6701_4464097","0","-71"));
-	    assertEquals("both of the linkedList have the same size",wifis.size(),q3.list("actualCsv.csv", "Time", "2017-11-01 14:24").size());
-	    for (int i=0;i<wifis.size();i++)
-		assertTrue("every Wifi's point in the excepted list is eqvivalent to the wifi's point in its place in the actual list"
-,                  wifis.get(i).equals(q3.list("actualCsv.csv", "Time", "2017-11-01 14:24").get(i)));	
+	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",255,q3.list("wifiTester.csv", "Time", "2017-10-27 16:19").size());
+	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",80,q3.list("wifiTester.csv", "Time", "2017-10-27 16:40").size());
+	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",248,q3.list("wifiTester.csv", "Time", "2017-10-27 16:23").size());
+
 	}
 	
 	/**
-	 * testing the organized linkedList that the function should retrieve. we compare between the objects in the linkedList that we except to get,
-	 * and between the objects in the linkedList that the function retrieve
+	 * testing the findPlaceAlgorithm1- by comparing the place we are excepting to get to the one that the program calculates.
 	 **/
 	
 	@Test
 	public void test3() {
-		LinkedList<Wifi> wifis = new LinkedList<Wifi>();
-	    wifis.add(new Wifi("2017-11-01 14:24","ONEPLUS A3010_28_171012","32.10432911","35.20458677","645","Rami Levy","42503_6701_4464097","0","-77"));
-	    wifis.add(new Wifi("2017-11-01 14:24","ONEPLUS A3010_28_171012","32.10432911","35.20458677","645","Ariel_University","24:c9:a1:33:3d:08","6","-90"));
-	    assertEquals("both of the linkedList have the same size",wifis.size(),q3.listOrganized(q3.list("actualCsv.csv", "Time", "2017-11-01 14:24")).size());
-	    for (int i=0;i<wifis.size();i++)
-		assertTrue("every Wifi's point in the excepted list is eqvivalent to the wifi's point in its place in the actual list",
-				wifis.get(i).equals(q3.listOrganized(q3.list("actualCsv.csv", "Time", "2017-11-01 14:24")).get(i)));	
+	        MAC mac1=new MAC("88:dc:96:17:c0:9e",32.1625599,34.8082105,33.5356201);
+		assertTrue("The required MAC is the same that we excepted ",q3.findPlaceAlgorithm1("wifiTester.csv","88:dc:96:17:c0:9e").equals(mac1));
+		MAC mac2=new MAC("14:ae:db:3d:b1:55",32.1671223,34.8081163,39.6266474);
+		assertTrue("The required MAC is the same that we excepted ",q3.findPlaceAlgorithm1("wifiTester.csv","14:ae:db:3d:b1:55").equals(mac2));
+		MAC mac3=new MAC("e0:10:7f:49:37:fc",32.1617363,34.8091938,19.8406876);
+		assertTrue("The required MAC is the same that we excepted ",q3.findPlaceAlgorithm1("wifiTester.csv","e0:10:7f:49:37:fc").equals(mac3));
 	}
 	
+
 	/**
-	 * testing a case that the required data doesn't exist in the file. the function should retrieve "false".
+	 * testing the findPlaceAlgorithm2- by comparing the place we are excepting to get to the one that the program calculates.
 	 **/
 	
 	@Test
 	public void test4() {
-		assertFalse("The required data wasn't found",q3.CSVtoKML("actualCsv.csv","kmlTest.kml", "Time", "2016-11-01 14:24"));
+		assertTrue("The required MAC is the same that we excepted ",q3.findPlaceAlgorithm2("wifiTester.csv","-60","74:da:38:50:77:f2","-70","a0:63:91:69:f6:af","-91","98:e7:f4:c6:4b:37").equals("LAT: 32.1687209 LON: 34.8132144 ALT: 37.5722597"));
+		assertTrue("The required MAC is the same that we excepted ",q3.findPlaceAlgorithm2("wifiTester.csv","-60","f8:d1:11:b1:92:93","-75","74:da:38:97:66:9d","-90","ec:08:6b:38:0d:dd").equals("LAT: 32.1681005 LON: 34.8101392 ALT: 26.0928673"));
+
 	}
 	
-	/**
-	 * testing a case that the required exists in the file. the function should retrieve "True".
-	 **/
-	
-	@Test
-	public void test5() {
-		assertTrue("The required data wasn found",q3.CSVtoKML("actualCsv.csv","kmlTest.kml", "Time", "2017-11-01 14:24"));
-	}
 	
 
 }
