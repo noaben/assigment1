@@ -67,7 +67,7 @@ public class Wifi {
 	
 	public static boolean correct(String time, String ID, String LAT, String LON, String ALT, String SSID, String MAC, String frequncy, String signal){
         
-                if (MAC.equals("")) return false;
+                if (!MAC.substring(2,3).equals(":") || !MAC.substring(5,6).equals(":") || !MAC.substring(8,9).equals(":") || !MAC.substring(11,12).equals(":") || !MAC.substring(14,15).equals(":")) return false;
         
                 try{Double.parseDouble(ALT);}
 		catch (NumberFormatException e){return false;}
