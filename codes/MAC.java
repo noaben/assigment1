@@ -2,6 +2,9 @@ package noa;
 
 public class MAC {
 	
+	//class with data of MAC and GPS
+	
+	
 	private String ADRESS;
 	private double LAT;
 	private double LON;
