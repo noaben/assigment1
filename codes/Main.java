@@ -1,6 +1,7 @@
 package matala001;
 
 
+
 public class Main {
 
 
@@ -8,30 +9,39 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		String folder="wifiFolder";
-		String CSVpath="WifiCsv.csv";
+		String CSVpath="wificsv.csv";
+		String algo2="Algo2.csv";
+		String no_gps="no_gps.csv";
+		String weightedMAC="Algo1.csv";
 		
 		q2.toCSV(folder, CSVpath);
 
 		
 		String KMLpath = "kmlFile.kml";
 		
-                String filterBy = "Place";
-         	String requiredData = "35.20453609,32.10444352";
+		String filter="no_filtering";
+	//	String filter="filtering";
 		
-		//String filterBy = "ID";
-		//String requiredData = "ONEPLUS A3010_28_171012";
+                String filterBy = "Place";
+           	String requiredData = "34.8160003,32.1628765";
+		
+      //	String filterBy = "ID";
+      //	String requiredData = "ONEPLUS A3010_28_171012";
 		
       //        String filterBy = "Time";
-      //	String requiredData = "2017-11-01 14:24";
+      //   	String requiredData = "2017-11-01 14:24";
 		
 		
-		q3.CSVtoKML(CSVpath, KMLpath, filterBy, requiredData);
+	        q3.CSVtoKML(CSVpath, KMLpath,filter, filterBy, requiredData,weightedMAC);
 		
-	        MAC m=q3.findPlaceAlgorithm1(CSVpath,"e0:10:7f:49:37:fc");
-		System.out.println(m.toString());
+	        q3.findPlaceAlgorithm2( CSVpath,  no_gps,algo2);
 		
-		System.out.println(q3.findPlaceAlgorithm2(CSVpath,"-60","f8:d1:11:b1:92:93","-75","74:da:38:97:66:9d","-90","ec:08:6b:38:0d:dd"));
-
+	        q3.CSVtoKML("comb_BM1.csv", "BM1_kml.kml",filter, filterBy, requiredData,"Algo1_test_BM1_comb_all_.csv");
+	
+		q2.toCSV("BM1_4", "BM1_4_comb.csv");
+		
+		q3.findPlaceAlgorithm2( "BM1_4_comb.csv",  "no_gps_BM1_3.csv", "Algo2_test_BM1_4_3.csv");
+		
 	}
 
 }
