@@ -2,6 +2,9 @@ package matala001;
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.LinkedList;
 
 import org.junit.Test;
@@ -21,9 +24,10 @@ public class q3Test {
 	
 	@Test
 	public void test1() {
-	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",20,q3.list("wifiTester.csv", "Place", "34.8160003,32.1628765").size());
-	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",2095,q3.list("wifiTester.csv", "Place", "34.8045678,32.16824833").size());
-	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",469,q3.list("wifiTester.csv", "Place", "34.8123452,32.1734854").size());
+		
+	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",20,q3.list("wifiTester.csv","filtering", "Place", "34.8160003,32.1628765").size());
+	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",2095,q3.list("wifiTester.csv","filtering", "Place", "34.8045678,32.16824833").size());
+	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",469,q3.list("wifiTester.csv","filtering", "Place", "34.8123452,32.1734854").size());
 	}
 	
 	/**
@@ -32,9 +36,9 @@ public class q3Test {
 	
 	@Test
 	public void test2() {
-	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",255,q3.list("wifiTester.csv", "Time", "2017-10-27 16:19").size());
-	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",80,q3.list("wifiTester.csv", "Time", "2017-10-27 16:40").size());
-	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",248,q3.list("wifiTester.csv", "Time", "2017-10-27 16:23").size());
+	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",255,q3.list("wifiTester.csv","filtering", "Time", "2017-10-27 16:19").size());
+	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",80,q3.list("wifiTester.csv","filtering", "Time", "2017-10-27 16:40").size());
+	    assertEquals("the excpected points that comply with the filter request are equal to the actual points",248,q3.list("wifiTester.csv","filtering", "Time", "2017-10-27 16:23").size());
 
 	}
 	
@@ -54,16 +58,38 @@ public class q3Test {
 	
 
 	/**
-	 * testing the findPlaceAlgorithm2- by comparing the place we are excepting to get to the one that the program calculates.
+	 * testing the findPlaceAlgorithm2- by comparing the place we are excepting to get to the one that the program estimates.
 	 **/
 	
 	@Test
 	public void test4() {
-		assertTrue("The required MAC is the same that we excepted ",q3.findPlaceAlgorithm2("wifiTester.csv","-60","74:da:38:50:77:f2","-70","a0:63:91:69:f6:af","-91","98:e7:f4:c6:4b:37").equals("LAT: 32.1687209 LON: 34.8132144 ALT: 37.5722597"));
-		assertTrue("The required MAC is the same that we excepted ",q3.findPlaceAlgorithm2("wifiTester.csv","-60","f8:d1:11:b1:92:93","-75","74:da:38:97:66:9d","-90","ec:08:6b:38:0d:dd").equals("LAT: 32.1681005 LON: 34.8101392 ALT: 26.0928673"));
-
-	}
+		
+              q3.findPlaceAlgorithm2("wifiTester.csv", "testFile_q3_algo2.csv","testResult_q3_algo2.csv");
+		
+              try{
+                    FileReader fr = new FileReader("testResult_q3_algo2.csv");
+		    BufferedReader br = new BufferedReader(fr );
+        
+			
+		    String str1=br.readLine();
+		    String arr1[]=str1.split(",");
+		    assertEquals("32.1687209",arr1[2]);
+		    assertEquals("34.8132144",arr1[3]);
+		    assertEquals("37.5722597",arr1[4]);
+		
+		    String str2=br.readLine();
+		    String arr2[]=str2.split(",");
+		    assertEquals("32.1681005",arr2[2]);
+		    assertEquals("34.8101392",arr2[3]);
+		    assertEquals("26.0928673",arr2[4]);	
+		
+                   }
+		
+	      catch(IOException ex) {
+		  System.out.print("Error reading file \n" + ex);} 
+	      }
 	
-	
-
 }
+	
+	
+
