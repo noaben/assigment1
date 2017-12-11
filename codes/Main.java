@@ -36,6 +36,8 @@ public class Main {
 		
 	        q3.findPlaceAlgorithm2( CSVpath,  no_gps,algo2);
 		
+		q2.toCSV("BM1_wifiscans","comb_BM1.csv");
+		
 	        q3.CSVtoKML("comb_BM1.csv", "BM1_kml.kml",filter, filterBy, requiredData,"Algo1_test_BM1_comb_all_.csv");
 	
 		q2.toCSV("BM1_4", "BM1_4_comb.csv");
