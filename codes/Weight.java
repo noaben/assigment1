@@ -1,6 +1,9 @@
 package noa;
 
 public class Weight {
+	
+	//class with data of weight and GPS. the weight symbolize the similarity to other data. 
+	
 	private double LAT;
 	private double LON;
 	private double ALT;
