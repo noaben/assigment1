@@ -197,12 +197,12 @@ public class q3 implements Filter{
 		try {
 			writer = new FileWriter(weightedMAC);
 
-			writer.append(""+','+"MAC"+','+"SSID"+','+"Frequncy"+','+"Signal"+','+"Lat"+','+"Lon"+','+"Alt"+','+"TIME"+','+"w_center"+',');
+			writer.append(""+','+"MAC"+','+"SSID"+','+"Frequncy"+','+"Signal"+','+"Lat"+','+"Lon"+','+"Alt"+','+"TIME"+','+"Approx. w-center algo1"+',');
 			writer.append('\n');
 			int i=0;
 			
 		        while(updateList.size()>i){
-			     writer.append(Integer.toString(i)+','+updateList.get(i).getMAC()+','+updateList.get(i).getSSID()+','+updateList.get(i).getFrequncy()+','+updateList.get(i).getSignal()+','+w_center.get(i).getLAT()+','+w_center.get(i).getLON()+','+w_center.get(i).getALT()+','+updateList.get(i).getTime()+','+"w_center"+',');
+			     writer.append(Integer.toString(i)+','+updateList.get(i).getMAC()+','+updateList.get(i).getSSID()+','+updateList.get(i).getFrequncy()+','+updateList.get(i).getSignal()+','+w_center.get(i).getLAT()+','+w_center.get(i).getLON()+','+w_center.get(i).getALT()+','+updateList.get(i).getTime()+','+"Approx. w-center algo1"+',');
 			     writer.append('\n');
 		             i++;
 		            }
