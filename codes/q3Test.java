@@ -74,7 +74,6 @@ public class q3Test {
 		    String str1=br.readLine();
 		    String arr1[]=str1.split(",");
 		    assertEquals("32.168722",arr1[2]);
-		    System.out.println(arr1[2]+" "+arr1[3]+" "+arr1[4]);
 		    assertEquals("34.8130424",arr1[3]);
 	            assertEquals("36.7719216",arr1[4]);
 		
@@ -83,7 +82,7 @@ public class q3Test {
 		    assertEquals("32.1680669",arr2[2]);
 		    assertEquals("34.8101319",arr2[3]);
 		    assertEquals("27.1057282",arr2[4]);	
-		    System.out.println(arr2[2]+" "+arr2[3]+" "+arr2[4]);
+		    
                    }
 		
 	   catch(IOException ex) {
