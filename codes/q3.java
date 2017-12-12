@@ -205,15 +205,15 @@ public class q3 implements Filter{
 			     writer.append(Integer.toString(i)+','+updateList.get(i).getMAC()+','+updateList.get(i).getSSID()+','+updateList.get(i).getFrequncy()+','+updateList.get(i).getSignal()+','+w_center.get(i).getLAT()+','+w_center.get(i).getLON()+','+w_center.get(i).getALT()+','+updateList.get(i).getTime()+','+"Approx. w-center algo1"+',');
 			     writer.append('\n');
 		             i++;
-		            }
+		             }
 		    
-		       writer.flush();
-		       writer.close();
+		    writer.flush();
+		    writer.close();
 
      	} catch (IOException e) {System.out.println("destination unreachable /n "+e);}
 		
-        return updateList;
-}
+		return updateList;
+	}
 
 
 	/**
@@ -259,7 +259,7 @@ public class q3 implements Filter{
 	
 	 private static MAC findPlace1(String csvpath, String mac){
 		   
-		        File file = new File(csvpath);   
+		    File file = new File(csvpath);   
 
 			if(!file.exists()) {System.out.println("file don't exist"); return null;}
 
@@ -303,18 +303,18 @@ public class q3 implements Filter{
 		
 			LinkedList <Wifi>signals=new LinkedList <Wifi>();
 			
-	                while((wifilist.size()>n) && !flag){  
-	        	      if(wifilist.get(n).getMAC().equals(mac)){
+	        while((wifilist.size()>n) && !flag){  
+	        	 if(wifilist.get(n).getMAC().equals(mac)){
 	        		     signals.add(wifilist.get(n));
 	        	         }
-	        	      n++;
-	                     }
+	        	 n++;
+	             }
 	        
-			//finding the 4 points that has the best signal and calculating the weighted MAC
-			if (signals.size()>4){
+			//finding the 5 points that has the best signal and calculating the weighted MAC
+			if (signals.size()>5){
 				
 				Vector <Wifi>maxSignals=new Vector <Wifi>();
-				for (int j=0;j<4;j++){
+				for (int j=0;j<5;j++){
 				     int max=Integer.parseInt(signals.get(0).getSignal());
 				     int maxPlace=0;
 				     for (int k=1;k<signals.size();k++){
@@ -328,17 +328,17 @@ public class q3 implements Filter{
 				    }
 			   
 				
-		               double weight[]={Math.pow((1.0000000/(Integer.parseInt(maxSignals.get(0).getSignal()))),2),Math.pow((1.000000/(Integer.parseInt(maxSignals.get(1).getSignal()))),2),Math.pow((1.000000/(Integer.parseInt(maxSignals.get(2).getSignal()))),2),Math.pow((1.000000/(Integer.parseInt(maxSignals.get(3).getSignal()))),2)};
-		               double wLAT[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getLAT())),weight[1]*(Double.parseDouble(maxSignals.get(1).getLAT())),weight[2]*(Double.parseDouble(maxSignals.get(2).getLAT())),weight[3]*(Double.parseDouble(maxSignals.get(3).getLAT()))};
-		               double wLON[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getLON())),weight[1]*(Double.parseDouble(maxSignals.get(1).getLON())),weight[2]*(Double.parseDouble(maxSignals.get(2).getLON())),weight[3]*(Double.parseDouble(maxSignals.get(3).getLON()))};
-		               double wAlt[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getALT())),weight[1]*(Double.parseDouble(maxSignals.get(1).getALT())),weight[2]*(Double.parseDouble(maxSignals.get(2).getALT())),weight[3]*(Double.parseDouble(maxSignals.get(3).getALT()))};
-	                       double sum[]={weight[0]+weight[1]+weight[2]+weight[3],wLAT[0]+wLAT[1]+wLAT[2]+wLAT[3],wLON[0]+wLON[1]+wLON[2]+wLON[3],wAlt[0]+wAlt[1]+wAlt[2]+wAlt[3]};
-	                       double wSum[]={sum[1]/sum[0],sum[2]/sum[0],sum[3]/sum[0]};
-	                       MAC macList=new MAC(mac,(int)(wSum[0]*10000000)/10000000.0000000,(int)(wSum[1]*10000000)/10000000.0000000,(int)(wSum[2]*10000000)/10000000.0000000);
-	                       return macList;
+		        double weight[]={Math.pow((1.0000000/(Integer.parseInt(maxSignals.get(0).getSignal()))),2),Math.pow((1.000000/(Integer.parseInt(maxSignals.get(1).getSignal()))),2),Math.pow((1.000000/(Integer.parseInt(maxSignals.get(2).getSignal()))),2),Math.pow((1.000000/(Integer.parseInt(maxSignals.get(3).getSignal()))),2),Math.pow((1.000000/(Integer.parseInt(maxSignals.get(4).getSignal()))),2)};
+		        double wLAT[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getLAT())),weight[1]*(Double.parseDouble(maxSignals.get(1).getLAT())),weight[2]*(Double.parseDouble(maxSignals.get(2).getLAT())),weight[3]*(Double.parseDouble(maxSignals.get(3).getLAT())),weight[4]*(Double.parseDouble(maxSignals.get(4).getLAT()))};
+		        double wLON[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getLON())),weight[1]*(Double.parseDouble(maxSignals.get(1).getLON())),weight[2]*(Double.parseDouble(maxSignals.get(2).getLON())),weight[3]*(Double.parseDouble(maxSignals.get(3).getLON())),weight[4]*(Double.parseDouble(maxSignals.get(4).getLON()))};
+		        double wAlt[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getALT())),weight[1]*(Double.parseDouble(maxSignals.get(1).getALT())),weight[2]*(Double.parseDouble(maxSignals.get(2).getALT())),weight[3]*(Double.parseDouble(maxSignals.get(3).getALT())),weight[4]*(Double.parseDouble(maxSignals.get(4).getALT()))};
+	                double sum[]={weight[0]+weight[1]+weight[2]+weight[3]+weight[4],wLAT[0]+wLAT[1]+wLAT[2]+wLAT[3]+wLAT[4],wLON[0]+wLON[1]+wLON[2]+wLON[3]+wLON[4],wAlt[0]+wAlt[1]+wAlt[2]+wAlt[3]+wAlt[4]};
+	                double wSum[]={sum[1]/sum[0],sum[2]/sum[0],sum[3]/sum[0]};
+	                MAC macList=new MAC(mac,(int)(wSum[0]*10000000)/10000000.0000000,(int)(wSum[1]*10000000)/10000000.0000000,(int)(wSum[2]*10000000)/10000000.0000000);
+	                return macList;
 			    }
 			
-		  //there are less then 4 points with the same MAC
+		  //there are less then 5 points with the same MAC
 		  else{
 			  double weight[]=new double[signals.size()]; double wLAT[]=new double[signals.size()];double wLON[]=new double[signals.size()];double wAlt[]=new double[signals.size()]; double sum[]={0,0,0,0};
 			  
@@ -405,9 +405,9 @@ public class q3 implements Filter{
 			        String arr1[]=str1.split(",");
 			    
 			        String signalPoint[]=new String [Integer.parseInt(arr1[5])]; //array of signals from one line from the no GPS file
-		                String macPoint[]=new String [Integer.parseInt(arr1[5])];//array of matching MAC
+		            String macPoint[]=new String [Integer.parseInt(arr1[5])];//array of matching MAC
 		    
-		                int c=0;
+		            int c=0;
 		    
 			        for (int i=0;i<Integer.parseInt(arr1[5]);i++){
 			          	signalPoint[i]=arr1[9+i*4];
@@ -416,21 +416,21 @@ public class q3 implements Filter{
 			            }
 			        
 			       
-	                       double signalMatch[]=new double [signalPoint.length];
-	                       double diff[]=new double [signalPoint.length];
-	                       double w[]=new double [signalPoint.length];
-	                       LinkedList <Weight> p=new LinkedList <Weight>();
+	                double signalMatch[]=new double [signalPoint.length];
+	                double diff[]=new double [signalPoint.length];
+	                double w[]=new double [signalPoint.length];
+	                LinkedList <Weight> p=new LinkedList <Weight>();
 	    
-	                       //reading from the comb_file with GPS data
+	                //reading from the comb_file with GPS data
 	            	
-		              File file2 = new File(CSVpath);   
+		            File file2 = new File(CSVpath);   
 
-		              if(!file2.exists()) {System.out.println("file don't exist"); }
+		            if(!file2.exists()) {System.out.println("file don't exist"); }
         
-		              FileReader fr2;
-		              BufferedReader br2;
+		            FileReader fr2;
+		            BufferedReader br2;
 
-		              try {
+		            try {
 			             fr2 = new FileReader(file2);
 			             br2 = new BufferedReader(fr2);
 			       
@@ -475,14 +475,14 @@ public class q3 implements Filter{
 				
 				                }
 			
-			                    //calculate the weight of the line
+			                //calculate the weight of the line
 				            double weight=1;   
 				            for (int i=0;i<w.length;i++){
 					        weight*=w[i];
                            
 				            }
 	                   
-				   //put the weight and the place in p[i]
+				       //put the weight and the place in p[i]
 			    	   p.add(new Weight(Double.parseDouble(arr2[2]),Double.parseDouble(arr2[3]),Double.parseDouble(arr2[4]),weight));
 				       str2=br2.readLine();
 		              }
@@ -495,10 +495,10 @@ public class q3 implements Filter{
 		    	e.printStackTrace();
 		        }
 		            
-		         //take the 3 lines that their weight is the biggest
+		         //take the 5 lines that their weight is the biggest
 		         LinkedList <Weight> maxP=new LinkedList <Weight>();
 		
-		         for (int i=0;i<3;i++){
+		         for (int i=0;i<5;i++){
 		         	maxP.add(new Weight(p.get(i)));
 			        for (int j=i+1;j<p.size();j++)
 			        if (maxP.get(i).getW()<p.get(j).getW()){
@@ -506,14 +506,17 @@ public class q3 implements Filter{
 					        maxP.get(i).setWeight(p.get(j));
 					        p.get(j).setWeight(t);
 				           }
+			       
 		            }
 		
 		        //get the estimated place
-		        double weight[]={maxP.get(0).getW(),maxP.get(1).getW(),maxP.get(2).getW()};
-	                double wLAT[]={maxP.get(0).getLAT()* weight[0],maxP.get(1).getLAT()* weight[1],maxP.get(2).getLAT()* weight[2]};
-	                double wLON[]={maxP.get(0).getLON()*weight[0],maxP.get(1).getLON()* weight[1],maxP.get(2).getLON()* weight[2]};
-	                double wAlt[]={maxP.get(0).getALT()* weight[0],maxP.get(1).getALT()* weight[1],maxP.get(2).getALT()* weight[2]};
-                        double sum[]={weight[0]+weight[1]+weight[2],wLAT[0]+wLAT[1]+wLAT[2], wLON[0]+ wLON[1]+ wLON[2],wAlt[0]+wAlt[1]+wAlt[2]};
+		        double weight[]={maxP.get(0).getW(),maxP.get(1).getW(),maxP.get(2).getW(),maxP.get(3).getW(),maxP.get(4).getW()};
+		        System.out.println(maxP.get(0).getW()+" "+maxP.get(1).getW()+" "+maxP.get(2).getW()+" "+maxP.get(3).getW()+" "+maxP.get(4).getW());
+	                double wLAT[]={maxP.get(0).getLAT()* weight[0],maxP.get(1).getLAT()* weight[1],maxP.get(2).getLAT()* weight[2],maxP.get(3).getLAT()* weight[3],maxP.get(4).getLAT()* weight[4]};
+		        System.out.println(maxP.get(0).getLAT()+" "+maxP.get(1).getLAT()+" "+maxP.get(2).getLAT()+" "+maxP.get(3).getLAT()+" "+maxP.get(4).getLAT());
+	                double wLON[]={maxP.get(0).getLON()*weight[0],maxP.get(1).getLON()* weight[1],maxP.get(2).getLON()* weight[2],maxP.get(3).getLON()* weight[3],maxP.get(4).getLON()* weight[4]};
+	                double wAlt[]={maxP.get(0).getALT()* weight[0],maxP.get(1).getALT()* weight[1],maxP.get(2).getALT()* weight[2],maxP.get(3).getALT()* weight[3],maxP.get(4).getALT()* weight[4]};
+                        double sum[]={weight[0]+weight[1]+weight[2]+weight[3]+weight[4],wLAT[0]+wLAT[1]+wLAT[2]+wLAT[3]+wLAT[4], wLON[0]+ wLON[1]+ wLON[2]+ wLON[3]+ wLON[4],wAlt[0]+wAlt[1]+wAlt[2]+wAlt[3]+wAlt[4]};
                         double wSum[]={(int)(sum[1]/sum[0]*10000000)/10000000.0000000,(int)(sum[2]/sum[0]*10000000)/10000000.0000000,(int)(sum[3]/sum[0]*10000000)/10000000.0000000};
 			
                         //writing the GPS data to a new file
