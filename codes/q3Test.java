@@ -48,9 +48,9 @@ public class q3Test {
 	
 	@Test
 	public void test3() {
-	        MAC mac1=new MAC("88:dc:96:17:c0:9e",32.1625599,34.8082105,33.5356201);
+                MAC mac1=new MAC("88:dc:96:17:c0:9e",32.1623059,34.8085222,27.2660323);
 		assertTrue("The required MAC is the same that we excepted ",q3.findPlaceAlgorithm1("wifiTester.csv","88:dc:96:17:c0:9e").equals(mac1));
-		MAC mac2=new MAC("14:ae:db:3d:b1:55",32.1671223,34.8081163,39.6266474);
+		MAC mac2=new MAC("14:ae:db:3d:b1:55",32.1671457,34.8080293,39.9270507);
 		assertTrue("The required MAC is the same that we excepted ",q3.findPlaceAlgorithm1("wifiTester.csv","14:ae:db:3d:b1:55").equals(mac2));
 		MAC mac3=new MAC("e0:10:7f:49:37:fc",32.1617363,34.8091938,19.8406876);
 		assertTrue("The required MAC is the same that we excepted ",q3.findPlaceAlgorithm1("wifiTester.csv","e0:10:7f:49:37:fc").equals(mac3));
@@ -64,30 +64,31 @@ public class q3Test {
 	@Test
 	public void test4() {
 		
-              q3.findPlaceAlgorithm2("wifiTester.csv", "testFile_q3_algo2.csv","testResult_q3_algo2.csv");
+       q3.findPlaceAlgorithm2("wifiTester.csv", "testFile_q3_algo2.csv","testResult_q3_algo2.csv");
 		
-              try{
+        try{
                     FileReader fr = new FileReader("testResult_q3_algo2.csv");
 		    BufferedReader br = new BufferedReader(fr );
         
 			
 		    String str1=br.readLine();
 		    String arr1[]=str1.split(",");
-		    assertEquals("32.1687209",arr1[2]);
-		    assertEquals("34.8132144",arr1[3]);
-		    assertEquals("37.5722597",arr1[4]);
+		    assertEquals("32.168722",arr1[2]);
+		    System.out.println(arr1[2]+" "+arr1[3]+" "+arr1[4]);
+		    assertEquals("34.8130424",arr1[3]);
+	            assertEquals("36.7719216",arr1[4]);
 		
 		    String str2=br.readLine();
 		    String arr2[]=str2.split(",");
-		    assertEquals("32.1681005",arr2[2]);
-		    assertEquals("34.8101392",arr2[3]);
-		    assertEquals("26.0928673",arr2[4]);	
-		
+		    assertEquals("32.1680669",arr2[2]);
+		    assertEquals("34.8101319",arr2[3]);
+		    assertEquals("27.1057282",arr2[4]);	
+		    System.out.println(arr2[2]+" "+arr2[3]+" "+arr2[4]);
                    }
 		
-	      catch(IOException ex) {
-		  System.out.print("Error reading file \n" + ex);} 
-	      }
+	   catch(IOException ex) {
+		    System.out.print("Error reading file \n" + ex);} 
+	}
 	
 }
 	
