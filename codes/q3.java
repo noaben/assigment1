@@ -313,10 +313,10 @@ public class q3 implements Filter{
 	                        }
 	        
 			//finding the 5 points that has the best signal and calculating the weighted MAC
-			if (signals.size()>5){
+			if (signals.size()>4){
 				
 				Vector <Wifi>maxSignals=new Vector <Wifi>();
-				for (int j=0;j<5;j++){
+				for (int j=0;j<4;j++){
 				     double max=Double.parseDouble(signals.get(0).getSignal());
 				     int maxPlace=0;
 				     for (int k=1;k<signals.size();k++){
@@ -330,13 +330,13 @@ public class q3 implements Filter{
 				    }
 			   
 				
-		                 double weight[]={Math.pow((1/(Double.parseDouble(maxSignals.get(0).getSignal()))),2),Math.pow((1/(Double.parseDouble(maxSignals.get(1).getSignal()))),2),Math.pow((1/(Double.parseDouble(maxSignals.get(2).getSignal()))),2),Math.pow((1/(Double.parseDouble(maxSignals.get(3).getSignal()))),2),Math.pow((1/(Double.parseDouble(maxSignals.get(4).getSignal()))),2)};
+		                  double weight[]={Math.pow((1/(Double.parseDouble(maxSignals.get(0).getSignal()))),2),Math.pow((1/(Double.parseDouble(maxSignals.get(1).getSignal()))),2),Math.pow((1/(Double.parseDouble(maxSignals.get(2).getSignal()))),2),Math.pow((1/(Double.parseDouble(maxSignals.get(3).getSignal()))),2)};
 
-		                 double wLAT[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getLAT())),weight[1]*(Double.parseDouble(maxSignals.get(1).getLAT())),weight[2]*(Double.parseDouble(maxSignals.get(2).getLAT())),weight[3]*(Double.parseDouble(maxSignals.get(3).getLAT())),weight[4]*(Double.parseDouble(maxSignals.get(4).getLAT()))};
-		                 double wLON[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getLON())),weight[1]*(Double.parseDouble(maxSignals.get(1).getLON())),weight[2]*(Double.parseDouble(maxSignals.get(2).getLON())),weight[3]*(Double.parseDouble(maxSignals.get(3).getLON())),weight[4]*(Double.parseDouble(maxSignals.get(4).getLON()))};
-		                 double wAlt[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getALT())),weight[1]*(Double.parseDouble(maxSignals.get(1).getALT())),weight[2]*(Double.parseDouble(maxSignals.get(2).getALT())),weight[3]*(Double.parseDouble(maxSignals.get(3).getALT())),weight[4]*(Double.parseDouble(maxSignals.get(4).getALT()))};
-	                         double sum[]={weight[0]+weight[1]+weight[2]+weight[3]+weight[4],wLAT[0]+wLAT[1]+wLAT[2]+wLAT[3]+wLAT[4],wLON[0]+wLON[1]+wLON[2]+wLON[3]+wLON[4],wAlt[0]+wAlt[1]+wAlt[2]+wAlt[3]+wAlt[4]};
-	                         double wSum[]={sum[1]/sum[0],sum[2]/sum[0],sum[3]/sum[0]};
+		                  double wLAT[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getLAT())),weight[1]*(Double.parseDouble(maxSignals.get(1).getLAT())),weight[2]*(Double.parseDouble(maxSignals.get(2).getLAT())),weight[3]*(Double.parseDouble(maxSignals.get(3).getLAT()))};
+		                  double wLON[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getLON())),weight[1]*(Double.parseDouble(maxSignals.get(1).getLON())),weight[2]*(Double.parseDouble(maxSignals.get(2).getLON())),weight[3]*(Double.parseDouble(maxSignals.get(3).getLON()))};
+		                  double wAlt[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getALT())),weight[1]*(Double.parseDouble(maxSignals.get(1).getALT())),weight[2]*(Double.parseDouble(maxSignals.get(2).getALT())),weight[3]*(Double.parseDouble(maxSignals.get(3).getALT()))};
+	                          double sum[]={weight[0]+weight[1]+weight[2]+weight[3],wLAT[0]+wLAT[1]+wLAT[2]+wLAT[3],wLON[0]+wLON[1]+wLON[2]+wLAT[3],wAlt[0]+wAlt[1]+wAlt[2]+wAlt[3]};
+	                          double wSum[]={sum[1]/sum[0],sum[2]/sum[0],sum[3]/sum[0]};
 	      
 	                         MAC macList=new MAC(mac,wSum[0],wSum[1],wSum[2]);
 	                         return macList;
