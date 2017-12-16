@@ -502,9 +502,9 @@ public class q3 implements Filter{
 		    	              e.printStackTrace();
 		                       }
 		            
-		         //take the 5 lines that their weight is the biggest
+		         //take the 4 lines that their weight is the biggest
 		         LinkedList <Weight> maxP=new LinkedList <Weight>();
-		         int n=5;
+		         int n=4;
 		
 		         for (int i=0;i<n;i++){
 		             maxP.add(new Weight(p.get(i)));
