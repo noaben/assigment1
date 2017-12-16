@@ -80,20 +80,18 @@ public class q3Test {
         try{
             FileReader fr = new FileReader("testResult_q3_algo2.csv");
 		    BufferedReader br = new BufferedReader(fr );
-        
-			
+         
 		    String str1=br.readLine();
 		    String arr1[]=str1.split(",");
-		    assertEquals("32.168722",arr1[2].substring(0,9));
-		    assertEquals("34.8130424",arr1[3].substring(0,10));
-	            assertEquals("36.771921",arr1[4].substring(0,9));
+		    assertEquals("32.1687228",arr1[2].substring(0,10));
+		    assertEquals("34.8130289",arr1[3].substring(0,10));
+	            assertEquals("36.6164242",arr1[4].substring(0,10));
 	   
-		
 		    String str2=br.readLine();
 		    String arr2[]=str2.split(",");
-		    assertEquals("32.1680669",arr2[2].substring(0,10));
-		    assertEquals("34.8101319",arr2[3].substring(0,10));
-		    assertEquals("27.105728",arr2[4].substring(0,9));	
+		    assertEquals("32.1680658",arr2[2].substring(0,10));
+		    assertEquals("34.8101188",arr2[3].substring(0,10));
+		    assertEquals("27.1140817",arr2[4].substring(0,10));
            }
 		
 	   catch(IOException ex) {
