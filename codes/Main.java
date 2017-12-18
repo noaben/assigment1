@@ -10,6 +10,7 @@ public class Main {
 
 		String folder="wifiFolder";
 		String CSVpath="wificsv.csv";
+		String weightedMac="weightedMac.csv";
 		
 	        combiningData.toCSV(folder, CSVpath);
 		
@@ -28,7 +29,8 @@ public class Main {
        //	String requiredData = "2017-11-01 14:24";
 		
 		
-
+               processingData.CSVtoKML(CSVpath, KMLpath, filter, filterBy, requiredData, weightedMac);
+		
       	       processingData.listOrganized( "_comb_all_BM2_.csv",processingData.list("_comb_all_BM2_.csv",filter, filterBy, requiredData),"Algo1_4_BM2_comb_all_.csv");
       	       processingData.listOrganized( "_comb_all_BM3_.csv",processingData.list("_comb_all_BM3_.csv",filter, filterBy, requiredData),"Algo1_4_BM3_comb_all_.csv");
                algorithms.findPlaceAlgorithm2( "_comb_all_BM3_.csv", "_comb_no_gps_ts1.csv","Algo2_BM3_TS1_.csv");
