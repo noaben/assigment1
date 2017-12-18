@@ -1,0 +1,65 @@
+
+	public static void thirdrootSort(int[] A1){
+		int sqrt=(int)Math.cbrt(A1.length);//O(1)
+		if(sqrt*sqrt*sqrt<A1.length){//O(1)
+			 sqrt++;
+		}
+		
+		int kvuzutA1=(int)(A1.length/(sqrt));//O(1)
+		while (sqrt*kvuzutA1<A1.length){//O(1)
+			kvuzutA1++;
+		}
+		int kvozutA2=(int)(kvuzutA1/(sqrt));//O(1)
+		while (sqrt*kvozutA2<kvuzutA1){//O(1)
+			kvozutA2++;
+		}
+		int kvozutA3=(int)(kvozutA2/(sqrt));//O(1)
+		while (sqrt*kvozutA3<kvozutA2){//O(1)
+			kvozutA3++;
+		}
+		  
+		int A2[]=new int [kvuzutA1];//O(1)
+    	int A3[]=new int [kvozutA2];//O(1)
+ 
+		int c=0;
+			
+		    for (int b=0;b<kvuzutA1;b=b+1){//O(n^2/3)
+		    	int minb=Math.min((b+1)*sqrt,A1.length);
+			     A2[b]=A1[FindMax(A1,b*sqrt,minb)];//O(n^1/3)
+			     if ((b+1)%sqrt==0) {//O(n^1/3)
+			        	A3[c++]=A2[FindMax(A2,b+1-sqrt,b+1)];//O(n^1/3)
+				    
+			     }
+		    }
+		     
+	   if ((c)<kvozutA2){
+	    A3[c]=A2[FindMax(A2,c*sqrt,A2.length)];//O(n^1/3)
+	    
+	    }
+	  
+	    
+	    print(A1,sqrt,kvuzutA1);
+    	print(A2,sqrt,kvozutA2);
+    	print(A3,sqrt,kvozutA3);
+	  
+	
+		for (int t=0;t<A1.length;t++){//O(n). n=A1.length
+		    int max3=FindMax(A3,0,A3.length);  //O(n^1/3)
+		    int min2=Math.min((max3*sqrt+sqrt),A2.length);//O(1)
+		    int max2=FindMax(A2,max3*sqrt,min2);//O(n^1/3)
+		    int min=Math.min((max2*sqrt+sqrt),A1.length);//O(1)
+		    int max1=FindMax(A1,(max2*sqrt),min);//O(n^1/3)
+	        System.out.println(A1[max1]);
+	        A1[max1]=-1;//O(1)
+	        A2[max2]=A1[FindMax(A1,(max2*sqrt),min)];//O(n^1/3)
+	        A3[max3]=A2[FindMax(A2,(max3*sqrt),min2)];//O(n^1/3)
+	    
+	    	print(A1,sqrt,kvuzutA1);
+	    	print(A2,sqrt,kvozutA2);
+	    	print(A3,sqrt,kvozutA3);
+		  
+		    
+		}
+		    }
+		
+
