@@ -10,12 +10,8 @@ public class Main {
 
 		String folder="wifiFolder";
 		String CSVpath="wificsv.csv";
-		String algo2="Algo2.csv";
-		String no_gps="no_gps.csv";
-		String weightedMAC="Algo1.csv";
 		
-		q2.toCSV(folder, CSVpath);
-
+	        combiningData.toCSV(folder, CSVpath);
 		
 		String KMLpath = "kmlFile.kml";
 		
@@ -23,26 +19,22 @@ public class Main {
 	//	String filter="filtering";
 		
                 String filterBy = "Place";
-           	String requiredData = "34.8160003,32.1628765";
+             	String requiredData = "34.8160003,32.1628765";
 		
-      //	String filterBy = "ID";
-      //	String requiredData = "ONEPLUS A3010_28_171012";
+	//	String filterBy = "ID";
+	//	String requiredData = "ONEPLUS A3010_28_171012";
 		
-      //        String filterBy = "Time";
-      //   	String requiredData = "2017-11-01 14:24";
+       //       String filterBy = "Time";
+       //	String requiredData = "2017-11-01 14:24";
 		
 		
-	        q3.CSVtoKML(CSVpath, KMLpath,filter, filterBy, requiredData,weightedMAC);
-		
-	        q3.findPlaceAlgorithm2( CSVpath,  no_gps,algo2);
-		
-		q2.toCSV("BM1_wifiscans","comb_BM1.csv");
-		
-	        q3.CSVtoKML("comb_BM1.csv", "BM1_kml.kml",filter, filterBy, requiredData,"Algo1_test_BM1_comb_all_.csv");
-	
-		q2.toCSV("BM1_4", "BM1_4_comb.csv");
-		
-		q3.findPlaceAlgorithm2( "BM1_4_comb.csv",  "no_gps_BM1_3.csv", "Algo2_test_BM1_4_3.csv");
+
+      	       processingData.listOrganized( "_comb_all_BM2_.csv",processingData.list("_comb_all_BM2_.csv",filter, filterBy, requiredData),"Algo1_4_BM2_comb_all_.csv");
+      	       processingData.listOrganized( "_comb_all_BM3_.csv",processingData.list("_comb_all_BM3_.csv",filter, filterBy, requiredData),"Algo1_4_BM3_comb_all_.csv");
+               algorithms.findPlaceAlgorithm2( "_comb_all_BM3_.csv", "_comb_no_gps_ts1.csv","Algo2_BM3_TS1_.csv");
+               algorithms.findPlaceAlgorithm2( "_comb_all_BM3_.csv", "_comb_no_gps_ts2_.csv","Algo2_BM3_TS2.csv");
+               algorithms.findPlaceAlgorithm2( "_comb_all_BM2_.csv", "_comb_no_gps_ts1.csv","Algo2_BM2_TS1.csv");
+	       algorithms.findPlaceAlgorithm2( "_comb_all_BM2_.csv", "_comb_no_gps_ts2_.csv","Algo2_BM2_TS2.csv");
 		
 	}
 
