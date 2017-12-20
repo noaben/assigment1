@@ -1,4 +1,4 @@
-package noa;
+package matala001;
 
 import static org.junit.Assert.*;
 
