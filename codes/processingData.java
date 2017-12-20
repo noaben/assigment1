@@ -1,4 +1,4 @@
-package noa;
+package matala001;
 
 import java.io.BufferedReader;
 
@@ -35,7 +35,9 @@ public class processingData implements Filter{
 	 */
 	public static boolean CSVtoKML(String csvpath, String kmlpath, String filter, String filterBy, String requiredData,String weightedMAC){
 		LinkedList<Wifi> listofWifi=listOrganized(csvpath,list(csvpath,filter, filterBy, requiredData),weightedMAC);
-		boolean s= kml(listofWifi, kmlpath);
+		boolean s=false;
+		if(listofWifi!=null){
+		 s= kml(listofWifi, kmlpath);}
 		if(s){
 			System.out.println("export to KML succeed!");
 			return true;
@@ -169,6 +171,8 @@ public class processingData implements Filter{
 
 		LinkedList<Wifi> updateList = new LinkedList<Wifi>();
 		LinkedList<MAC> w_center = new LinkedList<MAC>();
+		
+		
 		
 		while(wifilist.size()>0){ 
 			//take the first point in the list
