@@ -29,8 +29,8 @@ public class Main {
 		
                processingData.CSVtoKML(CSVpath, KMLpath, filter, filterBy, requiredData,5, weightedMac);
 		
-      	       processingData.listOrganized( "_comb_all_BM2_.csv",processingData.list("_comb_all_BM2_.csv",filter, filterBy, requiredData),5,"Algo1_4_BM2_comb_all_.csv");
-      	       processingData.listOrganized( "_comb_all_BM3_.csv",processingData.list("_comb_all_BM3_.csv",filter, filterBy, requiredData),5,"Algo1_4_BM3_comb_all_.csv");
+      	       processingData.listOrganized( "_comb_all_BM2_.csv",processingData.list("_comb_all_BM2_.csv",filter, filterBy, requiredData),4,"Algo1_4_BM2_comb_all_.csv");
+      	       processingData.listOrganized( "_comb_all_BM3_.csv",processingData.list("_comb_all_BM3_.csv",filter, filterBy, requiredData),4,"Algo1_4_BM3_comb_all_.csv");
                algorithms.findPlaceAlgorithm2( "_comb_all_BM3_.csv", "_comb_no_gps_ts1.csv",4,10000,0.4,2,"Algo2_BM3_TS1_.csv");
                algorithms.findPlaceAlgorithm2( "_comb_all_BM3_.csv", "_comb_no_gps_ts2_.csv",4,10000,0.4,2,"Algo2_BM3_TS2.csv");
                algorithms.findPlaceAlgorithm2( "_comb_all_BM2_.csv", "_comb_no_gps_ts1.csv",4,10000,0.4,2,"Algo2_BM2_TS1.csv");
