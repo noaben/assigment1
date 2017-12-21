@@ -161,13 +161,13 @@ public class processingData implements Filter{
 	 * @return organized LinkedList of the wifi's points
 	 */
 	
-	public static LinkedList <Wifi> listOrganized (String csvpath,LinkedList <Wifi> list,String weightedMAC){
-		LinkedList <Wifi> wifis=organize(csvpath, list, weightedMAC);
+	public static LinkedList <Wifi> listOrganized (String csvpath,LinkedList <Wifi> list,int n,String weightedMAC){
+		LinkedList <Wifi> wifis=organize(csvpath, list,n, weightedMAC);
 		return wifis;
 	}
 	
 
-	private static LinkedList<Wifi> organize(String csvpath,LinkedList<Wifi> wifilist,String weightedMAC){
+	private static LinkedList<Wifi> organize(String csvpath,LinkedList<Wifi> wifilist,int n,String weightedMAC){
 
 		LinkedList<Wifi> updateList = new LinkedList<Wifi>();
 		LinkedList<MAC> w_center = new LinkedList<MAC>();
@@ -189,7 +189,7 @@ public class processingData implements Filter{
 					i--;
 				   }
 			    }
-			w_center.add(algorithms.findPlaceAlgorithm1(csvpath,max.getMAC()));//getting weighted MAC
+			w_center.add(algorithms.findPlaceAlgorithm1(csvpath,max.getMAC(),n));//getting weighted MAC
 			updateList.add(new Wifi(max.getTime(),max.getID(),max.getLAT(),max.getLON(),max.getALT(),max.getSSID(),max.getMAC(),max.getFrequncy(),max.getSignal()));//adding the point with the weighted MAC to new list
 			
 		    }
