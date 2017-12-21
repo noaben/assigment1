@@ -12,18 +12,21 @@ import java.util.Vector;
 public class algorithms {
 
 
-	/**
+/**
 	 * @param path path to the combined CSV file 
+         * @param n number of strongest points
 	 * @param mac MAC
 	 * @return weighted LAN,LON,ALT of the MAC
 	 */
 	
-	
-	public static MAC findPlaceAlgorithm1(String path,String mac){
-		return findPlace1(path,mac);
+
+
+
+	public static MAC findPlaceAlgorithm1(String path, String mac,int n){
+		return findPlace1(path, mac,n);
 	}
 	
-	 private static MAC findPlace1(String csvpath, String mac){
+	 private static MAC findPlace1(String csvpath, String mac,int n){
 		   
 		    File file = new File(csvpath);   
 
@@ -66,23 +69,25 @@ public class algorithms {
 
 			//finding the points that equals the required MAC
 			boolean flag=false;
-			int n=0;
+			int t=0;
 		
 			LinkedList <Wifi>signals=new LinkedList <Wifi>();
 			
-	        while((wifilist.size()>n) && !flag){  
-	        	 if(wifilist.get(n).getMAC().equals(mac)){
-	        		     signals.add(wifilist.get(n));
+	        while((wifilist.size()>t) && !flag){  
+	        	 if(wifilist.get(t).getMAC().equals(mac)){
+	        		     signals.add(wifilist.get(t));
 	  
 	        	         }
-	        	 n++;
+	        	 t++;
 	             }
 	        
-			//finding the 5 points that has the best signal and calculating the weighted MAC
-			if (signals.size()>5){
+     
+
+			//finding the n points that has the best signal and calculating the weighted MAC
+			if (signals.size()>n){
 				
 				Vector <Wifi>maxSignals=new Vector <Wifi>();
-				for (int j=0;j<5;j++){
+				for (int j=0;j<n;j++){
 				     double max=Double.parseDouble(signals.get(0).getSignal());
 				     int maxPlace=0;
 				     for (int k=1;k<signals.size();k++){
@@ -94,21 +99,28 @@ public class algorithms {
 				    maxSignals.add(signals.get(maxPlace));
 				    signals.remove(maxPlace);
 				    }
-			   
-				
-		        double weight[]={Math.pow((1/(Double.parseDouble(maxSignals.get(0).getSignal()))),2),Math.pow((1/(Double.parseDouble(maxSignals.get(1).getSignal()))),2),Math.pow((1/(Double.parseDouble(maxSignals.get(2).getSignal()))),2),Math.pow((1/(Double.parseDouble(maxSignals.get(3).getSignal()))),2),Math.pow((1/(Double.parseDouble(maxSignals.get(4).getSignal()))),2)};
 
-		        double wLAT[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getLAT())),weight[1]*(Double.parseDouble(maxSignals.get(1).getLAT())),weight[2]*(Double.parseDouble(maxSignals.get(2).getLAT())),weight[3]*(Double.parseDouble(maxSignals.get(3).getLAT())),weight[4]*(Double.parseDouble(maxSignals.get(4).getLAT()))};
-		        double wLON[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getLON())),weight[1]*(Double.parseDouble(maxSignals.get(1).getLON())),weight[2]*(Double.parseDouble(maxSignals.get(2).getLON())),weight[3]*(Double.parseDouble(maxSignals.get(3).getLON())),weight[4]*(Double.parseDouble(maxSignals.get(4).getLON()))};
-		        double wAlt[]={weight[0]*(Double.parseDouble(maxSignals.get(0).getALT())),weight[1]*(Double.parseDouble(maxSignals.get(1).getALT())),weight[2]*(Double.parseDouble(maxSignals.get(2).getALT())),weight[3]*(Double.parseDouble(maxSignals.get(3).getALT())),weight[4]*(Double.parseDouble(maxSignals.get(4).getALT()))};
-	            double sum[]={weight[0]+weight[1]+weight[2]+weight[3]+weight[4],wLAT[0]+wLAT[1]+wLAT[2]+wLAT[3]+wLAT[4],wLON[0]+wLON[1]+wLON[2]+wLON[3]+wLON[4],wAlt[0]+wAlt[1]+wAlt[2]+wAlt[3]+wAlt[4]};
-	            double wSum[]={sum[1]/sum[0],sum[2]/sum[0],sum[3]/sum[0]};
+                        double weight[]=new double[n]; double wLAT[]=new double[n]; double wLON[]=new double[n]; double wAlt[]=new double[n]; double sum[]={0,0,0,0};
+                        
+                        for (int i=0;i<n;i++){
+                            weight[i]=Math.pow((1/(Double.parseDouble(maxSignals.get(i).getSignal()))),2);
+                            wLAT[i]=weight[i]*(Double.parseDouble(maxSignals.get(i).getLAT()));
+                            wLON[i]=weight[i]*(Double.parseDouble(maxSignals.get(i).getLON()));
+                            wAlt[i]=weight[i]*(Double.parseDouble(maxSignals.get(i).getALT()));
+
+                            }
+
+			for (int i=0;i<n;i++){
+                             sum[0]+=weight[i];sum[1]+=wLAT[i];sum[2]+=wLON[i];sum[3]+=wAlt[i];}
+                       
+		        
+	                double wSum[]={sum[1]/sum[0],sum[2]/sum[0],sum[3]/sum[0]};
 	      
-	            MAC macList=new MAC(mac,wSum[0],wSum[1],wSum[2]);
-	            return macList;
+	                MAC macList=new MAC(mac,wSum[0],wSum[1],wSum[2]);
+	                return macList;
 			    }
 			
-		  //there are less then 5 points with the same MAC
+		  //there are less then n points with the same MAC
 		  else{
 			  double weight[]=new double[signals.size()]; double wLAT[]=new double[signals.size()];double wLON[]=new double[signals.size()];double wAlt[]=new double[signals.size()]; double sum[]={0,0,0,0};
 			  
@@ -140,14 +152,15 @@ public class algorithms {
 	 * the function gets file with GPS points and file with no GPS points. the function finds estimated location, and writes him into a new file.
 	 * @param csvpath path to the unified CSV file 
 	 * @param no_gps path to the file with the missing GPS points
+         * @param n number of similar data
 	 * @param algo2 path to the file with the estimated place
 	 */
 	
-	public static void findPlaceAlgorithm2(String CSVpath,  String no_gps,String algo2){
-		findPlace2( CSVpath,  no_gps,algo2);
+	public static void findPlaceAlgorithm2(String CSVpath,  String no_gps,int n,double norm,double sig_diff,double power,String algo2){
+		findPlace2( CSVpath,  no_gps,n,norm,sig_diff,power,algo2);
 	}
 	
-	private static void findPlace2( String CSVpath,  String no_gps,String algo2){
+	private static void findPlace2( String CSVpath,  String no_gps,int n,double norm,double sig_diff,double power,String algo2){
 		
 		 FileWriter writer;
 
@@ -209,9 +222,13 @@ public class algorithms {
                    
 			        br2.readLine();
 			        str2=br2.readLine();
+
+                   boolean flag2=false; //no match at all the file
+
 			        
 			        while(str2!=null){
-			            	 
+                                        
+			               
 			                arr2=str2.split(",");
 				
 			            	//reading data of signal and MAC for every line from the combined file
@@ -232,6 +249,7 @@ public class algorithms {
 				          	                 signalMatch[i]=Double.parseDouble(signal[j]);//if the MAC matches,take the signal from the combined file
 				        	                 diff[i]=Math.max(3,Math.abs(signalMatch[i]-Double.parseDouble(signalPoint[i])));//difference of the signals
 				        	                 flag=false;
+                                                                 flag2=true;
 				                            }
 				                        }
 				        
@@ -240,7 +258,7 @@ public class algorithms {
 				           	          diff[i]=100;//if the MAC doesn't match,take 100 to be the diff
 				                      }
 	
-				                 w[i]=10000/(Math.pow(diff[i],0.4)*Math.pow(Double.parseDouble(signalPoint[i]),2));
+				                 w[i]=norm/(Math.pow(diff[i],sig_diff)*Math.pow(Double.parseDouble(signalPoint[i]),power));
 				
 				                }
 			
@@ -258,10 +276,10 @@ public class algorithms {
 		
 		        
 		            
-		         //take the 4 lines that their weight is the biggest
+		         //take the n lines that their weight is the biggest
 		         LinkedList <Weight> maxP=new LinkedList <Weight>();
-		         int n=4;
-		
+		          
+                         if (flag2){
 		         for (int i=0;i<n;i++){
 		         	maxP.add(new Weight(p.get(i)));
 			        for (int j=i+1;j<p.size();j++)
@@ -274,23 +292,26 @@ public class algorithms {
 		            }
 		
 		        //get the estimated place
-		        double weight[]=new double[n];double wLAT[]=new double[n]; double wLON[]=new double[n];double wAlt[]=new double[n];double sum[]=new double[n];
+		        double weight[]=new double[n];double wLAT[]=new double[n]; double wLON[]=new double[n];double wAlt[]=new double[n];double sum[]={0,0,0,0};
 		        for (int i=0;i<n;i++){
 		        weight[i]=maxP.get(i).getW();
 	            wLAT[i]=maxP.get(i).getLAT()* weight[i];
 	            wLON[i]=maxP.get(i).getLON()*weight[i];
 	            wAlt[i]=maxP.get(i).getALT()* weight[i];
-	            sum[i]=0;
+	       
 		        }
 		        
 		        for (int i=0;i<n;i++){
                      sum[0]+=weight[i];sum[1]+=wLAT[i];sum[2]+=wLON[i];sum[3]+=wAlt[i];}
 		        	
                 double wSum[]={sum[1]/sum[0],sum[2]/sum[0],sum[3]/sum[0]};
+                         
 			
                 //writing the GPS data to a new file
-
-	        	writer.append(arr1[0]+','+arr1[1]+','+wSum[0]+','+wSum[1]+','+wSum[2]+',');
+                      
+	        	    writer.append(arr1[0]+','+arr1[1]+','+wSum[0]+','+wSum[1]+','+wSum[2]+',');}
+                        else
+                            writer.append(arr1[0]+','+arr1[1]+','+null+','+null+','+null+',');
 			
 	        	for (int i=5;i<arr1.length;i++)
 			      	writer.append(arr1[i]+',');
