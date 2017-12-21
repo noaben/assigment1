@@ -108,8 +108,8 @@ public class processingData implements Filter{
 							wifilist.add(new Wifi(arr[0], arr[1], arr[2], arr[3], arr[4], arr[4*i+6], arr[4*i+7], arr[4*i+8], arr[4*i+9]));
 
 					str=br.readLine();
-				}
-			}
+				        }
+			        }
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -201,16 +201,16 @@ public class processingData implements Filter{
 			writer.append('\n');
 			int i=0;
 			
-		    while(updateList.size()>i){
+		        while(updateList.size()>i){
 			     writer.append(Integer.toString(i)+','+updateList.get(i).getMAC()+','+updateList.get(i).getSSID()+','+updateList.get(i).getFrequncy()+','+updateList.get(i).getSignal()+','+w_center.get(i).getLAT()+','+w_center.get(i).getLON()+','+w_center.get(i).getALT()+','+updateList.get(i).getTime()+','+"Approx. w-center algo1"+',');
 			     writer.append('\n');
 		         i++;
 		         }
 		    
-		    writer.flush();
-		    writer.close();
+		        writer.flush();
+		        writer.close();
 
-     	} catch (IOException e) {System.out.println("destination unreachable /n "+e);}
+        	} catch (IOException e) {System.out.println("destination unreachable /n "+e);}
 		
 		return updateList;
 	}
