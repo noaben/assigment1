@@ -1,15 +1,22 @@
 package matala001;
 
-public class Main {
 
+import java.util.LinkedList;
+
+public class Main {
+    
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		
+		 
 		String folder="wifiFolder";
 		String CSVpath="wificsv.csv";
 		String weightedMac="weightedMac.csv";
 		
+		LinkedList <Wifi> data_base=combiningData.list(folder);
+
 	        combiningData.toCSV(folder, CSVpath);
 		
 		String KMLpath = "kmlFile.kml";
@@ -27,15 +34,15 @@ public class Main {
        //	String requiredData = "2017-11-01 14:24";
 		
 		
-               processingData.CSVtoKML(CSVpath, KMLpath, filter, filterBy, requiredData,5, weightedMac);
+               processingData.CSVtoKML(CSVpath, KMLpath, filter, filterBy, requiredData,5, weightedMac,"yes");
 		
-      	       processingData.listOrganized( "_comb_all_BM2_.csv",processingData.list("_comb_all_BM2_.csv",filter, filterBy, requiredData),4,"Algo1_4_BM2_comb_all_.csv");
-      	       processingData.listOrganized( "_comb_all_BM3_.csv",processingData.list("_comb_all_BM3_.csv",filter, filterBy, requiredData),4,"Algo1_4_BM3_comb_all_.csv");
+      	       processingData.listOrganized( "_comb_all_BM2_.csv",processingData.list("_comb_all_BM2_.csv",filter, filterBy, requiredData,"yes"),4,"Algo1_4_BM2_comb_all_.csv");
+      	       processingData.listOrganized( "_comb_all_BM3_.csv",processingData.list("_comb_all_BM3_.csv",filter, filterBy, requiredData,"yes"),4,"Algo1_4_BM3_comb_all_.csv");
                algorithms.findPlaceAlgorithm2( "_comb_all_BM3_.csv", "_comb_no_gps_ts1.csv",4,10000,0.4,2,"Algo2_BM3_TS1_.csv");
                algorithms.findPlaceAlgorithm2( "_comb_all_BM3_.csv", "_comb_no_gps_ts2_.csv",4,10000,0.4,2,"Algo2_BM3_TS2.csv");
                algorithms.findPlaceAlgorithm2( "_comb_all_BM2_.csv", "_comb_no_gps_ts1.csv",4,10000,0.4,2,"Algo2_BM2_TS1.csv");
 	       algorithms.findPlaceAlgorithm2( "_comb_all_BM2_.csv", "_comb_no_gps_ts2_.csv",4,10000,0.4,2,"Algo2_BM2_TS2.csv");
 		
 	}
-
 }
+
