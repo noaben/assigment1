@@ -109,8 +109,7 @@ public class frame1 {
 	 */
 	private void initialize(LinkedList <Wifi> data_base,LinkedList <Wifi> data_not_filtered,ArrayList <File> folder,ArrayList <Long> folder_last_modified, ArrayList <File> combs,ArrayList <Long> combs_last_modified,String s[]) {
 		
-		
-		frame = new JFrame();
+				frame = new JFrame();
 		frame.setBounds(100, 100, 850,550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -197,17 +196,14 @@ public class frame1 {
 		frame.getContentPane().add(alt_2);
 		
 		atTime = new JCheckBox("atRange");
-		
 		atTime.setBounds(662, 175, 80, 23);
 		frame.getContentPane().add(atTime);
 		
 		atPlace = new JCheckBox("atRange");
-		
 		atPlace.setBounds(662, 206, 80, 23);
 		frame.getContentPane().add(atPlace);
 		
 		atDevice = new JCheckBox("equals");
-		
 		atDevice.setBounds(664, 235, 66, 23);
 		frame.getContentPane().add(atDevice);
 		
@@ -247,13 +243,11 @@ public class frame1 {
 		
 		chckbxCombcsv = new JCheckBox("enter comb_csv (aaaaa.csv):");
 		chckbxCombcsv.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
 		chckbxCombcsv.setBounds(10, 64, 212, 23);
 		frame.getContentPane().add(chckbxCombcsv);
 		
 		chckbxErasedata = new JCheckBox("erase_data_structure");
 		chckbxErasedata.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
 		chckbxErasedata.setBounds(10, 90, 197, 23);
 		frame.getContentPane().add(chckbxErasedata);
 		
@@ -271,19 +265,16 @@ public class frame1 {
 		
 		comb_output = new JCheckBox("export to \"comb.csv\"");
 		comb_output.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
 		comb_output.setBounds(373, 38, 197, 23);
 		frame.getContentPane().add(comb_output);
 		
 		chckbxKmlfile = new JCheckBox("get_info_of_data_structure");
 		chckbxKmlfile.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
 		chckbxKmlfile.setBounds(373, 90, 209, 23);
 		frame.getContentPane().add(chckbxKmlfile);
 		
 		chckbxKmlfileaaaaakml = new JCheckBox("export to \"data.kml\"");
 		chckbxKmlfileaaaaakml.setFont(new Font("Tahoma", Font.BOLD, 11));
-			        	
 		chckbxKmlfileaaaaakml.setBounds(373, 64, 209, 23);
 		frame.getContentPane().add(chckbxKmlfileaaaaakml);
 		
@@ -308,13 +299,15 @@ public class frame1 {
 		frame.getContentPane().add(txtByDevice);
 		txtByDevice.setColumns(10);
 		
-		notAtTime = new JCheckBox("notAtRange");	
-			
+		notAtTime = new JCheckBox("notAtRange");
+		notAtTime.setBounds(744, 175, 120, 23);
+		frame.getContentPane().add(notAtTime);
+		
+		notAtPlace = new JCheckBox("notAtRange");	
 		notAtPlace.setBounds(744, 206, 97, 23);
 		frame.getContentPane().add(notAtPlace);
 		
-		notAtDevice = new JCheckBox("notEquals");			
-		
+		notAtDevice = new JCheckBox("notEquals");
 		notAtDevice.setBounds(744, 235, 97, 23);
 		frame.getContentPane().add(notAtDevice);
 		
@@ -330,7 +323,7 @@ public class frame1 {
 		String [] yes_not1={"","yes","not"};
 		String [] or_and1={"","or","and"};
 		
-	        filter1 = new JComboBox(filters);
+	    filter1 = new JComboBox(filters);
 		filter1.setBounds(213, 314, 97, 20);
 		frame.getContentPane().add(filter1);
 		
@@ -370,8 +363,7 @@ public class frame1 {
 		textField_3.setBounds(647, 314, 15, 20);
 		frame.getContentPane().add(textField_3);
 		
-		at2 = new JCheckBox("filter");		
-				    
+		at2 = new JCheckBox("filter");	    
 		at2.setBounds(668, 313, 97, 23);
 		frame.getContentPane().add(at2);
 		
@@ -409,7 +401,6 @@ public class frame1 {
 		
 		chckbxNewCheckBox_1 = new JCheckBox("enter comb_no_gps_string:");
 		chckbxNewCheckBox_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
 		chckbxNewCheckBox_1.setBounds(10, 427, 197, 23);
 		frame.getContentPane().add(chckbxNewCheckBox_1);
 		
@@ -419,7 +410,6 @@ public class frame1 {
 		
 		chckbxEnterOr = new JCheckBox("enter 1-3 pairs of MAC and signal:");
 		chckbxEnterOr.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
 		chckbxEnterOr.setBounds(10, 453, 237, 23);
 		frame.getContentPane().add(chckbxEnterOr);
 		
@@ -455,11 +445,6 @@ public class frame1 {
 		data3 = new JTextPane();
 		data3.setBounds(710, 480, 111, 20);
 		frame.getContentPane().add(data3);
-		
-		notAtTime.setBounds(744, 175, 120, 23);
-		frame.getContentPane().add(notAtTime);
-		
-		notAtPlace = new JCheckBox("notAtRange");
 		
 		atTime.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -749,7 +734,7 @@ public class frame1 {
                                         if (not_yes_filter2.getSelectedItem().equals("not")) getFilter+=" )";
                                         if (not_yes.getSelectedItem().equals("not")) getFilter+=" )";
 				        }
-                               if (getFilter.equals("filter: ")) getFilter+="the data isn't filtered";
+                               if (getFilter.equals("filter: ")) getFilter+="no filter has been selected";
                
                                JOptionPane.showMessageDialog(null,"number of recordings: "+data_base.size()+"  number of MAC's:"+data2.size()+"  "+getFilter);
 			       chckbxKmlfile.setSelected(false);
