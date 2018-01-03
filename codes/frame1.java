@@ -1,4 +1,4 @@
-package noa;
+package matala001;
 
 import java.awt.EventQueue;
 
@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
@@ -29,7 +30,8 @@ import java.awt.Font;
 
 public class frame1 {
 
-	private JFrame frame;
+	protected JFrame frame;
+	private JComboBox filter1;
 	private JTextField txtInputoutput;
 	private JTextField txtFilters;
 	private JTextField txtAlgorithms;
@@ -44,9 +46,9 @@ public class frame1 {
 	private JTextPane lat_2;
 	private JTextPane lon_2;
 	private JTextPane alt_2;
-	private JCheckBox chckbxNewCheckBox;
-	private JCheckBox chckbxByPlacelatlonalt;
-	private JCheckBox chckbxByDevice;
+	private JCheckBox atTime;
+	private JCheckBox atPlace;
+	private JCheckBox atDevice;
 	private JTextPane date_1;
 	private JTextPane hour_1;
 	private JTextPane date_2;
@@ -65,9 +67,9 @@ public class frame1 {
 	private JTextField txtByDateddmmyyyy;
 	private JTextField txtByPlacelatlonalt;
 	private JTextField txtByDevice;
-	private JCheckBox dateNotatrange;
-	private JCheckBox placeNotatrange;
-	private JCheckBox chckbxNotequals;
+	private JCheckBox notAtTime;
+	private JCheckBox notAtPlace;
+	private JCheckBox notAtDevice;
 	private JTextField txtFilterBy;
 	private JComboBox not_yes;
 	private JTextField textField_2;
@@ -76,7 +78,7 @@ public class frame1 {
 	private JComboBox not_yes_filter2;
 	private JComboBox filter2;
 	private JTextField textField_3;
-	private JCheckBox filter_2_values;
+	private JCheckBox at2;
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
@@ -94,33 +96,18 @@ public class frame1 {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		LinkedList <Wifi> data_base=new LinkedList <Wifi> ();
-		LinkedList <Wifi> data_not_filtered=new LinkedList <Wifi> ();
-	//	EventQueue.invokeLater(new Runnable() {
-		//	public void run() {
-			//	try {
-					frame1 window = new frame1(data_base,data_not_filtered);
-					window.frame.setVisible(true);
-					System.out.println(data_base.size());
-			//	} catch (Exception e) {
-				//	e.printStackTrace();
-		//		}
-	//		}
-		//});
-	}
-
+	
 	/**
 	 * Create the application.
 	 */
-	public frame1(LinkedList <Wifi> data_base, LinkedList <Wifi> data_not_filtered) {
-		initialize(data_base,data_not_filtered);
+	public frame1(LinkedList <Wifi> data_base, LinkedList <Wifi> data_not_filtered,ArrayList <File> folder,ArrayList <Long> folder_last_modified, ArrayList <File> combs,ArrayList <Long> combs_last_modified,String s[]) {
+		initialize(data_base,data_not_filtered,folder,folder_last_modified,combs,combs_last_modified,s);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(LinkedList <Wifi> data_base,LinkedList <Wifi> data_not_filtered) {
+	private void initialize(LinkedList <Wifi> data_base,LinkedList <Wifi> data_not_filtered,ArrayList <File> folder,ArrayList <Long> folder_last_modified, ArrayList <File> combs,ArrayList <Long> combs_last_modified,String s[]) {
 		
 		
 		frame = new JFrame();
@@ -209,21 +196,22 @@ public class frame1 {
 		alt_2.setBounds(583, 207, 48, 20);
 		frame.getContentPane().add(alt_2);
 		
-		chckbxNewCheckBox = new JCheckBox("atRange");
-		chckbxNewCheckBox.addActionListener(new ActionListener() {
+		atTime = new JCheckBox("atRange");
+		atTime.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (chckbxNewCheckBox.isSelected()==false){
+				if (atTime.isSelected()==false){
 					data_base.clear();
 				    data_base.addAll(data_not_filtered);
 				    data_not_filtered.clear();
 				    JOptionPane.showMessageDialog(null,"the filter was cancelled");
 				    date_1.setText(""); date_2.setText("");hour_1.setText(""); hour_2.setText("");
-				    chckbxByPlacelatlonalt.setEnabled(true);
-			        chckbxByDevice.setEnabled(true);
-			        dateNotatrange.setEnabled(true);
-			        placeNotatrange.setEnabled(true);
-			        chckbxNotequals.setEnabled(true);
-			        filter_2_values.setEnabled(true);
+				    atPlace.setEnabled(true);
+			        atDevice.setEnabled(true);
+			        notAtTime.setEnabled(true);
+			        notAtPlace.setEnabled(true);
+			        notAtDevice.setEnabled(true);
+			        at2.setEnabled(true);
+			        s[0]="0";
 				    }
 				else{
 				    String date1,date2,hour1,hour2;
@@ -243,45 +231,50 @@ public class frame1 {
 				            data_base.clear();
 				            data_base.addAll(processingData.list("c.csv", "filtering", "Time", str1,"yes"));
 				            JOptionPane.showMessageDialog(null,"the data was filtered");
-				            chckbxByPlacelatlonalt.setEnabled(false);
-					        chckbxByDevice.setEnabled(false);
-					        dateNotatrange.setEnabled(false);
-					        placeNotatrange.setEnabled(false);
-					        chckbxNotequals.setEnabled(false);
-					        filter_2_values.setEnabled(false);}
+				            atPlace.setEnabled(false);
+					        atDevice.setEnabled(false);
+					        notAtTime.setEnabled(false);
+					        notAtPlace.setEnabled(false);
+					        notAtDevice.setEnabled(false);
+					        at2.setEnabled(false);
+				            s[0]="1";
+				            s[1]="yes";
+				            s[2]="Time";
+				            s[3]=str1;}
 				       else{
 				      	    JOptionPane.showMessageDialog(null,"please enter valid format");
-				      	    chckbxNewCheckBox.setSelected(false);
+				      	    atTime.setSelected(false);
 				      	    date_1.setText(""); date_2.setText("");hour_1.setText(""); hour_2.setText("");
 				    
 				    	   }
 			           }
 			       catch(Exception e1){JOptionPane.showMessageDialog(null,"please enter valid format");
-			       chckbxNewCheckBox.setSelected(false);
+			       atTime.setSelected(false);
 			       date_1.setText(""); date_2.setText("");hour_1.setText(""); hour_2.setText("");
 			       }}}}
 				
 				    
 			
 		);
-		chckbxNewCheckBox.setBounds(662, 175, 80, 23);
-		frame.getContentPane().add(chckbxNewCheckBox);
+		atTime.setBounds(662, 175, 80, 23);
+		frame.getContentPane().add(atTime);
 		
-		chckbxByPlacelatlonalt = new JCheckBox("atRange");
-		chckbxByPlacelatlonalt.addActionListener(new ActionListener() {
+		atPlace = new JCheckBox("atRange");
+		atPlace.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			if (chckbxByPlacelatlonalt.isSelected()==false){
+			if (atPlace.isSelected()==false){
 				data_base.clear();
 			    data_base.addAll(data_not_filtered);
 			    data_not_filtered.clear();
 			    JOptionPane.showMessageDialog(null,"the filter was cancelled");
 			    lat_1.setText("");lat_2.setText("");lon_1.setText("");lon_2.setText("");alt_1.setText("");alt_2.setText("");
-			    chckbxNewCheckBox.setEnabled(true);
-		        chckbxByDevice.setEnabled(true);
-		        dateNotatrange.setEnabled(true);
-		        placeNotatrange.setEnabled(true);
-		        chckbxNotequals.setEnabled(true);
-		        filter_2_values.setEnabled(true);
+			    atTime.setEnabled(true);
+		        atDevice.setEnabled(true);
+		        notAtTime.setEnabled(true);
+		        notAtPlace.setEnabled(true);
+		        notAtDevice.setEnabled(true);
+		        at2.setEnabled(true);
+		        s[0]="0";
 			}
 			else{
 			double lat1,lon1,alt1,lat2,lon2,alt2;
@@ -294,37 +287,42 @@ public class frame1 {
 		        data_base.clear();
 		        data_base.addAll(processingData.list("c.csv", "filtering", "Place", str,"yes"));
 		        JOptionPane.showMessageDialog(null,"the data was filtered");
-		        chckbxNewCheckBox.setEnabled(false);
-		        chckbxByDevice.setEnabled(false);
-		        dateNotatrange.setEnabled(false);
-		        placeNotatrange.setEnabled(false);
-		        chckbxNotequals.setEnabled(false);
-		        filter_2_values.setEnabled(false);
+		        atTime.setEnabled(false);
+		        atDevice.setEnabled(false);
+		        notAtTime.setEnabled(false);
+		        notAtPlace.setEnabled(false);
+		        notAtDevice.setEnabled(false);
+		        at2.setEnabled(false);
+		        s[0]="1";
+	            s[1]="yes";
+	            s[2]="Place";
+	            s[3]=str;
 		        }
 		    			
 			catch(Exception e1){JOptionPane.showMessageDialog(null,"please enter valid numbers");
 		     	lat_1.setText("");lat_2.setText("");lon_1.setText("");lon_2.setText("");alt_1.setText("");alt_2.setText("");
-			    chckbxByPlacelatlonalt.setSelected(false);}
+			    atPlace.setSelected(false);}
 			}}
 		});
-		chckbxByPlacelatlonalt.setBounds(662, 206, 80, 23);
-		frame.getContentPane().add(chckbxByPlacelatlonalt);
+		atPlace.setBounds(662, 206, 80, 23);
+		frame.getContentPane().add(atPlace);
 		
-		chckbxByDevice = new JCheckBox("equals");
-		chckbxByDevice.addActionListener(new ActionListener() {
+		atDevice = new JCheckBox("equals");
+		atDevice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (chckbxByDevice.isSelected()==false){
+				if (atDevice.isSelected()==false){
 					data_base.clear();
 				    data_base.addAll(data_not_filtered);
 				    data_not_filtered.clear();
 				    JOptionPane.showMessageDialog(null,"the filter was cancelled");
 				    textDevice.setText("");
-				    chckbxNewCheckBox.setEnabled(true);
-				    chckbxByPlacelatlonalt.setEnabled(true);
-			        dateNotatrange.setEnabled(true);
-			        placeNotatrange.setEnabled(true);
-			        chckbxNotequals.setEnabled(true);
-			        filter_2_values.setEnabled(true);
+				    atTime.setEnabled(true);
+				    atPlace.setEnabled(true);
+			        notAtTime.setEnabled(true);
+			        notAtPlace.setEnabled(true);
+			        notAtDevice.setEnabled(true);
+			        at2.setEnabled(true);
+			        s[0]="0";
 				}
 				else{
 				String val=(String)textDevice.getText();
@@ -333,16 +331,20 @@ public class frame1 {
 		        data_base.clear();
 		        data_base.addAll(processingData.list("c.csv", "filtering", "ID", val,"yes"));
 		        JOptionPane.showMessageDialog(null,"the data was filtered");
-		        chckbxNewCheckBox.setEnabled(false);
-		        chckbxByPlacelatlonalt.setEnabled(false);
-		        dateNotatrange.setEnabled(false);
-		        placeNotatrange.setEnabled(false);
-		        chckbxNotequals.setEnabled(false);
-		        filter_2_values.setEnabled(false);}
+		        atTime.setEnabled(false);
+		        atPlace.setEnabled(false);
+		        notAtTime.setEnabled(false);
+		        notAtPlace.setEnabled(false);
+		        notAtDevice.setEnabled(false);
+		        at2.setEnabled(false);
+				s[0]="1";
+	            s[1]="yes";
+	            s[2]="ID";
+	            s[3]=val;}
 			}
 		});
-		chckbxByDevice.setBounds(664, 235, 66, 23);
-		frame.getContentPane().add(chckbxByDevice);
+		atDevice.setBounds(664, 235, 66, 23);
+		frame.getContentPane().add(atDevice);
 		
 		date_1 = new JTextPane();
 		date_1.setBounds(257, 176, 62, 20);
@@ -384,16 +386,27 @@ public class frame1 {
 		chckbxDatafolder.setFont(new Font("Tahoma", Font.BOLD, 11));
 		chckbxDatafolder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String folder=(String)dataFolder.getText();
+				String folder1=(String)dataFolder.getText();
 				try{
-				    File f = new File(folder);            
+				    File f = new File(folder1);            
 					File[] files = f.listFiles();   
 					int a=files.length;
-					LinkedList <Wifi> data=combiningData.list(folder);
-				     int size1=data_base.size();
-					data_base.addAll(data);	int size2=data_base.size();
-					JOptionPane.showMessageDialog(null,size2-size1+" recordings have been added to data structure");
+				    int size1=data_base.size();
 					
+					if (s[0].equals("0"))
+					data_base.addAll(combiningData.list(folder1));
+					if (s[0].equals("1")){
+						combiningData.listToCsv(combiningData.list(folder1), "c.csv");
+						data_base.addAll(processingData.list("c.csv", "filtering", s[2], s[3], s[1]));
+					}
+					if (s[0].equals("2")){
+						combiningData.listToCsv(combiningData.list(folder1), "c.csv");
+						data_base.addAll(processingData.list("c.csv", "filtering", s[2], s[3], s[1],s[5],s[6],s[4],s[7],s[8]));
+					}
+		            int size2=data_base.size();
+					JOptionPane.showMessageDialog(null,size2-size1+" recordings have been added to data structure");
+					folder.add(f);
+					folder_last_modified.add(f.lastModified());
 			    	}
 					catch(NullPointerException ex){
 						 JOptionPane.showMessageDialog(null,"folder does not exist");}
@@ -418,12 +431,21 @@ public class frame1 {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					String source=(String)comb_input.getText();
-					System.out.print(source);
-					LinkedList <Wifi> data=new LinkedList <Wifi>();
-			    	data.addAll(processingData.list(source, "no_filtering", "filterBy", "requiredData","yes"));
-			    	int size1=data_base.size();
-				    data_base.addAll(data);	int size2=data_base.size();
-				    JOptionPane.showMessageDialog(null,size2-size1+" recordings have been added to data structure");}
+					File t=new File(source);
+					int size1=data_base.size();
+					if (s[0].equals("0"))
+						data_base.addAll(processingData.list(source, "no_filtering", "filterBy", "requiredData","yes"));
+					if (s[0].equals("1"))
+						data_base.addAll(processingData.list(source, "filtering", s[2], s[3], s[1]));
+					if (s[0].equals("2"))
+							data_base.addAll(processingData.list(source, "filtering", s[2], s[3], s[1],s[5],s[6],s[4],s[7],s[8]));
+						
+		        	int size2=data_base.size();
+				    JOptionPane.showMessageDialog(null,size2-size1+" recordings have been added to data structure");
+				    combs.add(t);
+				    combs_last_modified.add(t.lastModified());
+				    
+				}
 			    catch(NullPointerException ex){
 					JOptionPane.showMessageDialog(null,"file does not exist");}
 			        
@@ -441,6 +463,7 @@ public class frame1 {
 		chckbxErasedata.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				data_base.clear();
+				folder.clear();folder_last_modified.clear(); combs.clear();combs_last_modified.clear();
 				if (data_base.size()==0) JOptionPane.showMessageDialog(null,"Data structure is empty");
 				chckbxErasedata.setSelected(false);
 				
@@ -482,7 +505,6 @@ public class frame1 {
 		chckbxKmlfile.setFont(new Font("Tahoma", Font.BOLD, 11));
 		chckbxKmlfile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(data_base.size());
 				LinkedList <Wifi> data=new LinkedList<Wifi>();
 				data.addAll(data_base);
 				combiningData.listToCsv(data,"t.csv");
@@ -490,8 +512,30 @@ public class frame1 {
 				data1.addAll(data_base);
 				LinkedList <Wifi> data2=new LinkedList<Wifi>();
 				data2.addAll(processingData.listOrganized ("t.csv",data1,5,"mac.csv"));
-				System.out.println(data.size());
-				JOptionPane.showMessageDialog(null,"number of recordings:"+data_base.size()+" number of MAC's:"+data2.size());
+                String getFilter="filter: ";
+                if (atPlace.isSelected()) getFilter+=(String)lat_1.getText()+"<Lat<"+(String)lat_2.getText()+" && "+(String)lon_1.getText()+"<Lon<"+lon_2.getText()+" && "+alt_1.getText()+"<Alt<"+alt_2.getText();
+                if (notAtPlace.isSelected()) getFilter+="!("+(String)lat_1.getText()+"<Lat<"+(String)lat_2.getText()+" && "+(String)lon_1.getText()+"<Lon<"+lon_2.getText()+" && "+alt_1.getText()+"<Alt<"+alt_2.getText()+")";
+                if (atTime.isSelected()) getFilter+=(String)date_1.getText()+" "+(String)hour_1.getText()+"<Time<"+(String)date_2.getText()+" "+(String)hour_2.getText();
+                if (notAtTime.isSelected()) getFilter+="!("+(String)date_1.getText()+" "+(String)hour_1.getText()+"<Time<"+(String)date_2.getText()+" "+(String)hour_2.getText()+")";
+                if (atDevice.isSelected()) getFilter+="Device="+(String)textDevice.getText();
+                if (notAtDevice.isSelected()) getFilter+="Device!="+(String)textDevice.getText();
+                if (at2.isSelected()){
+                if (not_yes.getSelectedItem().equals("not")) getFilter+="!(";
+                if (not_yes_filter1.getSelectedItem().equals("not")) getFilter+="!(";
+                if (filter1.getSelectedItem().equals("Place")) getFilter+="("+(String)lat_1.getText()+"<Lat<"+(String)lat_2.getText()+" && "+(String)lon_1.getText()+"<Lon<"+lon_2.getText()+" && "+alt_1.getText()+"<Alt<"+alt_2.getText()+")";
+                if (filter1.getSelectedItem().equals("Time")) getFilter+=(String)date_1.getText()+" "+(String)hour_1.getText()+"<Time<"+(String)date_2.getText()+" "+(String)hour_2.getText();
+                if (filter1.getSelectedItem().equals("Device")) getFilter+="Device="+(String)textDevice.getText();
+                if (not_yes_filter1.getSelectedItem().equals("not")) getFilter+=")";
+                if (and_or.getSelectedItem().equals("and")) getFilter+=" && "; else getFilter+=" || ";
+                if (not_yes_filter2.getSelectedItem().equals("not")) getFilter+=" !(";
+                if (filter2.getSelectedItem().equals("Place")) getFilter+="("+(String)lat_1.getText()+"<Lat<"+(String)lat_2.getText()+" && "+(String)lon_1.getText()+"<Lon<"+lon_2.getText()+" && "+alt_1.getText()+"<Alt<"+alt_2.getText()+")";
+                if (filter2.getSelectedItem().equals("Time")) getFilter+=(String)date_1.getText()+" "+(String)hour_1.getText()+"<Time<"+(String)date_2.getText()+" "+(String)hour_2.getText();
+                if (filter2.getSelectedItem().equals("Device")) getFilter+="Device="+(String)textDevice.getText();
+                if (not_yes_filter2.getSelectedItem().equals("not")) getFilter+=" )";
+                if (not_yes.getSelectedItem().equals("not")) getFilter+=" )";
+                }
+                    		
+                JOptionPane.showMessageDialog(null,"number of recordings: "+data_base.size()+"  number of MAC's:"+data2.size()+"  "+getFilter);
 			    chckbxKmlfile.setSelected(false);}
 				 
 				
@@ -540,27 +584,28 @@ public class frame1 {
 		frame.getContentPane().add(txtByDevice);
 		txtByDevice.setColumns(10);
 		
-		dateNotatrange = new JCheckBox("notAtRange");
-		dateNotatrange.addActionListener(new ActionListener() {
+		notAtTime = new JCheckBox("notAtRange");
+		notAtTime.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (dateNotatrange.isSelected()==false){
+				if (notAtTime.isSelected()==false){
 					data_base.clear();
 				    data_base.addAll(data_not_filtered);
 				    data_not_filtered.clear();
 				    JOptionPane.showMessageDialog(null,"the filter was cancelled");
-				    chckbxNewCheckBox.setEnabled(true);
-				    chckbxByPlacelatlonalt.setEnabled(true);
-				    chckbxByDevice.setEnabled(true);
-			        placeNotatrange.setEnabled(true);
-			        chckbxNotequals.setEnabled(true);
-			        filter_2_values.setEnabled(true);
+				    atTime.setEnabled(true);
+				    atPlace.setEnabled(true);
+				    atDevice.setEnabled(true);
+			        notAtPlace.setEnabled(true);
+			        notAtDevice.setEnabled(true);
+			        at2.setEnabled(true);
 			        date_1.setText(""); date_2.setText("");hour_1.setText(""); hour_2.setText("");
+			        s[0]="0";
 				    }
 				else{
 				String date1,date2,hour1,hour2;
 				date1=(String)date_1.getText();date2=(String)date_2.getText();
 				hour1=(String)hour_1.getText();hour2=(String)hour_2.getText();
-				System.out.println((date1.substring(2,3).equals("-")) && (date1.substring(5,6).equals("-")) && (date2.substring(2,3).equals("-")) && (date2.substring(5,6).equals("-")) && (hour1.substring(2,3).equals(":")) && (hour2.substring(2,3).equals(":")));
+				
 			    	try {
 				       if ((date1.substring(2,3).equals("-")) && (date1.substring(5,6).equals("-")) && (date2.substring(2,3).equals("-")) && (date2.substring(5,6).equals("-")) && (hour1.substring(2,3).equals(":")) && (hour2.substring(2,3).equals(":"))){
 					        int d1,d2,h1,h2;
@@ -575,47 +620,52 @@ public class frame1 {
 				            data_base.clear();
 				            data_base.addAll(processingData.list("c.csv", "filtering", "Time", str1,"not"));
 				            JOptionPane.showMessageDialog(null,"the data was filtered");
-				            chckbxNewCheckBox.setEnabled(false);
-						    chckbxByPlacelatlonalt.setEnabled(false);
-						    chckbxByDevice.setEnabled(false);
-					        placeNotatrange.setEnabled(false);
-					        chckbxNotequals.setEnabled(false);
-					        filter_2_values.setEnabled(false);
+				            atTime.setEnabled(false);
+						    atPlace.setEnabled(false);
+						    atDevice.setEnabled(false);
+					        notAtPlace.setEnabled(false);
+					        notAtDevice.setEnabled(false);
+					        at2.setEnabled(false);
+					        s[0]="1";
+				            s[1]="not";
+				            s[2]="Time";
+				            s[3]=str1;
 				            }
 				    
 				      else{
 				    	  JOptionPane.showMessageDialog(null,"please enter valid format");
-				    	  dateNotatrange.setSelected(false);
+				    	  notAtTime.setSelected(false);
 				    	  date_1.setText(""); date_2.setText("");hour_1.setText(""); hour_2.setText("");
 				    	  }
 			          }
 			          catch(Exception e1){JOptionPane.showMessageDialog(null,"please enter valid format");
-			          dateNotatrange.setSelected(false);
+			          notAtTime.setSelected(false);
 			    	  date_1.setText(""); date_2.setText("");hour_1.setText(""); hour_2.setText("");}
 				     }}}
 				
 				    
 			
 		);
-		dateNotatrange.setBounds(744, 175, 120, 23);
-		frame.getContentPane().add(dateNotatrange);
+		notAtTime.setBounds(744, 175, 120, 23);
+		frame.getContentPane().add(notAtTime);
 		
-		placeNotatrange = new JCheckBox("notAtRange");
-		placeNotatrange.addActionListener(new ActionListener() {
+		notAtPlace = new JCheckBox("notAtRange");
+		notAtPlace.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (placeNotatrange.isSelected()==false){
+				if (notAtPlace.isSelected()==false){
 					data_base.clear();
 				    data_base.addAll(data_not_filtered);
 				    data_not_filtered.clear();
 				    JOptionPane.showMessageDialog(null,"the filter was cancelled");
-				    chckbxNewCheckBox.setEnabled(true);
-				    chckbxByPlacelatlonalt.setEnabled(true);
-				    chckbxByDevice.setEnabled(true);
-			        dateNotatrange.setEnabled(true);
-			        dateNotatrange.setEnabled(true);
-			        chckbxNotequals.setEnabled(true);
-			        filter_2_values.setEnabled(true);
+				    atTime.setEnabled(true);
+				    atPlace.setEnabled(true);
+				    atDevice.setEnabled(true);
+			        notAtTime.setEnabled(true);
+			        notAtTime.setEnabled(true);
+			        notAtDevice.setEnabled(true);
+			        at2.setEnabled(true);
 					lat_1.setText("");lat_2.setText("");lon_1.setText("");lon_2.setText("");alt_1.setText("");alt_2.setText("");
+					s[0]="0";
 				}
 				else{
 				double lat1,lon1,alt1,lat2,lon2,alt2;
@@ -628,40 +678,43 @@ public class frame1 {
 			        data_base.clear();
 			        data_base.addAll(processingData.list("c.csv", "filtering", "Place", str,"not"));
 			        JOptionPane.showMessageDialog(null,"the data was filtered");
-			        chckbxNewCheckBox.setEnabled(false);
-				    chckbxByPlacelatlonalt.setEnabled(false);
-				    chckbxByDevice.setEnabled(false);
-			        dateNotatrange.setEnabled(false);
-			        dateNotatrange.setEnabled(false);
-			        chckbxNotequals.setEnabled(false);
-			        filter_2_values.setEnabled(false);}
+			        atTime.setEnabled(false);
+				    atPlace.setEnabled(false);
+				    atDevice.setEnabled(false);
+			        notAtTime.setEnabled(false);
+			        notAtDevice.setEnabled(false);
+			        at2.setEnabled(false);
+			        s[0]="1";
+		            s[1]="not";
+		            s[2]="Place";
+		            s[3]=str;}
 			    			
 				catch(Exception e1){JOptionPane.showMessageDialog(null,"please enter valid numbers");
-				placeNotatrange.setSelected(false);
+				notAtPlace.setSelected(false);
 				lat_1.setText("");lat_2.setText("");lon_1.setText("");lon_2.setText("");alt_1.setText("");alt_2.setText("");
 				}
 				}}
 			});
 			
-		placeNotatrange.setBounds(744, 206, 97, 23);
-		frame.getContentPane().add(placeNotatrange);
+		notAtPlace.setBounds(744, 206, 97, 23);
+		frame.getContentPane().add(notAtPlace);
 		
-		chckbxNotequals = new JCheckBox("notEquals");
-		chckbxNotequals.addActionListener(new ActionListener() {
+		notAtDevice = new JCheckBox("notEquals");
+		notAtDevice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (chckbxNotequals.isSelected()==false){
+				if (notAtDevice.isSelected()==false){
 					data_base.clear();
 				    data_base.addAll(data_not_filtered);
 				    data_not_filtered.clear();
 				    JOptionPane.showMessageDialog(null,"the filter was cancelled");
-				    chckbxNewCheckBox.setEnabled(true);
-				    chckbxByPlacelatlonalt.setEnabled(true);
-				    chckbxByDevice.setEnabled(true);
-			        dateNotatrange.setEnabled(true);
-			        dateNotatrange.setEnabled(true);
-			        placeNotatrange.setEnabled(true);
-			        filter_2_values.setEnabled(true);
+				    atTime.setEnabled(true);
+				    atPlace.setEnabled(true);
+				    atDevice.setEnabled(true);
+			        notAtTime.setEnabled(true);
+			        notAtPlace.setEnabled(true);
+			        at2.setEnabled(true);
 			        textDevice.setText("");
+			        s[0]="0";
 			        
 				}
 				else{
@@ -671,18 +724,22 @@ public class frame1 {
 		        data_base.clear();
 		        data_base.addAll(processingData.list("c.csv", "filtering", "ID", val,"yes"));
 		        JOptionPane.showMessageDialog(null,"the data was filtered");
-		        chckbxNewCheckBox.setEnabled(false);
-			    chckbxByPlacelatlonalt.setEnabled(false);
-			    chckbxByDevice.setEnabled(false);
-		        dateNotatrange.setEnabled(false);
-		        dateNotatrange.setEnabled(false);
-		        placeNotatrange.setEnabled(false);
-		        filter_2_values.setEnabled(false);}
+		        atTime.setEnabled(false);
+			    atPlace.setEnabled(false);
+			    atDevice.setEnabled(false);
+		        notAtTime.setEnabled(false);
+		        notAtTime.setEnabled(false);
+		        notAtPlace.setEnabled(false);
+		        at2.setEnabled(false);
+		        s[0]="1";
+	            s[1]="not";
+	            s[2]="ID";
+	            s[3]=val;}
 			}
 		});
 		
-		chckbxNotequals.setBounds(744, 235, 97, 23);
-		frame.getContentPane().add(chckbxNotequals);
+		notAtDevice.setBounds(744, 235, 97, 23);
+		frame.getContentPane().add(notAtDevice);
 		
 		txtFilterBy = new JTextField();
 		txtFilterBy.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -696,7 +753,7 @@ public class frame1 {
 		String [] yes_not1={"","yes","not"};
 		String [] or_and1={"","or","and"};
 		
-		JComboBox filter1 = new JComboBox(filters);
+	    filter1 = new JComboBox(filters);
 		filter1.setBounds(213, 314, 97, 20);
 		frame.getContentPane().add(filter1);
 		
@@ -736,105 +793,235 @@ public class frame1 {
 		textField_3.setBounds(647, 314, 15, 20);
 		frame.getContentPane().add(textField_3);
 		
-		filter_2_values = new JCheckBox("filter");
-		filter_2_values.addActionListener(new ActionListener() {
+		at2 = new JCheckBox("filter");
+		at2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (filter_2_values.isSelected()==false){
-					data_base.clear();
-				    data_base.addAll(data_not_filtered);
-				    data_not_filtered.clear();
-				    JOptionPane.showMessageDialog(null,"the filter was cancelled");
-				    chckbxNewCheckBox.setEnabled(true);
-				    chckbxByPlacelatlonalt.setEnabled(true);
-				    chckbxByDevice.setEnabled(true);
-			        dateNotatrange.setEnabled(true);
-			        dateNotatrange.setEnabled(true);
-			        placeNotatrange.setEnabled(true);
-			        chckbxNotequals.setEnabled(true);
-				}
-				else{
-					String f1=(String)filter1.getSelectedItem();
-					String f2=(String)filter2.getSelectedItem();
-					String notYes=(String)not_yes.getSelectedItem();
-				    String notYes1=(String)not_yes_filter1.getSelectedItem();
-				    String notYes2=(String)not_yes_filter2.getSelectedItem();
-				    String andOr=(String)and_or.getSelectedItem();
-				    String dataTime="";
-				    String dataID=(String)textDevice.getText();
-				    String dataPlace="";
-				    try{
-						double lat1=Double.parseDouble((String)lat_1.getText());double lon1=Double.parseDouble((String)lon_1.getText());double alt1=Double.parseDouble((String)alt_1.getText());
-						double lat2=Double.parseDouble((String)lat_2.getText());double lon2=Double.parseDouble((String)lon_2.getText());double alt2=Double.parseDouble((String)alt_2.getText());
-						dataPlace+=(String)lat_1.getText()+","+(String)lon_1.getText()+","+(String)alt_1.getText()+","+(String)lat_2.getText()+","+(String)lon_2.getText()+","+(String)alt_2.getText();
-						}
-					catch(Exception e1){JOptionPane.showMessageDialog(null,"please enter valid numbers");
-					filter_2_values.setSelected(false);
-					filter1.setSelectedItem("");
-					filter2.setSelectedItem("");
-					not_yes.setSelectedItem("");
-					not_yes_filter1.setSelectedItem("");
-					not_yes_filter2.setSelectedItem("");
-					and_or.setSelectedItem("");
-					}
-				    
-				    String date1,date2,hour1,hour2;
-					date1=(String)date_1.getText();date2=(String)date_2.getText();
-					hour1=(String)hour_1.getText();hour2=(String)hour_2.getText();
-				    try {
-					    if ((date1.substring(2,3).equals("-")) && (date1.substring(5,6).equals("-")) && (date2.substring(2,3).equals("-")) && (date2.substring(5,6).equals("-")) && (hour1.substring(2,3).equals(":")) && (hour2.substring(2,3).equals(":"))){
-						      int d1,d2,h1,h2;
-						   
-						        d1=Integer.parseInt(date1.substring(0,2)); d1=Integer.parseInt(date1.substring(3,5));
-						        d1=Integer.parseInt(date1.substring(6,10));d2=Integer.parseInt(date2.substring(0,2));
-						        d2=Integer.parseInt(date2.substring(3,5)); d2=Integer.parseInt(date2.substring(6,10));
-						        h1=Integer.parseInt(hour1.substring(0,2)); h1=Integer.parseInt(hour2.substring(0,2));
-						        h1=Integer.parseInt(hour1.substring(3,5));h1=Integer.parseInt(hour2.substring(3,5));
-						        dataTime+=date1+","+hour1+","+date2+","+hour2;}
-					     else{
-					    	  JOptionPane.showMessageDialog(null,"please enter valid format");
-					    	  filter_2_values.setSelected(false);
-						      filter1.setSelectedItem("");
-						      filter2.setSelectedItem("");
-							  not_yes.setSelectedItem("");
-							  not_yes_filter1.setSelectedItem("");
-							  not_yes_filter2.setSelectedItem("");
-							  and_or.setSelectedItem("");
-					    	  }
-				        }
-				        catch(Exception e1){JOptionPane.showMessageDialog(null,"please enter valid format");
-				        filter_2_values.setSelected(false);
-						filter1.setSelectedItem("");
-						filter2.setSelectedItem("");
-						not_yes.setSelectedItem("");
-						not_yes_filter1.setSelectedItem("");
-						not_yes_filter2.setSelectedItem("");
-						and_or.setSelectedItem("");}
-					
-				        data_not_filtered.addAll(data_base);
-					    combiningData.listToCsv(data_base,"c.csv");
-			            data_base.clear();
-			            if (f1.equals("Place") && f2.equals("Time"))  data_base.addAll(processingData.list("c.csv","filtering", f1, dataPlace ,notYes1,  f2,  dataTime, notYes2,  andOr,notYes));
-			            if (f1.equals("Place") && f2.equals("Device")) data_base.addAll(processingData.list("c.csv","filtering", f1, dataPlace ,notYes1,  f2,  dataID, notYes2,  andOr,notYes));
-			            if (f1.equals("Time") && f2.equals("Device")) data_base.addAll(processingData.list("c.csv","filtering", f1, dataTime ,notYes1,  f2,  dataID, notYes2,  andOr,notYes));
-			            if (f1.equals("Time") && f2.equals("Place")) data_base.addAll(processingData.list("c.csv","filtering", f1, dataTime ,notYes1,  f2,  dataPlace, notYes2,  andOr,notYes));
-			            if (f1.equals("Device") && f2.equals("Time")) data_base.addAll(processingData.list("c.csv","filtering", f1, dataID ,notYes1,  f2,  dataTime, notYes2,  andOr,notYes));
-			            if (f1.equals("Device") && f2.equals("Place")) data_base.addAll(processingData.list("c.csv","filtering", f1, dataID ,notYes1,  f2,  dataPlace, notYes2,  andOr,notYes));
-			            JOptionPane.showMessageDialog(null,"data was filtered");
-			            chckbxNewCheckBox.setEnabled(false);
-					    chckbxByPlacelatlonalt.setEnabled(false);
-					    chckbxByDevice.setEnabled(false);
-				        dateNotatrange.setEnabled(false);
-				        dateNotatrange.setEnabled(false);
-				        placeNotatrange.setEnabled(false);
-				        chckbxNotequals.setEnabled(false);
-			    			
-					
-				}
-				
+				String f1=(String)filter1.getSelectedItem();
+				String f2=(String)filter2.getSelectedItem();
+				String notYes=(String)not_yes.getSelectedItem();
+			    String notYes1=(String)not_yes_filter1.getSelectedItem();
+			    String notYes2=(String)not_yes_filter2.getSelectedItem();
+			    String andOr=(String)and_or.getSelectedItem();
+			if (at2.isSelected()==false){
+				data_base.clear();
+			    data_base.addAll(data_not_filtered);
+			    data_not_filtered.clear();
+			    JOptionPane.showMessageDialog(null,"the filter was cancelled");
+			    atTime.setEnabled(true);
+			    atPlace.setEnabled(true);
+			    atDevice.setEnabled(true);
+		        notAtTime.setEnabled(true);
+		        notAtTime.setEnabled(true);
+		        notAtPlace.setEnabled(true);
+		        notAtDevice.setEnabled(true);
+		        date_1.setText(""); date_2.setText("");hour_1.setText(""); hour_2.setText("");
+		        lat_1.setText(""); lat_2.setText("");lon_1.setText(""); lon_2.setText("");alt_1.setText(""); alt_2.setText("");
+		        textDevice.setText("");
+		        filter1.setSelectedItem("");  filter2.setSelectedItem("");not_yes.setSelectedItem("");not_yes_filter1.setSelectedItem("");not_yes_filter2.setSelectedItem("");and_or.setSelectedItem("");
+			    s[0]="0";
 			}
-		});
-		filter_2_values.setBounds(668, 313, 97, 23);
-		frame.getContentPane().add(filter_2_values);
+			else if   (f1.equals("") ||  f2.equals("") || notYes.equals("") || notYes1.equals("") || notYes2.equals("") || andOr.equals("")){
+			   JOptionPane.showMessageDialog(null,"please fill all rubrics");
+			   at2.setSelected(false);
+	           date_1.setText(""); date_2.setText("");hour_1.setText(""); hour_2.setText("");
+	           lat_1.setText(""); lat_2.setText("");lon_1.setText(""); lon_2.setText("");alt_1.setText(""); alt_2.setText("");
+	           filter1.setSelectedItem("");  filter2.setSelectedItem("");not_yes.setSelectedItem("");not_yes_filter1.setSelectedItem("");not_yes_filter2.setSelectedItem("");and_or.setSelectedItem("");
+	           }
+			
+			else {
+			    s[1]=notYes1;
+			    s[4]=notYes2;
+			    s[8]=notYes;
+			    s[7]=andOr;
+			 
+			    
+			    if ((f1.equals("Time") && f2.equals("Place")) || (f1.equals("Place") && f2.equals("Time"))){
+				        String date1,date2,hour1,hour2;
+						date1=(String)date_1.getText();date2=(String)date_2.getText();
+						hour1=(String)hour_1.getText();hour2=(String)hour_2.getText();
+						try{ 
+							  if ((date1.substring(2,3).equals("-")) && (date1.substring(5,6).equals("-")) && (date2.substring(2,3).equals("-")) && (date2.substring(5,6).equals("-")) && (hour1.substring(2,3).equals(":")) && (hour2.substring(2,3).equals(":"))){
+							        int d1,d2,h1,h2;
+							        d1=Integer.parseInt(date1.substring(0,2)); d1=Integer.parseInt(date1.substring(3,5));
+							        d1=Integer.parseInt(date1.substring(6,10));d2=Integer.parseInt(date2.substring(0,2));
+							        d2=Integer.parseInt(date2.substring(3,5)); d2=Integer.parseInt(date2.substring(6,10));
+							        h1=Integer.parseInt(hour1.substring(0,2)); h1=Integer.parseInt(hour2.substring(0,2));
+							        h1=Integer.parseInt(hour1.substring(3,5)); h1=Integer.parseInt(hour2.substring(3,5));
+							        String str1=date1+","+hour1+","+date2+","+hour2;
+							        
+							        double lat1,lon1,alt1,lat2,lon2,alt2;
+								    lat1=Double.parseDouble((String)lat_1.getText());lon1=Double.parseDouble((String)lon_1.getText());alt1=Double.parseDouble((String)alt_1.getText());
+								    lat2=Double.parseDouble((String)lat_2.getText());lon2=Double.parseDouble((String)lon_2.getText());alt2=Double.parseDouble((String)alt_2.getText());
+								    String str2=(String)lat_1.getText()+","+(String)lon_1.getText()+","+(String)alt_1.getText()+","+(String)lat_2.getText()+","+(String)lon_2.getText()+","+(String)alt_2.getText();
+										
+								    String op1,op2;
+							        if (f1.equals("Time")){
+							        	s[2]="Time";
+							        	s[3]=str1;
+							        	s[5]="Place";
+							        	s[6]=str2;
+							        	op1=notYes1;
+							        	op2=notYes2;
+							            }
+							        else{
+							        	s[2]="Place";
+							        	s[3]=str2;
+							        	s[5]="Time";
+							        	s[6]=str1;
+							        	op1=notYes2;
+							        	op2=notYes1;
+							            }
+							        data_not_filtered.addAll(data_base);
+							        combiningData.listToCsv(data_base,"c.csv");
+							        data_base.clear();
+									data_base.addAll(processingData.list("c.csv","filtering",f1,str1,op1,f2,str2,op2, andOr,notYes));
+							        JOptionPane.showMessageDialog(null,"the data was filtered");
+							        atTime.setEnabled(false);
+								    atPlace.setEnabled(false);
+								    atDevice.setEnabled(false);
+							        notAtTime.setEnabled(false);
+							        notAtPlace.setEnabled(false);
+							        notAtDevice.setEnabled(false);
+							        s[0]="2";
+							  }
+							  else{  
+								   JOptionPane.showMessageDialog(null,"please enter valid format");
+								   at2.setSelected(false);
+						           date_1.setText(""); date_2.setText("");hour_1.setText(""); hour_2.setText("");
+						           lat_1.setText(""); lat_2.setText("");lon_1.setText(""); lon_2.setText("");alt_1.setText(""); alt_2.setText("");
+						           filter1.setSelectedItem("");  filter2.setSelectedItem("");not_yes.setSelectedItem("");not_yes_filter1.setSelectedItem("");not_yes_filter2.setSelectedItem("");and_or.setSelectedItem("");
+							  }}
+					    catch(Exception el){
+						      JOptionPane.showMessageDialog(null,"please enter valid format");
+						      at2.setSelected(false);
+						      date_1.setText(""); date_2.setText("");hour_1.setText(""); hour_2.setText("");
+						      lat_1.setText(""); lat_2.setText("");lon_1.setText(""); lon_2.setText("");alt_1.setText(""); alt_2.setText("");
+						      filter1.setSelectedItem("");  filter2.setSelectedItem("");not_yes.setSelectedItem("");not_yes_filter1.setSelectedItem("");not_yes_filter2.setSelectedItem("");and_or.setSelectedItem("");
+					         }
+						}
+						 if ((f1.equals("Place") && f2.equals("Device")) || (f1.equals("Device") && f2.equals("Place"))){
+						    try{
+						        double lat1,lon1,alt1,lat2,lon2,alt2;
+							    lat1=Double.parseDouble((String)lat_1.getText());lon1=Double.parseDouble((String)lon_1.getText());alt1=Double.parseDouble((String)alt_1.getText());
+							    lat2=Double.parseDouble((String)lat_2.getText());lon2=Double.parseDouble((String)lon_2.getText());alt2=Double.parseDouble((String)alt_2.getText());
+							    String str1=(String)lat_1.getText()+","+(String)lon_1.getText()+","+(String)alt_1.getText()+","+(String)lat_2.getText()+","+(String)lon_2.getText()+","+(String)alt_2.getText();
+								String str2=(String)textDevice.getText();
+								String op1;
+					        	String op2;
+						        if (f1.equals("Place")){
+						        	s[2]="Place";
+						        	s[3]=str1;
+						        	s[5]="ID";
+						        	s[6]=str2;
+						        	op1=notYes1;
+						            op2=notYes2;
+						            }
+						        else{
+						        	s[2]="ID";
+						        	s[3]=str2;
+						        	s[5]="Place";
+						        	s[6]=str1;
+						        	op1=notYes2;
+						        	op2=notYes1;
+						            }
+						        data_not_filtered.addAll(data_base);
+						        combiningData.listToCsv(data_base,"c.csv");
+						        data_base.clear();
+								data_base.addAll(processingData.list("c.csv","filtering",f1,str1,op1,f2,str2,op2, andOr,notYes));
+						        JOptionPane.showMessageDialog(null,"the data was filtered");
+						        atTime.setEnabled(false);
+							    atPlace.setEnabled(false);
+							    atDevice.setEnabled(false);;
+						        notAtTime.setEnabled(false);
+						        notAtDevice.setEnabled(false);
+						        notAtPlace.setEnabled(false);
+						        s[0]="2";
+						        }
+				    catch(Exception el){
+					      JOptionPane.showMessageDialog(null,"please enter valid format");
+					      at2.setSelected(false);
+					      textDevice.setText("");
+					      lat_1.setText(""); lat_2.setText("");lon_1.setText(""); lon_2.setText("");alt_1.setText(""); alt_2.setText("");
+					      filter1.setSelectedItem("");  filter2.setSelectedItem("");not_yes.setSelectedItem("");not_yes_filter1.setSelectedItem("");not_yes_filter2.setSelectedItem("");and_or.setSelectedItem("");
+					      
+				         }
+					 }
+
+						    if ((f1.equals("Time") && f2.equals("Device")) || (f1.equals("Device") && f2.equals("Time"))){
+									String date1,date2,hour1,hour2;
+									date1=(String)date_1.getText();date2=(String)date_2.getText();
+									hour1=(String)hour_1.getText();hour2=(String)hour_2.getText();
+									try{ 
+										  if ((date1.substring(2,3).equals("-")) && (date1.substring(5,6).equals("-")) && (date2.substring(2,3).equals("-")) && (date2.substring(5,6).equals("-")) && (hour1.substring(2,3).equals(":")) && (hour2.substring(2,3).equals(":"))){
+										        int d1,d2,h1,h2;
+										        d1=Integer.parseInt(date1.substring(0,2)); d1=Integer.parseInt(date1.substring(3,5));
+										        d1=Integer.parseInt(date1.substring(6,10));d2=Integer.parseInt(date2.substring(0,2));
+										        d2=Integer.parseInt(date2.substring(3,5)); d2=Integer.parseInt(date2.substring(6,10));
+										        h1=Integer.parseInt(hour1.substring(0,2)); h1=Integer.parseInt(hour2.substring(0,2));
+										        h1=Integer.parseInt(hour1.substring(3,5)); h1=Integer.parseInt(hour2.substring(3,5));
+										        String str1=date1+","+hour1+","+date2+","+hour2;
+										        String str2=(String)textDevice.getText();
+										        
+										        String op1,op2;
+										        if (f1.equals("Time")){
+										        	s[2]="Time";
+										        	s[3]=str1;
+										        	s[5]="ID";
+										        	s[6]=str2;
+										        	op1=notYes1;
+										        	op2=notYes2;
+										        }
+										        else{
+										        	s[2]="ID";
+										        	s[3]=str2;
+										        	s[5]="Time";
+										        	s[6]=str1;
+										        	op1=notYes2;
+										        	op2=notYes1;
+										        }
+										        data_not_filtered.addAll(data_base);
+										        combiningData.listToCsv(data_base,"c.csv");
+										        data_base.clear();
+												data_base.addAll(processingData.list("c.csv","filtering",f1,str1,op1,f2,str2,op2, andOr,notYes));
+										        JOptionPane.showMessageDialog(null,"the data was filtered");
+										        atTime.setEnabled(false);
+											    atPlace.setEnabled(false);
+											    atDevice.setEnabled(false);
+										        notAtTime.setEnabled(false);
+										        notAtPlace.setEnabled(false);
+										        notAtDevice.setEnabled(false);
+										        s[0]="2";
+										        }
+										  else{  
+											   JOptionPane.showMessageDialog(null,"please enter valid format");
+											   at2.setSelected(false);
+									           date_1.setText(""); date_2.setText("");hour_1.setText(""); hour_2.setText("");
+									           textDevice.setText("");
+									           filter1.setSelectedItem("");  filter2.setSelectedItem("");not_yes.setSelectedItem("");not_yes_filter1.setSelectedItem("");not_yes_filter2.setSelectedItem("");and_or.setSelectedItem("");
+										 
+										  }}
+								    catch(Exception el){
+									      JOptionPane.showMessageDialog(null,"please enter valid format");
+									      at2.setSelected(false);
+									      date_1.setText(""); date_2.setText("");hour_1.setText(""); hour_2.setText("");
+									      textDevice.setText("");	
+									      filter1.setSelectedItem("");  filter2.setSelectedItem("");not_yes.setSelectedItem("");not_yes_filter1.setSelectedItem("");not_yes_filter2.setSelectedItem("");and_or.setSelectedItem("");
+									      }
+						    } 
+			
+			}
+		}				});	    
+						
+
+			        	
+			
+			
+				
+				
+				
+				    
+		at2.setBounds(668, 313, 97, 23);
+		frame.getContentPane().add(at2);
 		
 		textField_4 = new JTextField();
 		textField_4.setFont(new Font("Tahoma", Font.BOLD, 11));
