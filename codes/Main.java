@@ -75,11 +75,15 @@ public class Main {
 								}
 							  
 							if (s[0].equals("1") ){
+								data_not_filtered.clear();
+								data_not_filtered.addAll(data_base);
 								combiningData.listToCsv(data_base, "c.csv");
 								data_base.clear();
 								data_base.addAll(processingData.list("c.csv", "filtering", s[2], s[3], s[1]));
 							  }
 							if (s[0].equals("2") ){
+								data_not_filtered.clear();
+								data_not_filtered.addAll(data_base);
 								combiningData.listToCsv(data_base, "c.csv");
 								data_base.clear();
 								data_base.addAll(processingData.list("c.csv", "filtering", s[2], s[3], s[1],s[5],s[6],s[4],s[7],s[8]));
