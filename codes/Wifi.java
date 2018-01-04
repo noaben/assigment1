@@ -65,7 +65,7 @@ public class Wifi {
 	 * @return true if the data is standard false if not
 	 */
 	
-	public  boolean correct(String time, String ID, String LAT, String LON, String ALT, String SSID, String MAC, String frequncy, String signal){
+	public static boolean correct(String time, String ID, String LAT, String LON, String ALT, String SSID, String MAC, String frequncy, String signal){
         
                 if (!MAC.substring(2,3).equals(":") || !MAC.substring(5,6).equals(":") || !MAC.substring(8,9).equals(":") || !MAC.substring(11,12).equals(":") || !MAC.substring(14,15).equals(":")) return false;
         
