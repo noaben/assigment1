@@ -1,8 +1,5 @@
 package matala001;
 
-
-
-
 import java.awt.EventQueue;
 import java.io.File;
 import java.util.ArrayList;
@@ -44,13 +41,13 @@ public class Main {
 					  
 				        
 					  while (loop==1){
-				              synchronized(data_base){   
+				           synchronized(data_base){   
 						try {
 							
 							
 							boolean flag=false;
 							int i=0;
-							if (!flag && i<folder.size()){
+							if (!flag && i<folder.size() && folder.size()==folder_last_modified.size()){
 						     	for (;i<folder.size();i++){
 								    if (folder.get(i).lastModified()!=folder_last_modified.get(i)){
 									    flag=true;
@@ -59,7 +56,7 @@ public class Main {
 							   }
 						
 							i=0;
-							if (!flag && i<combs.size()){
+							if (!flag && i<combs.size() && combs.size()==combs_last_modified.size()){
 						     	    for (;i<combs.size();i++){
 								    if (combs.get(i).lastModified()!=combs_last_modified.get(i)){
 									    flag=true;
@@ -109,7 +106,7 @@ public class Main {
 							            }
 							
 							
-							    int m=(int)(Math.random()*5000);
+							    int m=(int)(Math.random()*20000);
 							    Thread.sleep(m);
 							   }
 						}
@@ -118,7 +115,7 @@ public class Main {
 					               }
 					  
 					      }	 
-			         }
+			        }
 			 } 	  
 		  });
 		   
@@ -162,4 +159,3 @@ public class Main {
       //        algorithms.findPlaceAlgorithm2( "_comb_all_BM2_.csv", "_comb_no_gps_ts2_.csv",4,10000,0.4,2,"Algo2_BM2_TS2.csv");
 		
 }
-
