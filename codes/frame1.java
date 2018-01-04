@@ -1,5 +1,7 @@
 package matala001;
 
+
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -9,8 +11,12 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.awt.event.ActionEvent;
@@ -92,6 +98,9 @@ public class frame1 {
 	private JTextPane data2;
 	private JTextField txtPairmacsignal_1;
 	private JTextPane data3;
+	private JCheckBox upload_filter;
+	private JCheckBox save_filter;
+	private JTextField txtFilter_1;
 	
 	/**
 	 * Create the application.
@@ -103,7 +112,7 @@ public class frame1 {
 	/**
 	 * Initialize the contents of the frame and updating data structure by the events happening
 	 */
-	private static void initialize_and_update(LinkedList <Wifi> data_base,LinkedList <Wifi> data_not_filtered,ArrayList <File> folder,ArrayList <Long> folder_last_modified, ArrayList <File> combs,ArrayList <Long> combs_last_modified,String s[]) {
+	private  void initialize_and_update(LinkedList <Wifi> data_base,LinkedList <Wifi> data_not_filtered,ArrayList <File> folder,ArrayList <Long> folder_last_modified, ArrayList <File> combs,ArrayList <Long> combs_last_modified,String s[]) {
 		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 850,550);
@@ -442,6 +451,27 @@ public class frame1 {
 		data3.setBounds(710, 480, 111, 20);
 		frame.getContentPane().add(data3);
 		
+		JCheckBox save_filter = new JCheckBox("export to \"filter.ser\"");
+                save_filter.setFont(new Font("Tahoma", Font.BOLD, 11));
+	        save_filter.setBounds(614, 38, 150, 23);
+	        frame.getContentPane().add(save_filter);
+		save_filter.setEnabled(false);
+		
+        	upload_filter = new JCheckBox("upload filter");
+	        upload_filter.setFont(new Font("Tahoma", Font.BOLD, 11));
+	        upload_filter.setEnabled(false);
+		frame.getContentPane().add(upload_filter);
+		upload_filter.setBounds(614, 64, 97, 23);
+	        
+		txtFilter_1 = new JTextField();
+		txtFilter_1.setText("filter");
+		txtFilter_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtFilter_1.setColumns(10);
+		txtFilter_1.setBackground(Color.PINK);
+		txtFilter_1.setBounds(614, 11, 86, 20);
+		frame.getContentPane().add(txtFilter_1);
+	
+		
 		atTime.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (atTime.isSelected()==false){
@@ -457,6 +487,8 @@ public class frame1 {
 			                notAtDevice.setEnabled(true);
 			                at2.setEnabled(true);
 			                s[0]="0";
+					save_filter.setEnabled(false);
+				        upload_filter.setEnabled(false);
 				       }
 				else{
 				        String date1,date2,hour1,hour2;
@@ -486,6 +518,7 @@ public class frame1 {
 				                 s[1]="yes";
 				                 s[2]="Time";
 				                 s[3]=str1;
+						 save_filter.setEnabled(true);
 					         }
 				             else{
 				      	          JOptionPane.showMessageDialog(null,"please enter valid format");
@@ -517,6 +550,8 @@ public class frame1 {
 		                notAtDevice.setEnabled(true);
 		                at2.setEnabled(true);
 		                s[0]="0";
+				save_filter.setEnabled(false);
+				upload_filter.setEnabled(false);
 			       }
 			else{
 			        double lat1,lon1,alt1,lat2,lon2,alt2;
@@ -540,7 +575,7 @@ public class frame1 {
 	                            s[2]="Place";
 	                            s[3]=str;
 				    save_filter.setEnabled(true);
-				    upload_filter.setEnabled(true);
+				   
 		                    }
 		    			
 			        catch(Exception e1){
@@ -568,6 +603,8 @@ public class frame1 {
 			                notAtDevice.setEnabled(true);
 			                at2.setEnabled(true);
 			                s[0]="0";
+					save_filter.setEnabled(false);
+				        upload_filter.setEnabled(false);
 				       }
 				else{
 				       String val=(String)textDevice.getText();
@@ -587,7 +624,7 @@ public class frame1 {
 	                               s[2]="ID";
 	                               s[3]=val;
 				       save_filter.setEnabled(true);
-			               upload_filter.setEnabled(true);
+			              
 				       }
 			       }
 		});
@@ -721,17 +758,17 @@ public class frame1 {
                                 if (notAtDevice.isSelected()) getFilter+="Device!="+(String)textDevice.getText();
                                 if (at2.isSelected()){
                                         if (not_yes.getSelectedItem().equals("not")) getFilter+="!(";
-                                        if (not_yes_filter1.getSelectedItem().equals("not")) getFilter+="!(";
+                                        if (not_yes_filter1.getSelectedItem().equals("not")) getFilter+="!";
                                         if (filter1.getSelectedItem().equals("Place")) getFilter+="("+(String)lat_1.getText()+"<Lat<"+(String)lat_2.getText()+" && "+(String)lon_1.getText()+"<Lon<"+lon_2.getText()+" && "+alt_1.getText()+"<Alt<"+alt_2.getText()+")";
                                         if (filter1.getSelectedItem().equals("Time")) getFilter+="("+(String)date_1.getText()+" "+(String)hour_1.getText()+"<Time<"+(String)date_2.getText()+" "+(String)hour_2.getText()+")";
                                         if (filter1.getSelectedItem().equals("Device")) getFilter+="(Device="+(String)textDevice.getText()+")";
-                                        if (not_yes_filter1.getSelectedItem().equals("not")) getFilter+=")";
+                                   
                                         if (and_or.getSelectedItem().equals("and")) getFilter+=" && "; else getFilter+=" || ";
-                                        if (not_yes_filter2.getSelectedItem().equals("not")) getFilter+=" !(";
+                                        if (not_yes_filter2.getSelectedItem().equals("not")) getFilter+=" !";
                                         if (filter2.getSelectedItem().equals("Place")) getFilter+="("+(String)lat_1.getText()+"<Lat<"+(String)lat_2.getText()+" && "+(String)lon_1.getText()+"<Lon<"+lon_2.getText()+" && "+alt_1.getText()+"<Alt<"+alt_2.getText()+")";
                                         if (filter2.getSelectedItem().equals("Time")) getFilter+="("+(String)date_1.getText()+" "+(String)hour_1.getText()+"<Time<"+(String)date_2.getText()+" "+(String)hour_2.getText()+")";
                                         if (filter2.getSelectedItem().equals("Device")) getFilter+="(Device="+(String)textDevice.getText()+")";
-                                        if (not_yes_filter2.getSelectedItem().equals("not")) getFilter+=" )";
+                                      
                                         if (not_yes.getSelectedItem().equals("not")) getFilter+=" )";
 				        }
                                if (getFilter.equals("filter: ")) getFilter+="no filter has been selected";
@@ -767,6 +804,8 @@ public class frame1 {
 			                at2.setEnabled(true);
 			                date_1.setText(""); date_2.setText("");hour_1.setText(""); hour_2.setText("");
 			                s[0]="0";
+					save_filter.setEnabled(false);
+				        upload_filter.setEnabled(false);
 				        }
 				else{
 				        String date1,date2,hour1,hour2;
@@ -798,7 +837,7 @@ public class frame1 {
 				                  s[2]="Time";
 				                  s[3]=str1;
 						  save_filter.setEnabled(true);
-				                  upload_filter.setEnabled(true);
+				                 
 				                  }
 				    
 				              else{
@@ -832,6 +871,8 @@ public class frame1 {
 			                at2.setEnabled(true);
 					lat_1.setText("");lat_2.setText("");lon_1.setText("");lon_2.setText("");alt_1.setText("");alt_2.setText("");
 					s[0]="0";
+					save_filter.setEnabled(false);
+				        upload_filter.setEnabled(false);
 				        }
 				else{
 				        double lat1,lon1,alt1,lat2,lon2,alt2;
@@ -855,7 +896,7 @@ public class frame1 {
 		                              s[2]="Place";
 		                              s[3]=str;
 					      save_filter.setEnabled(true);
-				              upload_filter.setEnabled(true);
+				             
 					     }
 			    			
 				        catch(Exception e1){
@@ -883,6 +924,8 @@ public class frame1 {
 			                at2.setEnabled(true);
 			                textDevice.setText("");
 			                s[0]="0";
+					save_filter.setEnabled(false);
+				        upload_filter.setEnabled(false);
 			               }
 				else{
 				       String val=(String)textDevice.getText();
@@ -903,7 +946,7 @@ public class frame1 {
 	                               s[2]="ID";
 	                               s[3]=val;
 				       save_filter.setEnabled(true);
-				       upload_filter.setEnabled(true);
+				
 				      }
 			      }
 		});
@@ -924,6 +967,8 @@ public class frame1 {
 		                      textDevice.setText("");
 		                      filter1.setSelectedItem("");  filter2.setSelectedItem("");not_yes.setSelectedItem("");not_yes_filter1.setSelectedItem("");not_yes_filter2.setSelectedItem("");and_or.setSelectedItem("");
 			              s[0]="0";
+				      save_filter.setEnabled(false);
+				      upload_filter.setEnabled(false);
 			              }
 				
 			        else if   (f1.equals("") ||  f2.equals("") || notYes.equals("") || notYes1.equals("") || notYes2.equals("") || andOr.equals("")){
@@ -987,7 +1032,7 @@ public class frame1 {
 							        notAtDevice.setEnabled(false);
 							        s[0]="2";
 								save_filter.setEnabled(true);
-				                                upload_filter.setEnabled(true);
+				                             
 							        }
 							  else{  
 								JOptionPane.showMessageDialog(null,"please enter valid format");
@@ -1045,7 +1090,7 @@ public class frame1 {
 						            notAtPlace.setEnabled(false);
 						            s[0]="2";
 							    save_filter.setEnabled(true);
-			                                    upload_filter.setEnabled(true);
+			                                  
 						           }
 				                   catch(Exception el){
 					                   JOptionPane.showMessageDialog(null,"please enter valid format");
@@ -1104,7 +1149,7 @@ public class frame1 {
 								         notAtDevice.setEnabled(false);
 									 s[0]="2";
 									 save_filter.setEnabled(true);
-				                                         upload_filter.setEnabled(true);
+				                                        
 								         }
 								     else{  
 									 JOptionPane.showMessageDialog(null,"please enter valid format");
@@ -1167,6 +1212,77 @@ public class frame1 {
 			         }
 	                   }
 		     });
+		save_filter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				 String getFilter="";
+                                 if (atPlace.isSelected()) getFilter+=(String)lat_1.getText()+"<Lat<"+(String)lat_2.getText()+" && "+(String)lon_1.getText()+"<Lon<"+lon_2.getText()+" && "+alt_1.getText()+"<Alt<"+alt_2.getText();
+                                 if (notAtPlace.isSelected()) getFilter+="!("+(String)lat_1.getText()+"<Lat<"+(String)lat_2.getText()+" && "+(String)lon_1.getText()+"<Lon<"+lon_2.getText()+" && "+alt_1.getText()+"<Alt<"+alt_2.getText()+")";
+                                 if (atTime.isSelected()) getFilter+=(String)date_1.getText()+" "+(String)hour_1.getText()+"<Time<"+(String)date_2.getText()+" "+(String)hour_2.getText();
+                                 if (notAtTime.isSelected()) getFilter+="!("+(String)date_1.getText()+" "+(String)hour_1.getText()+"<Time<"+(String)date_2.getText()+" "+(String)hour_2.getText()+")";
+                                 if (atDevice.isSelected()) getFilter+="Device="+(String)textDevice.getText();
+                                 if (notAtDevice.isSelected()) getFilter+="Device!="+(String)textDevice.getText();
+                                 if (at2.isSelected()){
+                                     if (not_yes.getSelectedItem().equals("not")) getFilter+="!(";
+                                     if (not_yes_filter1.getSelectedItem().equals("not")) getFilter+=" !";
+                                     if (filter1.getSelectedItem().equals("Place")) getFilter+="("+(String)lat_1.getText()+"<Lat<"+(String)lat_2.getText()+" && "+(String)lon_1.getText()+"<Lon<"+lon_2.getText()+" && "+alt_1.getText()+"<Alt<"+alt_2.getText()+")";
+                                     if (filter1.getSelectedItem().equals("Time")) getFilter+="("+(String)date_1.getText()+" "+(String)hour_1.getText()+"<Time<"+(String)date_2.getText()+" "+(String)hour_2.getText()+")";
+                                     if (filter1.getSelectedItem().equals("Device")) getFilter+="(Device="+(String)textDevice.getText()+")";
+                                    
+                                     if (and_or.getSelectedItem().equals("and")) getFilter+=" && "; else getFilter+=" || ";
+                                     if (not_yes_filter2.getSelectedItem().equals("not")) getFilter+=" !";
+                                     if (filter2.getSelectedItem().equals("Place")) getFilter+="("+(String)lat_1.getText()+"<Lat<"+(String)lat_2.getText()+" && "+(String)lon_1.getText()+"<Lon<"+lon_2.getText()+" && "+alt_1.getText()+"<Alt<"+alt_2.getText()+")";
+                                     if (filter2.getSelectedItem().equals("Time")) getFilter+="("+(String)date_1.getText()+" "+(String)hour_1.getText()+"<Time<"+(String)date_2.getText()+" "+(String)hour_2.getText()+")";
+                                     if (filter2.getSelectedItem().equals("Device")) getFilter+="(Device="+(String)textDevice.getText()+")";
+                                    
+                                     if (not_yes.getSelectedItem().equals("not")) getFilter+=" )";
+	                             }
+                
+                                 String filename = "filter.ser";
+                                 FileOutputStream fos = null;
+                                 ObjectOutputStream out = null;
+				
+                                    try {
+                                        fos = new FileOutputStream(filename);
+                                        out = new ObjectOutputStream(fos);
+                                        out.writeObject(getFilter);
+
+                                        out.close();
+                                        JOptionPane.showMessageDialog(null,"file has been created");
+       
+				        upload_filter.setEnabled(true);
+                                  } catch (Exception ex) {
+                                         ex.printStackTrace();
+                    
+                                         }
+                                  finally{   save_filter.setSelected(false);
+			          }
+			}
+			
+		});
+		
+		
+		upload_filter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				FileInputStream fis = null;
+		                ObjectInputStream in = null;
+				
+		                try {
+		                    fis = new FileInputStream("filter.ser");
+		                    in = new ObjectInputStream(fis);
+		                    String filt= (String) in.readObject();
+		                    in.close();
+		                    JOptionPane.showMessageDialog(null,filt);
+		                    } 
+				catch (Exception ex) {
+		                     ex.printStackTrace();
+				     }
+		                finally{upload_filter.setSelected(false);
+				      }
+			       }
+			
+		});
+		
 		
 	}
 }
