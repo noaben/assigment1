@@ -25,7 +25,7 @@ public class MAC {
 	}
 
 	
-	public boolean equals(MAC other){
+	public static boolean equals(MAC other){
 		return this.ADRESS.equals(other.ADRESS) && this.LAT==other.LAT && this.LON==other.LON && this.ALT==other.ALT;
 	}
 	public void setMAC (String ADRESS){
