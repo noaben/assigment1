@@ -539,6 +539,8 @@ public class frame1 {
 	                            s[1]="yes";
 	                            s[2]="Place";
 	                            s[3]=str;
+				    save_filter.setEnabled(true);
+				    upload_filter.setEnabled(true);
 		                    }
 		    			
 			        catch(Exception e1){
@@ -584,6 +586,8 @@ public class frame1 {
 	                               s[1]="yes";
 	                               s[2]="ID";
 	                               s[3]=val;
+				       save_filter.setEnabled(true);
+			               upload_filter.setEnabled(true);
 				       }
 			       }
 		});
@@ -793,6 +797,8 @@ public class frame1 {
 				                  s[1]="not";
 				                  s[2]="Time";
 				                  s[3]=str1;
+						  save_filter.setEnabled(true);
+				                  upload_filter.setEnabled(true);
 				                  }
 				    
 				              else{
@@ -848,6 +854,8 @@ public class frame1 {
 		                              s[1]="not";
 		                              s[2]="Place";
 		                              s[3]=str;
+					      save_filter.setEnabled(true);
+				              upload_filter.setEnabled(true);
 					     }
 			    			
 				        catch(Exception e1){
@@ -894,6 +902,8 @@ public class frame1 {
 	                               s[1]="not";
 	                               s[2]="ID";
 	                               s[3]=val;
+				       save_filter.setEnabled(true);
+				       upload_filter.setEnabled(true);
 				      }
 			      }
 		});
@@ -976,6 +986,8 @@ public class frame1 {
 							        notAtPlace.setEnabled(false);
 							        notAtDevice.setEnabled(false);
 							        s[0]="2";
+								save_filter.setEnabled(true);
+				                                upload_filter.setEnabled(true);
 							        }
 							  else{  
 								JOptionPane.showMessageDialog(null,"please enter valid format");
@@ -1032,6 +1044,8 @@ public class frame1 {
 						            notAtDevice.setEnabled(false);
 						            notAtPlace.setEnabled(false);
 						            s[0]="2";
+							    save_filter.setEnabled(true);
+			                                    upload_filter.setEnabled(true);
 						           }
 				                   catch(Exception el){
 					                   JOptionPane.showMessageDialog(null,"please enter valid format");
@@ -1089,6 +1103,8 @@ public class frame1 {
 								         notAtPlace.setEnabled(false);
 								         notAtDevice.setEnabled(false);
 									 s[0]="2";
+									 save_filter.setEnabled(true);
+				                                         upload_filter.setEnabled(true);
 								         }
 								     else{  
 									 JOptionPane.showMessageDialog(null,"please enter valid format");
