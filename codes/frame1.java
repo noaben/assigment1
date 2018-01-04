@@ -1177,14 +1177,21 @@ public class frame1 {
 		               });	    
 						
 
+		
 		chckbxNewCheckBox_1.addActionListener(new ActionListener() {
 	                public void actionPerformed(ActionEvent e) {
 			     LinkedList <Wifi> data1=new LinkedList <Wifi> ();
 			     data1.addAll(data_base);
 			     combiningData.listToCsv(data1,"c.csv");
-			     JOptionPane.showMessageDialog(null, algorithms.findPlaceAlgorithm2("c.csv",(String)noGPS.getText(),4,10000,0.4,2));
-			     }
-			 	 
+			     try{
+			         JOptionPane.showMessageDialog(null, algorithms.findPlaceAlgorithm2("c.csv",(String)noGPS.getText(),4,10000,0.4,2));
+			         }
+			     catch(ArrayIndexOutOfBoundsException el){JOptionPane.showMessageDialog(null,"Please enter valid format");}
+			     catch(Exception el){JOptionPane.showMessageDialog(null,"Please enter valid format");}
+			     finally{
+		                    noGPS.setText("");
+		                    chckbxNewCheckBox_1.setSelected(false);				 }
+		              } 	 
 		        });
 		
 		chckbxEnterOr.addActionListener(new ActionListener() {
