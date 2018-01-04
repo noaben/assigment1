@@ -29,10 +29,11 @@ public class Main {
 		int loop=1;
 		
 		EventQueue.invokeLater(new Runnable(){
-                   public void run(){
-                        frame1 window = new frame1(data_base,data_not_filtered,folder,folder_last_modified,combs,combs_last_modified,s);
-	    	        window.frame.setVisible(true);
-	 	
+                    public void run(){
+			 synchronized(data_base){   
+                            frame1 window = new frame1(data_base,data_not_filtered,folder,folder_last_modified,combs,combs_last_modified,s);
+	    	            window.frame.setVisible(true);
+			   }
 		       }
                    }
 		);
@@ -41,8 +42,9 @@ public class Main {
 			
 				  public void run() {
 					  
+				        
 					  while (loop==1){
-						
+				              synchronized(data_base){   
 						try {
 							
 							
@@ -117,6 +119,7 @@ public class Main {
 					  
 					      }	 
 			         }
+			 } 	  
 		  });
 		   
 	
