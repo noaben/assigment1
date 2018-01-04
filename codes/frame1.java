@@ -627,14 +627,21 @@ public class frame1 {
 		
 		chckbxFindPlaceOf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 String MAC=(String)mac.getText();
+		              String MAC=(String)mac.getText();
+			      try{
 				 if (!MAC.substring(2,3).equals(":") || !MAC.substring(5,6).equals(":") || !MAC.substring(8,9).equals(":") || !MAC.substring(11,12).equals(":") || !MAC.substring(14,15).equals(":")) 
 					 JOptionPane.showMessageDialog(null,"check your input. It should be in format aa:aa:aa:aa:aa:aa");
 				 else {
 					 MAC mac1=algorithms.findPlaceAlgorithm1("wificsv.csv", MAC,5);
 					 JOptionPane.showMessageDialog(null,"Lat:"+mac1.getLAT()+" Lon:"+mac1.getLON()+" Alt:"+mac1.getALT());
+				     }
 				 }
-			}
+			      catch(StringIndexOutOfBoundsException el){
+			             JOptionPane.showMessageDialog(null,"check your input. It should be in format aa:aa:aa:aa:aa:aa");}
+			      finally{
+			              mac.setText("");
+				      chckbxFindPlaceOf.setSelected(false);				 }
+			              }
 		});
 		
 		
