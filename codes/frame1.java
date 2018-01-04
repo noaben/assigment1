@@ -92,24 +92,20 @@ public class frame1 {
 	private JTextPane data2;
 	private JTextField txtPairmacsignal_1;
 	private JTextPane data3;
-
-	/**
-	 * Launch the application.
-	 */
 	
 	/**
 	 * Create the application.
 	 */
 	public frame1(LinkedList <Wifi> data_base, LinkedList <Wifi> data_not_filtered,ArrayList <File> folder,ArrayList <Long> folder_last_modified, ArrayList <File> combs,ArrayList <Long> combs_last_modified,String s[]) {
-		initialize(data_base,data_not_filtered,folder,folder_last_modified,combs,combs_last_modified,s);
+		initialize_and_update(data_base,data_not_filtered,folder,folder_last_modified,combs,combs_last_modified,s);
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Initialize the contents of the frame and updating data structure by the events happening
 	 */
-	private void initialize(LinkedList <Wifi> data_base,LinkedList <Wifi> data_not_filtered,ArrayList <File> folder,ArrayList <Long> folder_last_modified, ArrayList <File> combs,ArrayList <Long> combs_last_modified,String s[]) {
+	private static void initialize_and_update(LinkedList <Wifi> data_base,LinkedList <Wifi> data_not_filtered,ArrayList <File> folder,ArrayList <Long> folder_last_modified, ArrayList <File> combs,ArrayList <Long> combs_last_modified,String s[]) {
 		
-				frame = new JFrame();
+		frame = new JFrame();
 		frame.setBounds(100, 100, 850,550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -323,7 +319,7 @@ public class frame1 {
 		String [] yes_not1={"","yes","not"};
 		String [] or_and1={"","or","and"};
 		
-	    filter1 = new JComboBox(filters);
+	        filter1 = new JComboBox(filters);
 		filter1.setBounds(213, 314, 97, 20);
 		frame.getContentPane().add(filter1);
 		
