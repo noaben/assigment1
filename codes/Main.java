@@ -110,6 +110,7 @@ public class Main {
 							    Thread.sleep(m);
 							   }
 						}
+						catch (NullPointerException el){}
 						catch (Exception e) {
 							e.printStackTrace();
 					               }
