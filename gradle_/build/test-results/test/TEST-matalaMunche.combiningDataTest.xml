@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="matalaMunche.combiningDataTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2018-01-18T19:49:23" hostname="DESKTOP-DHSRUL2" time="20.609">
+  <properties/>
+  <testcase name="test1" classname="matalaMunche.combiningDataTest" time="10.201"/>
+  <testcase name="test2" classname="matalaMunche.combiningDataTest" time="10.408"/>
+  <system-out><![CDATA[folder doesn't exist
+failed export to CSV.
+No files in folder
+failed export to CSV.
+No files in folder
+failed export to CSV.
+export to CSV succeed!
+export to CSV succeed!
+export to CSV succeed!
+export to CSV succeed!
+export to CSV succeed!
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
