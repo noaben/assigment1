@@ -31,7 +31,7 @@ public class connectSQL {
 	  }
 	  
      
-         private LinkedList<Wifi> getData() throws SQLException{
+          public LinkedList<Wifi> getData() throws SQLException{
 	         Statement st = null;
                  ResultSet rs = null;
 	         Connection _con = null;
@@ -57,7 +57,7 @@ public class connectSQL {
      
                  }
 	
-         private String lastModified() throws SQLException{
+         public String lastModified() throws SQLException{
 	         try{
 	             Connection _con = null;
 	             _con = DriverManager.getConnection(url,user,password);
