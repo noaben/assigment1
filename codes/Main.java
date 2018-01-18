@@ -1,4 +1,4 @@
-package matala001;
+package matalaMunche;
 
 import java.awt.EventQueue;
 import java.io.File;
@@ -19,6 +19,8 @@ public class Main {
 		ArrayList <Long> folder_last_modified=new ArrayList <Long>();
 		ArrayList <File> combs=new ArrayList <File>();
 		ArrayList <Long> combs_last_modified=new ArrayList <Long>();
+		ArrayList <connectSQL> sql=new ArrayList <connectSQL>();
+		ArrayList <String> sql_last=new ArrayList <String>();
 		String s[]=new String [9];
 		s[0]="0";//number of items that been filtered
 		
@@ -28,7 +30,7 @@ public class Main {
 		EventQueue.invokeLater(new Runnable(){
                     public void run(){
 			 synchronized(data_base){   
-                            frame1 window = new frame1(data_base,data_not_filtered,folder,folder_last_modified,combs,combs_last_modified,s);
+                            frame1 window = new frame1(data_base,data_not_filtered,folder,folder_last_modified,combs,combs_last_modified,sql,sql_last,s);
 	    	            window.frame.setVisible(true);
 			   }
 		       }
