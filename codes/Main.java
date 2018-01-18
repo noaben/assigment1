@@ -64,6 +64,16 @@ public class Main {
 						                     }
 							   }
 							
+							i=0;
+							if (!flag && i<sql.size() && sql.size()==sql_last.size() && !sql.get(i).lastModified().equals(null)){
+						     	    for (;i<sql.size();i++){
+						     		String date=sql.get(i).lastModified();
+								if (!date.equals(sql_last.get(i))){
+									 flag=true;
+								         }
+						      	        }
+							    }
+							
 							if (flag){
 							
 								i=0;
@@ -82,14 +92,22 @@ public class Main {
 									data_base.addAll(processingData.list(combs.get(i).getName(),"no_filtering","","",""));
 								        }
 								
-							    if (s[0].equals("0") ){
+								
+                                                                i=0;
+								for (;i<sql.size();i++){
+									sql_last.add(sql.get(i).lastModified());
+									data_base.addAll(sql.get(i).getData());
+								        }
+
+                                                                
+							        if (s[0].equals("0") ){
 								    combiningData.listToCsv(data_base, "c.csv");
 								    data_base.clear();
 								    data_base.addAll(processingData.list("c.csv", "no_filtering", s[2], s[3], s[1]));
 							            }
 									
 								
-							    if (s[0].equals("1") ){
+							       if (s[0].equals("1") ){
 								    data_not_filtered.clear();
 								    data_not_filtered.addAll(data_base);
 								    combiningData.listToCsv(data_base, "c.csv");
@@ -97,7 +115,7 @@ public class Main {
 								    data_base.addAll(processingData.list("c.csv", "filtering", s[2], s[3], s[1]));
 							            }
 							      
-							    if (s[0].equals("2") ){
+							       if (s[0].equals("2") ){
 								    data_not_filtered.clear();
 								    data_not_filtered.addAll(data_base);
 								    combiningData.listToCsv(data_base, "c.csv");
@@ -106,9 +124,9 @@ public class Main {
 							            }
 							
 							
-							    int m=(int)(Math.random()*20000);
-							    Thread.sleep(m);
-							   }
+							       int m=(int)(Math.random()*20000);
+							       Thread.sleep(m);
+							       }
 						}
 						catch (NullPointerException el){}
 						catch (Exception e) {
