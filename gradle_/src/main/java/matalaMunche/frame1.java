@@ -507,7 +507,7 @@ public class frame1 {
                         int size=data_base.size();
 						data_base.addAll(s.getData());
 						sql.add(new connectSQL(IP.getText(),txtpnUrl.getText(),txtpnUser.getText(),txtpnPassword.getText(),txtpnTable.getText()));
-						sql_last.add(sql.get(sql.size()).lastModified());
+						sql_last.add(sql.get(sql.size()-1).lastModified());
 						int sub=data_base.size()-size;
 						JOptionPane.showMessageDialog(null,sub+" recording has been added to data structure");
 					}
