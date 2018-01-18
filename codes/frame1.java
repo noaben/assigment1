@@ -1,4 +1,5 @@
-package matala001;
+package matalaMunche;
+
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -13,6 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.awt.event.ActionEvent;
@@ -20,11 +22,10 @@ import javax.swing.JTextField;
 import java.awt.GridLayout;
 import javax.swing.JTextPane;
 
-import com.toedter.calendar.JCalendar;
 
 import java.awt.Color;
 import javax.swing.DropMode;
-import com.toedter.calendar.JDateChooser;
+
 import javax.swing.JTextArea;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -65,7 +66,7 @@ public class frame1 {
 	private JTextPane comb_input;
 	private JCheckBox comb_output;
 	private JCheckBox chckbxKmlfile;
-	private JCheckBox chckbxKmlfileaaaaakml;
+	private JCheckBox kml1;
 	private JTextField txtByDateddmmyyyy;
 	private JTextField txtByPlacelatlonalt;
 	private JTextField txtByDevice;
@@ -97,29 +98,32 @@ public class frame1 {
 	private JCheckBox upload_filter;
 	private JCheckBox save_filter;
 	private JTextField txtFilter_1;
+	private JTextPane txtpnUrl;
+	private JTextPane txtpnUrl_1;
+	private JTextPane txtpnTable_1;
 	
 	/**
 	 * Create the application.
 	 */
-	public frame1(LinkedList <Wifi> data_base, LinkedList <Wifi> data_not_filtered,ArrayList <File> folder,ArrayList <Long> folder_last_modified, ArrayList <File> combs,ArrayList <Long> combs_last_modified,String s[]) {
-		initialize_and_update(data_base,data_not_filtered,folder,folder_last_modified,combs,combs_last_modified,s);
+	public frame1(LinkedList <Wifi> data_base, LinkedList <Wifi> data_not_filtered,ArrayList <File> folder,ArrayList <Long> folder_last_modified, ArrayList <File> combs,ArrayList <Long> combs_last_modified,ArrayList <connectSQL> sql,ArrayList <String> sql_last,String s[]) {
+		initialize_and_update(data_base,data_not_filtered,folder,folder_last_modified,combs,combs_last_modified,sql,sql_last,s);
 	}
 
 	/**
 	 * Initialize the contents of the frame and updating data structure by the events happening
 	 */
-	private  void initialize_and_update(LinkedList <Wifi> data_base,LinkedList <Wifi> data_not_filtered,ArrayList <File> folder,ArrayList <Long> folder_last_modified, ArrayList <File> combs,ArrayList <Long> combs_last_modified,String s[]) {
+	private  void initialize_and_update(LinkedList <Wifi> data_base,LinkedList <Wifi> data_not_filtered,ArrayList <File> folder,ArrayList <Long> folder_last_modified, ArrayList <File> combs,ArrayList <Long> combs_last_modified,ArrayList <connectSQL> sql,ArrayList <String> sql_last,String s[]) {
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 850,550);
+		frame.setBounds(100, 100, 850,650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JCalendar date= new JCalendar();
+		
 		txtFilters = new JTextField();
 		txtFilters.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtFilters.setBackground(Color.PINK);
-		txtFilters.setBounds(10, 145, 111, 20);
+		txtFilters.setBounds(10, 241, 111, 20);
 		txtFilters.setText("filter by 1 value");
 		frame.getContentPane().add(txtFilters);
 		txtFilters.setColumns(10);
@@ -127,7 +131,7 @@ public class frame1 {
 		txtAlgorithms = new JTextField();
 		txtAlgorithms.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtAlgorithms.setBackground(Color.PINK);
-		txtAlgorithms.setBounds(10, 374, 157, 20);
+		txtAlgorithms.setBounds(10, 471, 157, 20);
 		txtAlgorithms.setText("algorithms to find place");
 		frame.getContentPane().add(txtAlgorithms);
 		txtAlgorithms.setColumns(10);
@@ -143,7 +147,7 @@ public class frame1 {
 		txtFrom = new JTextField();
 		txtFrom.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtFrom.setText("from:");
-		txtFrom.setBounds(208, 176, 39, 20);
+		txtFrom.setBounds(208, 272, 39, 20);
 		frame.getContentPane().add(txtFrom);
 		txtFrom.setColumns(10);
 		
@@ -151,105 +155,106 @@ public class frame1 {
 		txtTo.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtTo.setText("to:");
 		txtTo.setColumns(10);
-		txtTo.setBounds(431, 176, 26, 20);
+		txtTo.setBounds(431, 303, 26, 20);
 		frame.getContentPane().add(txtTo);
 		
 		textDevice= new JTextPane();
-		textDevice.setBounds(208, 238, 269, 20);
+		textDevice.setBounds(208, 334, 269, 20);
 		frame.getContentPane().add(textDevice);
 		
 		textField = new JTextField();
 		textField.setFont(new Font("Tahoma", Font.BOLD, 11));
 		textField.setText("from:");
 		textField.setColumns(10);
-		textField.setBounds(208, 207, 39, 20);
+		textField.setBounds(208, 303, 39, 20);
 		frame.getContentPane().add(textField);
 		
 		textField_1 = new JTextField();
 		textField_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		textField_1.setText("to:");
 		textField_1.setColumns(10);
-		textField_1.setBounds(431, 207, 26, 20);
+		textField_1.setBounds(431, 272, 26, 20);
 		frame.getContentPane().add(textField_1);
 		
 		lat_1 = new JTextPane();
-		lat_1.setBounds(257, 207, 48, 20);
+		lat_1.setBounds(257, 303, 48, 20);
 		frame.getContentPane().add(lat_1);
 		
 		lon_1 = new JTextPane();
-		lon_1.setBounds(315, 207, 48, 20);
+		lon_1.setBounds(315, 303, 48, 20);
 		frame.getContentPane().add(lon_1);
 		
 		alt_1 = new JTextPane();
-		alt_1.setBounds(373, 207, 48, 20);
+		alt_1.setBounds(373, 303, 48, 20);
 		frame.getContentPane().add(alt_1);
 		
 		lat_2 = new JTextPane();
-		lat_2.setBounds(467, 207, 48, 20);
+		lat_2.setBounds(467, 303, 48, 20);
 		frame.getContentPane().add(lat_2);
 		
 		lon_2 = new JTextPane();
-		lon_2.setBounds(525, 207, 48, 20);
+		lon_2.setBounds(525, 303, 48, 20);
 		frame.getContentPane().add(lon_2);
 		
 		alt_2 = new JTextPane();
-		alt_2.setBounds(583, 207, 48, 20);
+		alt_2.setBounds(583, 303, 48, 20);
 		frame.getContentPane().add(alt_2);
 		
 		atTime = new JCheckBox("atRange");
-		atTime.setBounds(662, 175, 80, 23);
+		atTime.setBounds(662, 271, 80, 23);
 		frame.getContentPane().add(atTime);
 		
 		atPlace = new JCheckBox("atRange");
-		atPlace.setBounds(662, 206, 80, 23);
+		atPlace.setBounds(662, 302, 80, 23);
 		frame.getContentPane().add(atPlace);
 		
 		atDevice = new JCheckBox("equals");
-		atDevice.setBounds(664, 235, 66, 23);
+		atDevice.setBounds(662, 331, 66, 23);
 		frame.getContentPane().add(atDevice);
 		
 		date_1 = new JTextPane();
-		date_1.setBounds(257, 176, 62, 20);
+		date_1.setBounds(257, 272, 62, 20);
 		frame.getContentPane().add(date_1);
 		
 		hour_1 = new JTextPane();
-		hour_1.setBounds(329, 176, 34, 20);
+		hour_1.setBounds(329, 272, 34, 20);
 		frame.getContentPane().add(hour_1);
 		
 		date_2 = new JTextPane();
-		date_2.setBounds(467, 176, 62, 20);
+		date_2.setBounds(467, 272, 62, 20);
 		frame.getContentPane().add(date_2);
 		
 		hour_2 = new JTextPane();
-		hour_2.setBounds(539, 176, 34, 20);
+		hour_2.setBounds(539, 272, 34, 20);
 		frame.getContentPane().add(hour_2);
 		
 		chckbxFindPlaceOf = new JCheckBox("enter MAC:");
 		chckbxFindPlaceOf.setFont(new Font("Tahoma", Font.BOLD, 11));
-		chckbxFindPlaceOf.setBounds(10, 401, 197, 23);
+		chckbxFindPlaceOf.setBounds(10, 498, 197, 23);
 		frame.getContentPane().add(chckbxFindPlaceOf);
 		
 		mac = new JTextPane();
-		mac.setBounds(256, 401, 150, 20);
+		mac.setBounds(256, 498, 150, 20);
 		frame.getContentPane().add(mac);
 		
-		chckbxDatafolder = new JCheckBox("enter data folder:");
+		chckbxDatafolder = new JCheckBox("enter WigleWifi folder:");
 		chckbxDatafolder.setFont(new Font("Tahoma", Font.BOLD, 11));
-		chckbxDatafolder.setBounds(10, 38, 133, 23);
+		chckbxDatafolder.setBounds(10, 64, 157, 23);
 		frame.getContentPane().add(chckbxDatafolder);
 		
 		dataFolder = new JTextPane();
-		dataFolder.setBounds(228, 38, 112, 20);
+		dataFolder.setBounds(228, 64, 120, 20);
 		frame.getContentPane().add(dataFolder);
 		
 		chckbxCombcsv = new JCheckBox("enter comb_csv (aaaaa.csv):");
 		chckbxCombcsv.setFont(new Font("Tahoma", Font.BOLD, 11));
-		chckbxCombcsv.setBounds(10, 64, 212, 23);
+		chckbxCombcsv.setBounds(10, 87, 212, 23);
 		frame.getContentPane().add(chckbxCombcsv);
 		
 		chckbxErasedata = new JCheckBox("erase_data_structure");
+		chckbxErasedata.setForeground(new Color(255, 0, 0));
 		chckbxErasedata.setFont(new Font("Tahoma", Font.BOLD, 11));
-		chckbxErasedata.setBounds(10, 90, 197, 23);
+		chckbxErasedata.setBounds(10, 199, 197, 23);
 		frame.getContentPane().add(chckbxErasedata);
 		
 		txtOutput = new JTextField();
@@ -261,7 +266,7 @@ public class frame1 {
 		frame.getContentPane().add(txtOutput);
 		
 		comb_input = new JTextPane();
-		comb_input.setBounds(228, 67, 112, 20);
+		comb_input.setBounds(228, 90, 120, 20);
 		frame.getContentPane().add(comb_input);
 		
 		comb_output = new JCheckBox("export to \"comb.csv\"");
@@ -274,42 +279,42 @@ public class frame1 {
 		chckbxKmlfile.setBounds(373, 90, 209, 23);
 		frame.getContentPane().add(chckbxKmlfile);
 		
-		chckbxKmlfileaaaaakml = new JCheckBox("export to \"data.kml\"");
-		chckbxKmlfileaaaaakml.setFont(new Font("Tahoma", Font.BOLD, 11));
-		chckbxKmlfileaaaaakml.setBounds(373, 64, 209, 23);
-		frame.getContentPane().add(chckbxKmlfileaaaaakml);
+		kml1 = new JCheckBox("export to \"data.kml\"");
+		kml1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		kml1.setBounds(373, 64, 209, 23);
+		frame.getContentPane().add(kml1);
 		
 		txtByDateddmmyyyy = new JTextField();
 		txtByDateddmmyyyy.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtByDateddmmyyyy.setText("by date (dd-mm-yyyy hh:mm):");
-		txtByDateddmmyyyy.setBounds(10, 176, 188, 20);
+		txtByDateddmmyyyy.setBounds(10, 272, 188, 20);
 		frame.getContentPane().add(txtByDateddmmyyyy);
 		txtByDateddmmyyyy.setColumns(10);
 		
 		txtByPlacelatlonalt = new JTextField();
 		txtByPlacelatlonalt.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtByPlacelatlonalt.setText("by place(lat,lon,alt):");
-		txtByPlacelatlonalt.setBounds(10, 207, 120, 20);
+		txtByPlacelatlonalt.setBounds(10, 303, 120, 20);
 		frame.getContentPane().add(txtByPlacelatlonalt);
 		txtByPlacelatlonalt.setColumns(10);
 		
 		txtByDevice = new JTextField();
 		txtByDevice.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtByDevice.setText("by device:");
-		txtByDevice.setBounds(10, 238, 86, 20);
+		txtByDevice.setBounds(10, 334, 86, 20);
 		frame.getContentPane().add(txtByDevice);
 		txtByDevice.setColumns(10);
 		
 		notAtTime = new JCheckBox("notAtRange");
-		notAtTime.setBounds(744, 175, 120, 23);
+		notAtTime.setBounds(744, 271, 120, 23);
 		frame.getContentPane().add(notAtTime);
 		
 		notAtPlace = new JCheckBox("notAtRange");	
-		notAtPlace.setBounds(744, 206, 97, 23);
+		notAtPlace.setBounds(744, 302, 97, 23);
 		frame.getContentPane().add(notAtPlace);
 		
 		notAtDevice = new JCheckBox("notEquals");
-		notAtDevice.setBounds(744, 235, 97, 23);
+		notAtDevice.setBounds(744, 331, 97, 23);
 		frame.getContentPane().add(notAtDevice);
 		
 		txtFilterBy = new JTextField();
@@ -317,7 +322,7 @@ public class frame1 {
 		txtFilterBy.setBackground(Color.PINK);
 		txtFilterBy.setText("filter by 2 values");
 		txtFilterBy.setColumns(10);
-		txtFilterBy.setBounds(10, 283, 111, 20);
+		txtFilterBy.setBounds(10, 384, 111, 20);
 		frame.getContentPane().add(txtFilterBy);
 		
 		String []filters={"","Time","Place","Device"};
@@ -325,35 +330,35 @@ public class frame1 {
 		String [] or_and1={"","or","and"};
 		
 	        filter1 = new JComboBox(filters);
-		filter1.setBounds(213, 314, 97, 20);
+		filter1.setBounds(219, 415, 86, 20);
 		frame.getContentPane().add(filter1);
 		
 		not_yes = new JComboBox(yes_not1);
-		not_yes.setBounds(10, 314, 56, 20);
+		not_yes.setBounds(10, 415, 56, 20);
 		frame.getContentPane().add(not_yes);
 		
 		textField_2 = new JTextField();
 		textField_2.setFont(new Font("Tahoma", Font.BOLD, 11));
 		textField_2.setBackground(new Color(154, 205, 50));
 		textField_2.setText("(");
-		textField_2.setBounds(81, 314, 15, 20);
+		textField_2.setBounds(81, 415, 15, 20);
 		frame.getContentPane().add(textField_2);
 		textField_2.setColumns(10);
 		
 		not_yes_filter1 = new JComboBox(yes_not1);
-		not_yes_filter1.setBounds(131, 314, 72, 20);
+		not_yes_filter1.setBounds(131, 415, 76, 20);
 		frame.getContentPane().add(not_yes_filter1);
 		
 		and_or = new JComboBox(or_and1);
-		and_or.setBounds(340, 314, 66, 20);
+		and_or.setBounds(340, 415, 66, 20);
 		frame.getContentPane().add(and_or);
 		
 		not_yes_filter2 = new JComboBox(yes_not1);
-		not_yes_filter2.setBounds(441, 314, 74, 20);
+		not_yes_filter2.setBounds(441, 415, 74, 20);
 		frame.getContentPane().add(not_yes_filter2);
 		
 		filter2 = new JComboBox(filters);
-		filter2.setBounds(525, 314, 87, 20);
+		filter2.setBounds(525, 415, 87, 20);
 		frame.getContentPane().add(filter2);
 		
 		textField_3 = new JTextField();
@@ -361,11 +366,11 @@ public class frame1 {
 		textField_3.setBackground(new Color(154, 205, 50));
 		textField_3.setText(")");
 		textField_3.setColumns(10);
-		textField_3.setBounds(647, 314, 15, 20);
+		textField_3.setBounds(646, 415, 15, 20);
 		frame.getContentPane().add(textField_3);
 		
 		at2 = new JCheckBox("filter");	    
-		at2.setBounds(668, 313, 97, 23);
+		at2.setBounds(667, 414, 97, 23);
 		frame.getContentPane().add(at2);
 		
 		textField_4 = new JTextField();
@@ -373,7 +378,7 @@ public class frame1 {
 		textField_4.setBackground(new Color(240, 230, 140));
 		textField_4.setText(")");
 		textField_4.setColumns(10);
-		textField_4.setBounds(622, 314, 15, 20);
+		textField_4.setBounds(622, 415, 15, 20);
 		frame.getContentPane().add(textField_4);
 		
 		textField_5 = new JTextField();
@@ -381,7 +386,7 @@ public class frame1 {
 		textField_5.setBackground(new Color(240, 230, 140));
 		textField_5.setText("(");
 		textField_5.setColumns(10);
-		textField_5.setBounds(416, 314, 15, 20);
+		textField_5.setBounds(416, 415, 15, 20);
 		frame.getContentPane().add(textField_5);
 		
 		textField_6 = new JTextField();
@@ -389,7 +394,7 @@ public class frame1 {
 		textField_6.setBackground(new Color(240, 230, 140));
 		textField_6.setText(")");
 		textField_6.setColumns(10);
-		textField_6.setBounds(315, 314, 15, 20);
+		textField_6.setBounds(315, 415, 15, 20);
 		frame.getContentPane().add(textField_6);
 		
 		textField_7 = new JTextField();
@@ -397,31 +402,31 @@ public class frame1 {
 		textField_7.setBackground(new Color(240, 230, 140));
 		textField_7.setText("(");
 		textField_7.setColumns(10);
-		textField_7.setBounds(106, 314, 15, 20);
+		textField_7.setBounds(106, 415, 15, 20);
 		frame.getContentPane().add(textField_7);
 		
 		chckbxNewCheckBox_1 = new JCheckBox("enter comb_no_gps_string:");
 		chckbxNewCheckBox_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		chckbxNewCheckBox_1.setBounds(10, 427, 197, 23);
+		chckbxNewCheckBox_1.setBounds(10, 524, 197, 23);
 		frame.getContentPane().add(chckbxNewCheckBox_1);
 		
 		noGPS = new JTextPane();
-		noGPS .setBounds(257, 430, 564, 20);
+		noGPS .setBounds(257, 529, 564, 20);
 		frame.getContentPane().add(noGPS);
 		
 		chckbxEnterOr = new JCheckBox("enter 1-3 pairs of MAC and signal:");
 		chckbxEnterOr.setFont(new Font("Tahoma", Font.BOLD, 11));
-		chckbxEnterOr.setBounds(10, 453, 237, 23);
+		chckbxEnterOr.setBounds(10, 550, 237, 23);
 		frame.getContentPane().add(chckbxEnterOr);
 		
 		data1 = new JTextPane();
-		data1.setBounds(153, 480, 133, 20);
+		data1.setBounds(153, 580, 133, 20);
 		frame.getContentPane().add(data1);
 		
 		txtMac = new JTextField();
 		txtMac.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtMac.setText("pair1 (mac1,signal1):");
-		txtMac.setBounds(10, 480, 133, 20);
+		txtMac.setBounds(10, 580, 133, 20);
 		frame.getContentPane().add(txtMac);
 		txtMac.setColumns(10);
 		
@@ -429,22 +434,22 @@ public class frame1 {
 		txtPairmacsignal.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtPairmacsignal.setText("pair2 (mac2,signal2):");
 		txtPairmacsignal.setColumns(10);
-		txtPairmacsignal.setBounds(296, 480, 125, 20);
+		txtPairmacsignal.setBounds(296, 580, 125, 20);
 		frame.getContentPane().add(txtPairmacsignal);
 		
 		data2 = new JTextPane();
-		data2.setBounds(438, 480, 120, 20);
+		data2.setBounds(438, 580, 120, 20);
 		frame.getContentPane().add(data2);
 		
 		txtPairmacsignal_1 = new JTextField();
 		txtPairmacsignal_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtPairmacsignal_1.setText("pair3 (mac3,signal3):");
 		txtPairmacsignal_1.setColumns(10);
-		txtPairmacsignal_1.setBounds(568, 480, 132, 20);
+		txtPairmacsignal_1.setBounds(568, 580, 132, 20);
 		frame.getContentPane().add(txtPairmacsignal_1);
 		
 		data3 = new JTextPane();
-		data3.setBounds(710, 480, 111, 20);
+		data3.setBounds(710, 580, 111, 20);
 		frame.getContentPane().add(data3);
 		
 		JCheckBox save_filter = new JCheckBox("export to \"filter.ser\"");
@@ -467,6 +472,131 @@ public class frame1 {
 		txtFilter_1.setBounds(614, 11, 86, 20);
 		frame.getContentPane().add(txtFilter_1);
 	
+		
+		JTextPane IP = new JTextPane();
+		IP.setBounds(371, 156, 86, 20);
+		frame.getContentPane().add(IP);
+		
+		JTextPane txtpnPassword = new JTextPane();
+		txtpnPassword.setBounds(239, 156, 80, 20);
+		frame.getContentPane().add(txtpnPassword);
+		
+		JTextPane txtpnUser = new JTextPane();
+		txtpnUser.setBounds(72, 156, 66, 20);
+		frame.getContentPane().add(txtpnUser);
+		
+		JTextPane txtpnTable = new JTextPane();
+		txtpnTable.setBounds(667, 156, 80, 20);
+		frame.getContentPane().add(txtpnTable);
+		
+		txtpnUrl = new JTextPane();
+		txtpnUrl.setBounds(512, 156, 84, 20);
+		frame.getContentPane().add(txtpnUrl);
+		
+		JTextPane path1 = new JTextPane();
+		path1.setText("for example: \"C:\\\\database\"");
+		path1.setBounds(139, 38, 209, 20);
+		frame.getContentPane().add(path1);
+		
+		
+		dataBase.setFont(new Font("Tahoma", Font.BOLD, 11));
+		dataBase.setBounds(10, 126, 111, 23);
+		frame.getContentPane().add(dataBase);
+		
+		kml1.setEnabled(false);
+		comb_output.setEnabled(false);
+		
+		path.setFont(new Font("Tahoma", Font.BOLD, 11));
+		path.setBounds(10, 38, 144, 23);
+		frame.getContentPane().add(path);
+		
+		
+		chckbxCombcsv.setEnabled(false);
+		
+		JTextPane txtpnUser_1 = new JTextPane();
+		txtpnUser_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtpnUser_1.setText("user:");
+		txtpnUser_1.setBounds(32, 156, 34, 20);
+		frame.getContentPane().add(txtpnUser_1);
+		
+		JTextPane txtpnPassword_1 = new JTextPane();
+		txtpnPassword_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtpnPassword_1.setText("password:");
+		txtpnPassword_1.setBounds(158, 156, 71, 20);
+		frame.getContentPane().add(txtpnPassword_1);
+		
+		JTextPane txtpnIp = new JTextPane();
+		txtpnIp.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtpnIp.setText("IP:");
+		txtpnIp.setBounds(342, 156, 21, 20);
+		frame.getContentPane().add(txtpnIp);
+		
+		txtpnUrl_1 = new JTextPane();
+		txtpnUrl_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtpnUrl_1.setText("url:");
+		txtpnUrl_1.setBounds(481, 156, 26, 20);
+		frame.getContentPane().add(txtpnUrl_1);
+		
+		txtpnTable_1 = new JTextPane();
+		txtpnTable_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtpnTable_1.setText("table:");
+		txtpnTable_1.setBounds(617, 156, 44, 20);
+		frame.getContentPane().add(txtpnTable_1);
+		
+		JCheckBox dataBase = new JCheckBox("enter SQL DB:");
+		dataBase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (IP.getText().equals("") || txtpnPassword.getText().equals("") || txtpnUser.getText().equals("") || txtpnTable.getText().equals("") || txtpnUrl.getText().equals("")){
+					  dataBase.setSelected(false);
+					  JOptionPane.showMessageDialog(null,"please fill all the rubrics");
+					  
+				}
+				else{
+					try{
+						connectSQL s=new connectSQL(IP.getText(),txtpnUrl.getText(),txtpnUser.getText(),txtpnPassword.getText(),txtpnTable.getText());
+                        int size=data_base.size();
+						data_base.addAll(s.getData());
+						sql.add(new connectSQL(IP.getText(),txtpnUrl.getText(),txtpnUser.getText(),txtpnPassword.getText(),txtpnTable.getText()));
+						sql_last.add(sql.get(sql.size()).lastModified());
+						int sub=data_base.size()-size;
+						JOptionPane.showMessageDialog(null,sub+" recording has been added to data structure");
+					}
+					catch (SQLException e){
+						 JOptionPane.showMessageDialog(null,"invalid DB");
+					}
+				finally{
+				  txtpnPassword.setText("");
+				  txtpnUser.setText("");
+				  txtpnTable.setText("") ;
+				  txtpnUrl.setText("");
+				  IP.setText("");
+				  dataBase.setSelected(false);}
+			
+				}	}});
+
+	
+		
+		JCheckBox path = new JCheckBox("enter source path:");
+		path.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (path.isSelected()==true){
+					kml1.setEnabled(true);
+					comb_output.setEnabled(true);
+					chckbxCombcsv.setEnabled(true);
+					chckbxDatafolder.setEnabled(true);
+				}
+				else{
+					path1.setText("");
+					kml1.setEnabled(false);
+					comb_output.setEnabled(false);
+					chckbxCombcsv.setEnabled(false);
+					chckbxDatafolder.setEnabled(false);
+				}
+			}
+		});
+		
+		
+		
 		
 		atTime.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -647,10 +777,11 @@ public class frame1 {
 		               	}  
 		});
 		
-		
+		chckbxDatafolder.setEnabled(false);
 		chckbxDatafolder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			      String folder1=(String)dataFolder.getText();
+			      String folder1=(String)path1.getText()+"\\"+(String)dataFolder.getText();
+			      System.out.println(folder);
 			      try{
 				    File f = new File(folder1);            
 				    File[] files = f.listFiles();   
@@ -686,11 +817,10 @@ public class frame1 {
 		
 		
 		
-		
 		chckbxCombcsv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
-					String source=(String)comb_input.getText();
+					String source=(String)path1.getText()+"\\"+(String)comb_input.getText();
 					File t=new File(source);
 					int size1=data_base.size();
 					if (s[0].equals("0"))
@@ -737,14 +867,14 @@ public class frame1 {
 			public void actionPerformed(ActionEvent e) {
 				LinkedList<Wifi>data1=new LinkedList <Wifi>();
 				data1.addAll(data_base);
-				if (combiningData.listToCsv(data1, "comb.csv"))
+				
+				if (combiningData.listToCsv(data1, (String)path1.getText()+"\\comb.csv"))
 				     JOptionPane.showMessageDialog(null,"CSV file was created");
 				else
-			             JOptionPane.showMessageDialog(null,"No data base. CSV file was not created");
-			        comb_output.setSelected(false);
+			             JOptionPane.showMessageDialog(null,"CSV file was not created. reasons: wrong path/no data base");
 			
-				}
-		        });
+			 comb_output.setSelected(false);
+			}});
 		
 		chckbxKmlfile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -784,17 +914,22 @@ public class frame1 {
 			      }
 		});
 		
-		chckbxKmlfileaaaaakml.addActionListener(new ActionListener() {
+		kml1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LinkedList<Wifi>data1=new LinkedList <Wifi>();
 			        data1.addAll(data_base);
 			        combiningData.listToCsv(data1,"c.csv");
-			        if (processingData.CSVtoKML("c.csv", "data.kml", "no_filtering", "", "",0,"b.csv","yes"))
+			  
+			        try{
+			        if (processingData.CSVtoKML("c.csv", (String)path1.getText()+"\\data.kml", "no_filtering", "", "",0,"b.csv","yes"))
 			        	 JOptionPane.showMessageDialog(null,"KML file was created");
 			        else
-				         JOptionPane.showMessageDialog(null,"No data base. KML file was not created");
-			        chckbxKmlfileaaaaakml.setSelected(false);
+				         JOptionPane.showMessageDialog(null,"KML file was not created. Reason: wrong path");
+			     
+			        }
+			        catch (NullPointerException el){ JOptionPane.showMessageDialog(null,"KML file was not created. Reason: no data base");
 				}
+			        finally{   kml1.setSelected(false);}}
 		        });
 	
 		notAtTime.addActionListener(new ActionListener() {
@@ -1250,7 +1385,7 @@ public class frame1 {
                                      if (not_yes.getSelectedItem().equals("not")) getFilter+=" )";
 	                             }
                 
-                                 String filename = "filter.ser";
+                                 String filename = (String)path1.getText()+"\\filter.ser";
                                  FileOutputStream fos = null;
                                  ObjectOutputStream out = null;
 				
