@@ -493,56 +493,6 @@ public class frame1 {
 		txtpnUrl.setBounds(512, 156, 84, 20);
 		frame.getContentPane().add(txtpnUrl);
 		
-		JTextPane path1 = new JTextPane();
-		path1.setText("for example: \"C:\\\\database\"");
-		path1.setBounds(139, 38, 209, 20);
-		frame.getContentPane().add(path1);
-		
-		
-		dataBase.setFont(new Font("Tahoma", Font.BOLD, 11));
-		dataBase.setBounds(10, 126, 111, 23);
-		frame.getContentPane().add(dataBase);
-		
-		kml1.setEnabled(false);
-		comb_output.setEnabled(false);
-		
-		path.setFont(new Font("Tahoma", Font.BOLD, 11));
-		path.setBounds(10, 38, 144, 23);
-		frame.getContentPane().add(path);
-		
-		
-		chckbxCombcsv.setEnabled(false);
-		
-		JTextPane txtpnUser_1 = new JTextPane();
-		txtpnUser_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		txtpnUser_1.setText("user:");
-		txtpnUser_1.setBounds(32, 156, 34, 20);
-		frame.getContentPane().add(txtpnUser_1);
-		
-		JTextPane txtpnPassword_1 = new JTextPane();
-		txtpnPassword_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		txtpnPassword_1.setText("password:");
-		txtpnPassword_1.setBounds(158, 156, 71, 20);
-		frame.getContentPane().add(txtpnPassword_1);
-		
-		JTextPane txtpnIp = new JTextPane();
-		txtpnIp.setFont(new Font("Tahoma", Font.BOLD, 11));
-		txtpnIp.setText("IP:");
-		txtpnIp.setBounds(342, 156, 21, 20);
-		frame.getContentPane().add(txtpnIp);
-		
-		txtpnUrl_1 = new JTextPane();
-		txtpnUrl_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		txtpnUrl_1.setText("url:");
-		txtpnUrl_1.setBounds(481, 156, 26, 20);
-		frame.getContentPane().add(txtpnUrl_1);
-		
-		txtpnTable_1 = new JTextPane();
-		txtpnTable_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		txtpnTable_1.setText("table:");
-		txtpnTable_1.setBounds(617, 156, 44, 20);
-		frame.getContentPane().add(txtpnTable_1);
-		
 		JCheckBox dataBase = new JCheckBox("enter SQL DB:");
 		dataBase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -553,9 +503,22 @@ public class frame1 {
 				}
 				else{
 					try{
-						connectSQL s=new connectSQL(IP.getText(),txtpnUrl.getText(),txtpnUser.getText(),txtpnPassword.getText(),txtpnTable.getText());
-                                                int size=data_base.size();
-						data_base.addAll(s.getData());
+						connectSQL sql1=new connectSQL(IP.getText(),txtpnUrl.getText(),txtpnUser.getText(),txtpnPassword.getText(),txtpnTable.getText());
+                        int size=data_base.size();
+
+    				    if (s[0].equals("0"))
+    					        data_base.addAll(sql1.getData());
+    				    if (s[0].equals("1")){
+    						combiningData.listToCsv(sql1.getData(), "c.csv");
+    						data_not_filtered.addAll(processingData.list("c.csv", "no_filtering", s[2], s[3], s[1]));
+    						data_base.addAll(processingData.list("c.csv", "filtering", s[2], s[3], s[1]));
+    					        }
+    			            if (s[0].equals("2")){
+    						combiningData.listToCsv(sql1.getData(), "c.csv");
+    						data_not_filtered.addAll(processingData.list("c.csv", "no_filtering", s[2], s[3], s[1]));
+    						data_base.addAll(processingData.list("c.csv", "filtering", s[2], s[3], s[1],s[5],s[6],s[4],s[7],s[8]));
+    					        }
+						
 						sql.add(new connectSQL(IP.getText(),txtpnUrl.getText(),txtpnUser.getText(),txtpnPassword.getText(),txtpnTable.getText()));
 						sql_last.add(sql.get(sql.size()-1).lastModified());
 						int sub=data_base.size()-size;
@@ -574,7 +537,18 @@ public class frame1 {
 			
 				}	}});
 
-	
+		JTextPane path1 = new JTextPane();
+		path1.setText("for example: \"C:\\\\database\"");
+		path1.setBounds(160, 38, 188, 20);
+		frame.getContentPane().add(path1);
+		
+		
+		dataBase.setFont(new Font("Tahoma", Font.BOLD, 11));
+		dataBase.setBounds(10, 126, 111, 23);
+		frame.getContentPane().add(dataBase);
+		
+		kml1.setEnabled(false);
+		comb_output.setEnabled(false);
 		
 		JCheckBox path = new JCheckBox("enter source path:");
 		path.addActionListener(new ActionListener() {
@@ -594,7 +568,9 @@ public class frame1 {
 				}
 			}
 		});
-		
+		path.setFont(new Font("Tahoma", Font.BOLD, 11));
+		path.setBounds(10, 38, 144, 23);
+		frame.getContentPane().add(path);
 		
 		
 		
@@ -817,6 +793,37 @@ public class frame1 {
 		
 		
 		
+		chckbxCombcsv.setEnabled(false);
+		
+		JTextPane txtpnUser_1 = new JTextPane();
+		txtpnUser_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtpnUser_1.setText("user:");
+		txtpnUser_1.setBounds(32, 156, 34, 20);
+		frame.getContentPane().add(txtpnUser_1);
+		
+		JTextPane txtpnPassword_1 = new JTextPane();
+		txtpnPassword_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtpnPassword_1.setText("password:");
+		txtpnPassword_1.setBounds(158, 156, 71, 20);
+		frame.getContentPane().add(txtpnPassword_1);
+		
+		JTextPane txtpnIp = new JTextPane();
+		txtpnIp.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtpnIp.setText("IP:");
+		txtpnIp.setBounds(342, 156, 21, 20);
+		frame.getContentPane().add(txtpnIp);
+		
+		txtpnUrl_1 = new JTextPane();
+		txtpnUrl_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtpnUrl_1.setText("url:");
+		txtpnUrl_1.setBounds(481, 156, 26, 20);
+		frame.getContentPane().add(txtpnUrl_1);
+		
+		txtpnTable_1 = new JTextPane();
+		txtpnTable_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtpnTable_1.setText("table:");
+		txtpnTable_1.setBounds(617, 156, 44, 20);
+		frame.getContentPane().add(txtpnTable_1);
 		chckbxCombcsv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
