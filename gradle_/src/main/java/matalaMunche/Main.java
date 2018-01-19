@@ -86,6 +86,7 @@ public class Main {
 								data_base.clear();
 								folder_last_modified.clear();
 								combs_last_modified.clear();
+								sql_last.clear();
 								
 								for (;i<folder.size();i++){
 									folder_last_modified.add(folder.get(i).lastModified());
@@ -95,6 +96,11 @@ public class Main {
 								for (;i<combs.size();i++){
 									combs_last_modified.add(combs.get(i).lastModified());
 									data_base.addAll(processingData.list(combs.get(i).getName(),"no_filtering","","",""));
+								        }
+								i=0;
+								for (;i<sql.size();i++){
+									sql_last.add(sql.get(i).lastModified());
+									data_base.addAll(sql.get(i).getData());
 								        }
 								
 							    if (s[0].equals("0") ){
@@ -106,6 +112,7 @@ public class Main {
 								
 							    if (s[0].equals("1") ){
 								    data_not_filtered.clear();
+								  
 								    data_not_filtered.addAll(data_base);
 								    combiningData.listToCsv(data_base, "c.csv");
 								    data_base.clear();

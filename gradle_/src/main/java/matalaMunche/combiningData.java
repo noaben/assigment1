@@ -147,7 +147,7 @@ public class combiningData {
 
 				str= br.readLine();
 
-				String display = str.split(",")[5]; //get ID
+				String display = str.split(",")[5].split("=")[1]; //get ID
 
 
 				br.readLine();      //jump row

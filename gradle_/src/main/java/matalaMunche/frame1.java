@@ -503,9 +503,22 @@ public class frame1 {
 				}
 				else{
 					try{
-						connectSQL s=new connectSQL(IP.getText(),txtpnUrl.getText(),txtpnUser.getText(),txtpnPassword.getText(),txtpnTable.getText());
+						connectSQL sql1=new connectSQL(IP.getText(),txtpnUrl.getText(),txtpnUser.getText(),txtpnPassword.getText(),txtpnTable.getText());
                         int size=data_base.size();
-						data_base.addAll(s.getData());
+
+    				    if (s[0].equals("0"))
+    					        data_base.addAll(sql1.getData());
+    				    if (s[0].equals("1")){
+    						combiningData.listToCsv(sql1.getData(), "c.csv");
+    						data_not_filtered.addAll(processingData.list("c.csv", "no_filtering", s[2], s[3], s[1]));
+    						data_base.addAll(processingData.list("c.csv", "filtering", s[2], s[3], s[1]));
+    					        }
+    			            if (s[0].equals("2")){
+    						combiningData.listToCsv(sql1.getData(), "c.csv");
+    						data_not_filtered.addAll(processingData.list("c.csv", "no_filtering", s[2], s[3], s[1]));
+    						data_base.addAll(processingData.list("c.csv", "filtering", s[2], s[3], s[1],s[5],s[6],s[4],s[7],s[8]));
+    					        }
+						
 						sql.add(new connectSQL(IP.getText(),txtpnUrl.getText(),txtpnUser.getText(),txtpnPassword.getText(),txtpnTable.getText()));
 						sql_last.add(sql.get(sql.size()-1).lastModified());
 						int sub=data_base.size()-size;
@@ -526,7 +539,7 @@ public class frame1 {
 
 		JTextPane path1 = new JTextPane();
 		path1.setText("for example: \"C:\\\\database\"");
-		path1.setBounds(139, 38, 209, 20);
+		path1.setBounds(160, 38, 188, 20);
 		frame.getContentPane().add(path1);
 		
 		
