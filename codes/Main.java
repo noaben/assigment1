@@ -16,9 +16,9 @@ public class Main {
 		
 		LinkedList <Wifi> data_base=new LinkedList <Wifi> ();
 		LinkedList <Wifi> data_not_filtered=new LinkedList <Wifi> ();
-		ArrayList <File> folder=new ArrayList <File>();
+		ArrayList <String> folder=new ArrayList <String>();
 		ArrayList <Long> folder_last_modified=new ArrayList <Long>();
-		ArrayList <File> combs=new ArrayList <File>();
+		ArrayList <String> combs=new ArrayList <String>();
 		ArrayList <Long> combs_last_modified=new ArrayList <Long>();
 		ArrayList <connectSQL> sql=new ArrayList <connectSQL>();
 		ArrayList <String> sql_last=new ArrayList <String>();
@@ -52,7 +52,8 @@ public class Main {
 							int i=0;
 							if (!flag && i<folder.size() && folder.size()==folder_last_modified.size()){
 						     	for (;i<folder.size();i++){
-								    if (folder.get(i).lastModified()!=folder_last_modified.get(i)){
+									File f= new File (folder.get(i));
+								    if (f.lastModified()!=folder_last_modified.get(i)){
 									    flag=true;
 								            }
 						      	            }
@@ -61,13 +62,14 @@ public class Main {
 							i=0;
 							if (!flag && i<combs.size() && combs.size()==combs_last_modified.size()){
 						     	    for (;i<combs.size();i++){
-								    if (combs.get(i).lastModified()!=combs_last_modified.get(i)){
+									File f= new File (combs.get(i));
+								    if (f.lastModified()!=combs_last_modified.get(i)){
 									    flag=true;
 					     	                            }
 						                     }
 							   }
 							
-                           
+                           //if (sql.size()==1) System.out.println(sql.get(0).lastModified()+" "+sql_last.get(0));
 							i=0;
 							if (!flag && i<sql.size() && sql.size()==sql_last.size() && !sql.get(i).lastModified().equals(null)){
 						     	for (;i<sql.size();i++){
@@ -89,13 +91,15 @@ public class Main {
 								sql_last.clear();
 								
 								for (;i<folder.size();i++){
-									folder_last_modified.add(folder.get(i).lastModified());
-									data_base.addAll(combiningData.list(folder.get(i).getName()));
+									File f= new File (folder.get(i));
+									folder_last_modified.add(f.lastModified());
+									data_base.addAll(combiningData.list(folder.get(i)));
 								        }
 								i=0;
 								for (;i<combs.size();i++){
-									combs_last_modified.add(combs.get(i).lastModified());
-									data_base.addAll(processingData.list(combs.get(i).getName(),"no_filtering","","",""));
+									File f= new File (combs.get(i));
+									combs_last_modified.add(f.lastModified());
+									data_base.addAll(processingData.list(combs.get(i),"no_filtering","","",""));
 								        }
 								i=0;
 								for (;i<sql.size();i++){
