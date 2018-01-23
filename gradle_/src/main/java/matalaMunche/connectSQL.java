@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 
 import java.sql.Statement;
 
+
+
 public class connectSQL {
 
 	  private String ip;
@@ -20,11 +22,13 @@ public class connectSQL {
 	  private String user;
 	  private String password;
 	  private String tavla;
+	  private String DB;
+	  private String port;
 
 	  
-	  connectSQL (String ip,String url,String user,String password,String tavla){
+	  connectSQL (String ip,String url,String user,String password,String tavla,String DB, String port){
 		  this.ip=ip;
-		  this.url="jdbc:mysql://"+ip+":"+url;
+		  this.url="jdbc:"+DB+"://"+ip+":"+port+"/"+url;
 		  this.user=user;
 		  this.password=password;
 		  this.tavla=tavla;
@@ -73,12 +77,12 @@ public String lastModified() throws SQLException{
 	 return null;
 }
 
-//public static void main(String[] args) throws SQLException {
-	//connectSQL a=new connectSQL("5.29.193.52","3306/oop_course_ariel","oop1","Lambda1();","ex4_db");
-    //LinkedList <Wifi>w1=a.getData();
-    //System.out.println(w1.size());
-    //a.lastModified();
-//}
+public static void main(String[] args) throws SQLException {
+	connectSQL a=new connectSQL("5.29.193.52","oop_course_ariel","oop1","Lambda1();","ex4_db","mysql","3306");
+    LinkedList <Wifi>w1=a.getData();
+    System.out.println(w1.size());
+    a.lastModified();
+}
 }
 
    

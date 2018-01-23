@@ -105,14 +105,14 @@ public class frame1 {
 	/**
 	 * Create the application.
 	 */
-	public frame1(LinkedList <Wifi> data_base, LinkedList <Wifi> data_not_filtered,ArrayList <File> folder,ArrayList <Long> folder_last_modified, ArrayList <File> combs,ArrayList <Long> combs_last_modified,ArrayList <connectSQL> sql,ArrayList <String> sql_last,String s[]) {
+	public frame1(LinkedList <Wifi> data_base, LinkedList <Wifi> data_not_filtered,ArrayList <String> folder,ArrayList <Long> folder_last_modified, ArrayList <String> combs,ArrayList <Long> combs_last_modified,ArrayList <connectSQL> sql,ArrayList <String> sql_last,String s[]) {
 		initialize_and_update(data_base,data_not_filtered,folder,folder_last_modified,combs,combs_last_modified,sql,sql_last,s);
 	}
 
 	/**
 	 * Initialize the contents of the frame and updating data structure by the events happening
 	 */
-	private  void initialize_and_update(LinkedList <Wifi> data_base,LinkedList <Wifi> data_not_filtered,ArrayList <File> folder,ArrayList <Long> folder_last_modified, ArrayList <File> combs,ArrayList <Long> combs_last_modified,ArrayList <connectSQL> sql,ArrayList <String> sql_last,String s[]) {
+	private  void initialize_and_update(LinkedList <Wifi> data_base,LinkedList <Wifi> data_not_filtered,ArrayList <String> folder,ArrayList <Long> folder_last_modified, ArrayList <String> combs,ArrayList <Long> combs_last_modified,ArrayList <connectSQL> sql,ArrayList <String> sql_last,String s[]) {
 		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 850,650);
@@ -471,40 +471,61 @@ public class frame1 {
 		txtFilter_1.setBackground(Color.PINK);
 		txtFilter_1.setBounds(614, 11, 86, 20);
 		frame.getContentPane().add(txtFilter_1);
-	
+
 		
 		JTextPane IP = new JTextPane();
-		IP.setBounds(371, 156, 86, 20);
+		IP.setBounds(467, 141, 76, 20);
 		frame.getContentPane().add(IP);
 		
 		JTextPane txtpnPassword = new JTextPane();
-		txtpnPassword.setBounds(239, 156, 80, 20);
+		txtpnPassword.setBounds(340, 141, 66, 20);
 		frame.getContentPane().add(txtpnPassword);
 		
 		JTextPane txtpnUser = new JTextPane();
-		txtpnUser.setBounds(72, 156, 66, 20);
+		txtpnUser.setBounds(177, 141, 48, 20);
 		frame.getContentPane().add(txtpnUser);
 		
 		JTextPane txtpnTable = new JTextPane();
-		txtpnTable.setBounds(667, 156, 80, 20);
+		txtpnTable.setBounds(487, 172, 56, 20);
 		frame.getContentPane().add(txtpnTable);
 		
 		txtpnUrl = new JTextPane();
-		txtpnUrl.setBounds(512, 156, 84, 20);
+		txtpnUrl.setBounds(296, 172, 110, 20);
 		frame.getContentPane().add(txtpnUrl);
+		
+
+		JTextPane txtpnPort = new JTextPane();
+		txtpnPort.setText("port");
+		txtpnPort.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtpnPort.setBounds(131, 171, 36, 20);
+		frame.getContentPane().add(txtpnPort);
+		
+		JTextPane port = new JTextPane();
+		port.setBounds(177, 172, 48, 20);
+		frame.getContentPane().add(port);
+		
+		JTextPane txtpnDb = new JTextPane();
+		txtpnDb.setText("DB:");
+		txtpnDb.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtpnDb.setBounds(568, 141, 26, 20);
+		frame.getContentPane().add(txtpnDb);
+		
+		JTextPane DB = new JTextPane();
+		DB.setBounds(605, 141, 66, 20);
+		frame.getContentPane().add(DB);
 		
 		JCheckBox dataBase = new JCheckBox("enter SQL DB:");
 		dataBase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (IP.getText().equals("") || txtpnPassword.getText().equals("") || txtpnUser.getText().equals("") || txtpnTable.getText().equals("") || txtpnUrl.getText().equals("")){
+				if (IP.getText().equals("") || txtpnPassword.getText().equals("") || txtpnUser.getText().equals("") || txtpnTable.getText().equals("") || txtpnUrl.getText().equals("") || DB.getText().equals("") || port.getText().equals("")){
 					  dataBase.setSelected(false);
 					  JOptionPane.showMessageDialog(null,"please fill all the rubrics");
 					  
 				}
 				else{
 					try{
-						connectSQL sql1=new connectSQL(IP.getText(),txtpnUrl.getText(),txtpnUser.getText(),txtpnPassword.getText(),txtpnTable.getText());
-                        int size=data_base.size();
+						connectSQL sql1=new connectSQL(IP.getText(),txtpnUrl.getText(),txtpnUser.getText(),txtpnPassword.getText(),txtpnTable.getText(),DB.getText(),port.getText());
+                     
 
     				    if (s[0].equals("0"))
     					        data_base.addAll(sql1.getData());
@@ -519,11 +540,11 @@ public class frame1 {
     						data_base.addAll(processingData.list("c.csv", "filtering", s[2], s[3], s[1],s[5],s[6],s[4],s[7],s[8]));
     					        }
 						
-						sql.add(new connectSQL(IP.getText(),txtpnUrl.getText(),txtpnUser.getText(),txtpnPassword.getText(),txtpnTable.getText()));
+						sql.add(new connectSQL(IP.getText(),txtpnUrl.getText(),txtpnUser.getText(),txtpnPassword.getText(),txtpnTable.getText(),DB.getText(),port.getText()));
 						sql_last.add(sql.get(sql.size()-1).lastModified());
-						int sub=data_base.size()-size;
-						JOptionPane.showMessageDialog(null,sub+" recording has been added to data structure");
+						JOptionPane.showMessageDialog(null,"DB has been added to data structure");
 					}
+					
 					catch (SQLException e){
 						 JOptionPane.showMessageDialog(null,"invalid DB");
 					}
@@ -533,6 +554,8 @@ public class frame1 {
 				  txtpnTable.setText("") ;
 				  txtpnUrl.setText("");
 				  IP.setText("");
+				  DB.setText("");
+				  port.setText("");
 				  dataBase.setSelected(false);}
 			
 				}	}});
@@ -544,8 +567,9 @@ public class frame1 {
 		
 		
 		dataBase.setFont(new Font("Tahoma", Font.BOLD, 11));
-		dataBase.setBounds(10, 126, 111, 23);
+		dataBase.setBounds(10, 141, 111, 23);
 		frame.getContentPane().add(dataBase);
+		
 		
 		kml1.setEnabled(false);
 		comb_output.setEnabled(false);
@@ -778,7 +802,7 @@ public class frame1 {
 					        }
 		                    int size2=data_base.size();
 				    JOptionPane.showMessageDialog(null,size2-size1+" recordings have been added to data structure");
-				    folder.add(f);
+				    folder.add(folder1);
 				    folder_last_modified.add(f.lastModified());
 			    	    }
 			       catch(NullPointerException ex){
@@ -798,31 +822,31 @@ public class frame1 {
 		JTextPane txtpnUser_1 = new JTextPane();
 		txtpnUser_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtpnUser_1.setText("user:");
-		txtpnUser_1.setBounds(32, 156, 34, 20);
+		txtpnUser_1.setBounds(133, 141, 34, 20);
 		frame.getContentPane().add(txtpnUser_1);
 		
 		JTextPane txtpnPassword_1 = new JTextPane();
 		txtpnPassword_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtpnPassword_1.setText("password:");
-		txtpnPassword_1.setBounds(158, 156, 71, 20);
+		txtpnPassword_1.setBounds(257, 141, 71, 20);
 		frame.getContentPane().add(txtpnPassword_1);
 		
 		JTextPane txtpnIp = new JTextPane();
 		txtpnIp.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtpnIp.setText("IP:");
-		txtpnIp.setBounds(342, 156, 21, 20);
+		txtpnIp.setBounds(436, 141, 21, 20);
 		frame.getContentPane().add(txtpnIp);
 		
 		txtpnUrl_1 = new JTextPane();
 		txtpnUrl_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtpnUrl_1.setText("url:");
-		txtpnUrl_1.setBounds(481, 156, 26, 20);
+		txtpnUrl_1.setBounds(257, 171, 26, 20);
 		frame.getContentPane().add(txtpnUrl_1);
 		
 		txtpnTable_1 = new JTextPane();
 		txtpnTable_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtpnTable_1.setText("table:");
-		txtpnTable_1.setBounds(617, 156, 44, 20);
+		txtpnTable_1.setBounds(433, 172, 44, 20);
 		frame.getContentPane().add(txtpnTable_1);
 		chckbxCombcsv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -843,7 +867,7 @@ public class frame1 {
 						
 		        	        int size2=data_base.size();
 				        JOptionPane.showMessageDialog(null,size2-size1+" recordings have been added to data structure");
-				        combs.add(t);
+				        combs.add(source);
 				        combs_last_modified.add(t.lastModified());
 				    
 				      }
@@ -925,7 +949,7 @@ public class frame1 {
 			public void actionPerformed(ActionEvent e) {
 				LinkedList<Wifi>data1=new LinkedList <Wifi>();
 			        data1.addAll(data_base);
-			        combiningData.listToCsv(data1,"c.csv");
+			        combiningData.listToCsv(data1,"C:\\c.csv");
 			  
 			        try{
 			        if (processingData.CSVtoKML("c.csv", (String)path1.getText()+"\\data.kml", "no_filtering", "", "",0,"b.csv","yes"))
