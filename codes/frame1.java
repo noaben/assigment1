@@ -540,9 +540,9 @@ public class frame1 {
     						data_base.addAll(processingData.list("c.csv", "filtering", s[2], s[3], s[1],s[5],s[6],s[4],s[7],s[8]));
     					        }
 						
-						sql.add(new connectSQL(IP.getText(),txtpnUrl.getText(),txtpnUser.getText(),txtpnPassword.getText(),txtpnTable.getText(),DB.getText(),port.getText()));
+						sql.add(sql1);
 						sql_last.add(sql.get(sql.size()-1).lastModified());
-						JOptionPane.showMessageDialog(null,"DB has been added to data structure");
+						JOptionPane.showMessageDialog(null," DB has been added to data structure");
 					}
 					
 					catch (SQLException e){
@@ -737,7 +737,7 @@ public class frame1 {
 				       data_not_filtered.addAll(data_base);
 				       combiningData.listToCsv(data_base,"c.csv");
 		                       data_base.clear();
-		                       data_base.addAll(processingData.list("c.csv", "filtering", "ID", val,"yes"));
+		                       data_base.addAll(processingData.list("c.csv", "filtering", "Device", val,"yes"));
 		                       JOptionPane.showMessageDialog(null,"the data was filtered");
 		                       atTime.setEnabled(false);
 		                       atPlace.setEnabled(false);
@@ -747,7 +747,7 @@ public class frame1 {
 		                       at2.setEnabled(false);
 				       s[0]="1";
 	                               s[1]="yes";
-	                               s[2]="ID";
+	                               s[2]="Device";
 	                               s[3]=val;
 				       save_filter.setEnabled(true);
 			              
@@ -887,7 +887,7 @@ public class frame1 {
 		chckbxErasedata.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				data_base.clear();
-				folder.clear();folder_last_modified.clear(); combs.clear();combs_last_modified.clear();
+				folder.clear();folder_last_modified.clear(); combs.clear();combs_last_modified.clear(); sql.clear();sql_last.clear();
 				if (data_base.size()==0) JOptionPane.showMessageDialog(null,"Data structure is empty");
 				chckbxErasedata.setSelected(false);
 				
@@ -949,10 +949,10 @@ public class frame1 {
 			public void actionPerformed(ActionEvent e) {
 				LinkedList<Wifi>data1=new LinkedList <Wifi>();
 			        data1.addAll(data_base);
-			        combiningData.listToCsv(data1,"C:\\c.csv");
+			        combiningData.listToCsv(data1,"c.csv");
 			  
 			        try{
-			        if (processingData.CSVtoKML("c.csv", (String)path1.getText()+"\\data.kml", "no_filtering", "", "",0,"b.csv","yes"))
+			        if (processingData.CSVtoKML("c.csv", (String)path1.getText()+"\\data.kml", "no_filtering", "AA", "AA",0,"b.csv","yes"))
 			        	 JOptionPane.showMessageDialog(null,"KML file was created");
 			        else
 				         JOptionPane.showMessageDialog(null,"KML file was not created. Reason: wrong path");
@@ -1104,7 +1104,7 @@ public class frame1 {
 				       data_not_filtered.addAll(data_base);
 				       combiningData.listToCsv(data_base,"c.csv");
 		                       data_base.clear();
-		                       data_base.addAll(processingData.list("c.csv", "filtering", "ID", val,"yes"));
+		                       data_base.addAll(processingData.list("c.csv", "filtering", "Device", val,"not"));
 		                       JOptionPane.showMessageDialog(null,"the data was filtered");
 		                       atTime.setEnabled(false);
 			               atPlace.setEnabled(false);
@@ -1115,7 +1115,7 @@ public class frame1 {
 		                       at2.setEnabled(false);
 		                       s[0]="1";
 	                               s[1]="not";
-	                               s[2]="ID";
+	                               s[2]="Device";
 	                               s[3]=val;
 				       save_filter.setEnabled(true);
 				
@@ -1236,13 +1236,13 @@ public class frame1 {
 						            if (f1.equals("Place")){
 						        	s[2]="Place";
 						        	s[3]=str1;
-						        	s[5]="ID";
+						        	s[5]="Device";
 						        	s[6]=str2;
 						        	op1=notYes1;
 						                op2=notYes2;
 						                }
 						            else{
-						        	s[2]="ID";
+						        	s[2]="Device";
 						        	s[3]=str2;
 						        	s[5]="Place";
 						        	s[6]=str1;
@@ -1294,13 +1294,13 @@ public class frame1 {
 									if (f1.equals("Time")){
 									     s[2]="Time";
 								             s[3]=str1;
-									     s[5]="ID";
+									     s[5]="Device";
 									     s[6]=str2;
 									     op1=notYes1;
 									     op2=notYes2;
 									     }
 								         else{
-									     s[2]="ID";
+									     s[2]="Device";
 									     s[3]=str2;
 									     s[5]="Time";
 									     s[6]=str1;
@@ -1447,7 +1447,7 @@ public class frame1 {
 		                ObjectInputStream in = null;
 				
 		                try {
-		                    fis = new FileInputStream("filter.ser");
+		                    fis = new FileInputStream((String)path1.getText()+"//filter.ser");
 		                    in = new ObjectInputStream(fis);
 		                    String filt= (String) in.readObject();
 		                    in.close();
