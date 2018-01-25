@@ -1194,7 +1194,7 @@ public class frame1 {
 							        data_not_filtered.addAll(data_base);
 							        combiningData.listToCsv(data_base,"c.csv");
 							        data_base.clear();
-								data_base.addAll(processingData.list("c.csv","filtering",f1,str1,op1,f2,str2,op2, andOr,notYes));
+								data_base.addAll(processingData.list("c.csv","filtering",s[2], s[3], s[1],s[5],s[6],s[4], andOr,notYes));
 							        JOptionPane.showMessageDialog(null,"the data was filtered");
 							        atTime.setEnabled(false);
 								atPlace.setEnabled(false); 
@@ -1252,7 +1252,7 @@ public class frame1 {
 						            data_not_filtered.addAll(data_base);
 						            combiningData.listToCsv(data_base,"c.csv");
 						            data_base.clear();
-						            data_base.addAll(processingData.list("c.csv","filtering",f1,str1,op1,f2,str2,op2, andOr,notYes));
+						            data_base.addAll(processingData.list("c.csv","filtering",s[2], s[3], s[1],s[5],s[6],s[4], andOr,notYes));
 						            JOptionPane.showMessageDialog(null,"the data was filtered");
 						            atTime.setEnabled(false);
 							    atPlace.setEnabled(false);
@@ -1311,7 +1311,7 @@ public class frame1 {
 								         data_not_filtered.addAll(data_base);
 								         combiningData.listToCsv(data_base,"c.csv");
 								         data_base.clear();
-						                         data_base.addAll(processingData.list("c.csv","filtering",f1,str1,op1,f2,str2,op2, andOr,notYes));
+						                         data_base.addAll(processingData.list("c.csv","filtering", s[2], s[3], s[1],s[5],s[6],s[4], andOr,notYes));
 								         JOptionPane.showMessageDialog(null,"the data was filtered");
 									 atTime.setEnabled(false);
 									 atPlace.setEnabled(false);
